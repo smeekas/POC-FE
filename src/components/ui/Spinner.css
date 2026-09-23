@@ -1,0 +1,35 @@
+.spinner {
+  display: inline-block;
+  border: 2px solid var(--color-surface-200);
+  border-top-color: var(--color-primary-600);
+  border-radius: var(--radius-full);
+  animation: spinner-spin 0.7s linear infinite;
+}
+
+.spinner--small {
+  width: 1rem;
+  height: 1rem;
+}
+
+.spinner--medium {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.spinner--large {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-width: 3px;
+}
+
+@keyframes spinner-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 2s;
+  }
+}
