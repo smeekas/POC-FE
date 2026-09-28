@@ -14,15 +14,15 @@ import {
   type LoginFormValues,
 } from '../../../schema/login';
 import { getApiErrorMessage } from '../../../utils/error';
-import { useLoginMutation } from '../auth.queries';
+import { useLoginMutation } from '../hooks/useLoginMutation';
 import { AuthFormHeader } from '../components/AuthFormHeader';
 
-import './auth-page.css';
+import styles from './AuthPage.module.css';
 
 /** Sign in screen: email and password, then straight to the dashboard. */
 export const LoginPage = () => {
   const navigate = useNavigate();
-  const loginMutation = useLoginMutation();
+  const { mutate, isError, error, isPending } = useLoginMutation();
 
   const { control, handleSubmit } = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
@@ -31,7 +31,7 @@ export const LoginPage = () => {
 
   /** Sends the credentials and, on success, hands the user over to the dashboard. */
   const onSubmit = handleSubmit((values) => {
-    loginMutation.mutate(
+    mutate(
       { email: values.email, password: values.password },
       {
         onSuccess: () => {
@@ -42,31 +42,31 @@ export const LoginPage = () => {
   });
 
   return (
-    <section className="auth-page">
+    <section className={styles.page}>
       <AuthFormHeader
-        title="Welcome back"
-        subtitle="Sign in to get back to your workspace."
+        title='Welcome back'
+        subtitle='Sign in to get back to your workspace.'
       />
 
-      {loginMutation.isError ? (
-        <Alert severity="error">{getApiErrorMessage(loginMutation.error)}</Alert>
+      {isError ? (
+        <Alert severity='error'>{getApiErrorMessage(error)}</Alert>
       ) : null}
 
-      <form className="auth-page__form" onSubmit={onSubmit} noValidate>
+      <form className={styles.form} onSubmit={onSubmit} noValidate>
         <Controller
-          name="email"
+          name='email'
           control={control}
           render={({ field, fieldState }) => (
             <FormField
-              inputId="login-email"
-              label="Email"
+              inputId='login-email'
+              label='Email'
               error={fieldState.error?.message}
             >
               <TextInput
-                id="login-email"
-                type="email"
-                placeholder="you@company.com"
-                autoComplete="email"
+                id='login-email'
+                type='email'
+                placeholder='you@company.com'
+                autoComplete='email'
                 invalid={fieldState.invalid}
                 {...field}
               />
@@ -75,20 +75,20 @@ export const LoginPage = () => {
         />
 
         <Controller
-          name="password"
+          name='password'
           control={control}
           render={({ field, fieldState }) => (
             <FormField
-              inputId="login-password"
-              label="Password"
+              inputId='login-password'
+              label='Password'
               error={fieldState.error?.message}
             >
               <PasswordInput
-                id="login-password"
+                id='login-password'
                 name={field.name}
                 value={field.value}
-                placeholder="Enter your password"
-                autoComplete="current-password"
+                placeholder='Enter your password'
+                autoComplete='current-password'
                 invalid={fieldState.invalid}
                 onChange={field.onChange}
                 onBlur={field.onBlur}
@@ -97,12 +97,12 @@ export const LoginPage = () => {
           )}
         />
 
-        <Button type="submit" fluid loading={loginMutation.isPending}>
-          {loginMutation.isPending ? 'Signing in…' : 'Sign in'}
+        <Button type='submit' fluid loading={isPending}>
+          {isPending ? 'Signing in…' : 'Sign in'}
         </Button>
       </form>
 
-      <p className="auth-page__switch">
+      <p className={styles.switch}>
         New here? <Link to={ROUTE_PATHS.SIGNUP}>Create an account</Link>
       </p>
     </section>

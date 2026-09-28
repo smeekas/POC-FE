@@ -3,18 +3,13 @@ import type { ReactNode } from 'react';
 
 import { Alert } from '../ui/Alert';
 
-import './FormField.css';
+import styles from './FormField.module.css';
 
 export type FormFieldProps = {
-  /** Id of the control this field wraps; ties the label and the error text to it. */
   inputId: string;
-  /** Text shown above the control. */
   label: string;
-  /** Validation message for this field, when it has failed. */
   error?: string;
-  /** Optional helper text shown under the control while the field is valid. */
   hint?: string;
-  /** The actual input control. */
   children: ReactNode;
 };
 
@@ -34,8 +29,8 @@ export const FormField = ({
   const hasError = Boolean(error);
 
   return (
-    <div className="form-field">
-      <Label.Root className="form-field__label" htmlFor={inputId}>
+    <div className={styles.field}>
+      <Label.Root className={styles.label} htmlFor={inputId}>
         {label}
       </Label.Root>
 
@@ -47,7 +42,7 @@ export const FormField = ({
         </Alert>
       ) : null}
 
-      {!hasError && hint ? <p className="form-field__hint">{hint}</p> : null}
+      {!hasError && hint ? <p className={styles.hint}>{hint}</p> : null}
     </div>
   );
 };

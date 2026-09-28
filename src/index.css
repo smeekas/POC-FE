@@ -1,6 +1,17 @@
-@import './styles/tokens.css';
+/**
+ * The only global stylesheet in the app.
+ *
+ * Colour, spacing, radius, shadow and type scales all come from Radix Themes, so this
+ * file carries nothing but the page level reset, the handful of element defaults Radix
+ * leaves alone, and the few tokens Radix does not ship. Component styles live in a
+ * `.module.css` next to their component.
+ */
 
-/* Baseline resets and typography. Component specific styles live next to their component. */
+:root {
+  /* Motion — the one scale Radix Themes does not expose as tokens. */
+  --transition-fast: 120ms ease;
+  --transition-base: 200ms ease;
+}
 
 *,
 *::before,
@@ -10,20 +21,13 @@
 
 html,
 body,
-#root {
+#root,
+.radix-themes {
   height: 100%;
 }
 
 body {
   margin: 0;
-  background: var(--color-page-bg);
-  color: var(--color-text-body);
-  font-family: var(--font-sans);
-  font-size: var(--font-size-base);
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
 }
 
 h1,
@@ -31,10 +35,10 @@ h2,
 h3,
 h4 {
   margin: 0;
-  color: var(--color-text-strong);
-  font-weight: 600;
+  color: var(--gray-12);
+  font-weight: var(--font-weight-bold);
   line-height: 1.25;
-  letter-spacing: -0.01em;
+  letter-spacing: var(--letter-spacing-4);
 }
 
 p {
@@ -42,18 +46,18 @@ p {
 }
 
 a {
-  color: var(--color-primary-600);
-  font-weight: 500;
+  color: var(--accent-11);
+  font-weight: var(--font-weight-medium);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
 a:hover {
-  color: var(--color-primary-700);
+  color: var(--accent-12);
   text-decoration: underline;
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-primary-500);
+  outline: 2px solid var(--focus-8);
   outline-offset: 2px;
 }

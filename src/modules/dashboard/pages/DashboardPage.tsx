@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router';
 import { Button } from '../../../components/ui/Button';
 import { ROUTE_PATHS } from '../../../constants/routePaths';
 import { clearAccessToken } from '../../../utils/auth';
-import { useProfileContextQuery } from '../../auth/auth.queries';
+import { useProfileContextQuery } from '../../auth/hooks/useProfileContextQuery';
 
-import '../../misc/pages/placeholder-page.css';
+import styles from '../../misc/pages/PlaceholderPage.module.css';
 
 /**
  * Placeholder landing page for signed in users.
@@ -24,12 +24,12 @@ export const DashboardPage = () => {
   };
 
   return (
-    <section className="placeholder-page">
-      <p className="placeholder-page__eyebrow">Dashboard</p>
-      <h1 className="placeholder-page__title">
-        {profileContext ? `Hello, ${profileContext.user.name}` : 'Hello'}
+    <section className={styles.page}>
+      <p className={styles.eyebrow}>Dashboard</p>
+      <h1 className={styles.title}>
+        {profileContext ? `Hello, ${profileContext.data.email}` : 'Hello'}
       </h1>
-      <p className="placeholder-page__description">
+      <p className={styles.description}>
         Documents, tenants and plans will live here. For now this page just proves
         the private route guard works.
       </p>

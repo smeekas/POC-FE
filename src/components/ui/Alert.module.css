@@ -1,0 +1,32 @@
+.alert {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-3);
+  font-size: var(--font-size-2);
+}
+
+.error {
+  border-color: var(--red-a6);
+  background: var(--red-a3);
+  color: var(--red-11);
+}
+
+.success {
+  border-color: var(--green-a6);
+  background: var(--green-a3);
+  color: var(--green-11);
+}
+
+.info {
+  border-color: var(--gray-6);
+  background: var(--gray-a3);
+  color: var(--gray-11);
+}
+
+/* Field level errors sit directly under the input, with no box around them. */
+.simple {
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: var(--font-size-1);
+}

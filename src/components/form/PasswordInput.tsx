@@ -3,24 +3,16 @@ import { useState } from 'react';
 import { EyeIcon, EyeOffIcon } from '../icons';
 import { TextInput } from '../ui/TextInput';
 
-import './PasswordInput.css';
+import styles from './PasswordInput.module.css';
 
 export type PasswordInputProps = {
-  /** Id of the underlying input, matching the label that describes it. */
   id: string;
-  /** Field name as react-hook-form knows it. */
   name: string;
-  /** Current value of the field. */
   value: string;
-  /** Placeholder shown while the field is empty. */
   placeholder?: string;
-  /** Marks the field red when its validation has failed. */
   invalid?: boolean;
-  /** Hints the browser at which password this is, e.g. `current-password`. */
   autoComplete?: string;
-  /** Called on every keystroke. */
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  /** Called when the field loses focus, so react-hook-form can mark it touched. */
   onBlur: () => void;
 };
 
@@ -47,11 +39,12 @@ export const PasswordInput = ({
   };
 
   return (
-    <div className="password-input">
+    <div className={styles.wrapper}>
       <TextInput
         id={id}
         name={name}
         value={value}
+        className={styles.input}
         type={isValueVisible ? 'text' : 'password'}
         placeholder={placeholder}
         autoComplete={autoComplete}
@@ -62,7 +55,7 @@ export const PasswordInput = ({
 
       <button
         type="button"
-        className="password-input__toggle"
+        className={styles.toggle}
         aria-label={isValueVisible ? 'Hide password' : 'Show password'}
         aria-pressed={isValueVisible}
         onClick={toggleValueVisibility}

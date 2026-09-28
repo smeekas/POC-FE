@@ -15,16 +15,16 @@ import {
   type SignupFormValues,
 } from '../../../schema/signup';
 import { getApiErrorMessage } from '../../../utils/error';
-import { useSignupMutation } from '../auth.queries';
+import { useSignupMutation } from '../hooks/useSignupMutation';
 import { AuthFormHeader } from '../components/AuthFormHeader';
 
-import './auth-page.css';
+import styles from './AuthPage.module.css';
 
 /**
  * Registration screen.
  *
- * A fresh account has no tenant yet, so a successful signup goes to onboarding rather
- * than to the dashboard.
+ * Signup creates the account but hands back no token, so a successful submit sends the
+ * user to login rather than into the signed-in half of the app.
  */
 export const SignupPage = () => {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ export const SignupPage = () => {
     defaultValues: SIGNUP_FORM_DEFAULT_VALUES,
   });
 
-  /** Registers the user and, on success, sends them into onboarding. */
+  /** Registers the user and, on success, sends them to the login screen. */
   const onSubmit = handleSubmit((values) => {
     signupMutation.mutate(
       {
@@ -45,14 +45,14 @@ export const SignupPage = () => {
       },
       {
         onSuccess: () => {
-          navigate(ROUTE_PATHS.ONBOARDING, { replace: true });
+          navigate(ROUTE_PATHS.LOGIN, { replace: true });
         },
       },
     );
   });
 
   return (
-    <section className="auth-page">
+    <section className={styles.page}>
       <AuthFormHeader
         title="Create your account"
         subtitle="Start a workspace, or join one you have been invited to."
@@ -64,7 +64,7 @@ export const SignupPage = () => {
         </Alert>
       ) : null}
 
-      <form className="auth-page__form" onSubmit={onSubmit} noValidate>
+      <form className={styles.form} onSubmit={onSubmit} noValidate>
         <Controller
           name="name"
           control={control}
@@ -158,7 +158,7 @@ export const SignupPage = () => {
         </Button>
       </form>
 
-      <p className="auth-page__switch">
+      <p className={styles.switch}>
         Already have an account? <Link to={ROUTE_PATHS.LOGIN}>Sign in</Link>
       </p>
     </section>

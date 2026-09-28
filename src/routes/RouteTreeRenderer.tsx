@@ -4,7 +4,6 @@ import { Route, Routes } from 'react-router';
 import type { AppRouteNode } from './route.types';
 
 export type RouteTreeRendererProps = {
-  /** The route tree to turn into `<Route>` elements. */
   routes: AppRouteNode[];
 };
 

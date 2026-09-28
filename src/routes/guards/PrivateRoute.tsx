@@ -1,9 +1,8 @@
-import { Navigate, Outlet, useLocation } from 'react-router';
+import { Navigate, Outlet } from 'react-router';
 
-import { FullPageLoader } from '../../components/common/FullPageLoader';
 import { ROUTE_PATHS } from '../../constants/routePaths';
-import { useProfileContextQuery } from '../../modules/auth/auth.queries';
-import { clearAccessToken, hasAccessToken } from '../../utils/auth';
+import { clearAccessToken } from '../../utils/auth';
+import { useProfile } from '../../context/ProfileContext';
 
 /**
  * Gate for pages that require a signed in user.
@@ -13,26 +12,16 @@ import { clearAccessToken, hasAccessToken } from '../../utils/auth';
  * does not get stuck in a loop with a stale token.
  */
 export const PrivateRoute = () => {
-  const location = useLocation();
-  const { isLoading, isError } = useProfileContextQuery();
+  const { isError, profile } = useProfile();
 
-  if (!hasAccessToken()) {
-    return (
-      <Navigate to={ROUTE_PATHS.LOGIN} state={{ from: location }} replace />
-    );
-  }
-
-  if (isLoading) {
-    return <FullPageLoader message="Checking your session…" />;
+  if (!profile) {
+    return <Navigate to={ROUTE_PATHS.LOGIN} replace />;
   }
 
   if (isError) {
     clearAccessToken();
 
-    return (
-      <Navigate to={ROUTE_PATHS.LOGIN} state={{ from: location }} replace />
-    );
+    return <Navigate to={ROUTE_PATHS.LOGIN} replace />;
   }
-
   return <Outlet />;
 };

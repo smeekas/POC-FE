@@ -1,0 +1,82 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  min-height: 100vh;
+  background: var(--color-background);
+}
+
+/* ---------- Brand panel ---------- */
+
+/* The panel paints its own dark gradient, so its text uses the theme independent
+   white alpha scale rather than the light appearance gray scale. */
+.brand {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-8);
+  padding: var(--space-8);
+  background: radial-gradient(
+    120% 120% at 0% 0%,
+    var(--accent-11) 0%,
+    var(--accent-12) 55%,
+    var(--gray-12) 100%
+  );
+  color: var(--white-a11);
+}
+
+.wordmark {
+  color: var(--white-a12);
+  font-size: var(--font-size-4);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-4);
+}
+
+/* Sized against the panel width rather than a fixed step, so the three lines hold
+   their shape from the 960px breakpoint all the way up. */
+.statement {
+  color: var(--white-a12);
+  font-size: clamp(var(--font-size-8), 4.2vw, var(--font-size-9));
+  font-weight: var(--font-weight-bold);
+  line-height: 1.1;
+  letter-spacing: var(--letter-spacing-9);
+}
+
+.statement span {
+  display: block;
+}
+
+/* ---------- Form panel ---------- */
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) var(--space-5);
+}
+
+.card {
+  width: 100%;
+  max-width: 26rem;
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .brand {
+    display: none;
+  }
+
+  .content {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .card {
+    padding: var(--space-5);
+    border: 1px solid var(--gray-6);
+    border-radius: var(--radius-5);
+    background: var(--color-panel-solid);
+    box-shadow: var(--shadow-3);
+  }
+}

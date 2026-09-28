@@ -1,11 +1,9 @@
 import type { InputHTMLAttributes, Ref } from 'react';
 
-import './TextInput.css';
+import styles from './TextInput.module.css';
 
 export type TextInputProps = InputHTMLAttributes<HTMLInputElement> & {
-  /** Marks the field red and tells assistive tech the value was rejected. */
   invalid?: boolean;
-  /** Forwarded to the underlying input so react-hook-form can focus it. */
   ref?: Ref<HTMLInputElement>;
 };
 
@@ -16,7 +14,7 @@ export const TextInput = ({
   ref,
   ...inputProps
 }: TextInputProps) => {
-  const inputClassName = ['text-input', invalid ? 'text-input--invalid' : '', className ?? '']
+  const inputClassName = [styles.input, invalid ? styles.invalid : '', className ?? '']
     .filter(Boolean)
     .join(' ');
 

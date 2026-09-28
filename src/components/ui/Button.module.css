@@ -4,16 +4,16 @@
   justify-content: center;
   gap: var(--space-2);
   padding: 0 var(--space-5);
-  height: 2.5rem;
+  height: var(--space-7);
   border: 1px solid transparent;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-3);
   font-family: inherit;
-  font-size: var(--font-size-sm);
-  font-weight: 500;
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-medium);
   line-height: 1;
   text-decoration: none;
   white-space: nowrap;
-  cursor: pointer;
+  cursor: var(--cursor-button);
   transition:
     background var(--transition-fast),
     border-color var(--transition-fast),
@@ -22,48 +22,47 @@
 }
 
 .button:disabled {
-  cursor: not-allowed;
+  cursor: var(--cursor-disabled);
   opacity: 0.6;
 }
 
-.button--fluid {
+.fluid {
   width: 100%;
 }
 
 /* ---------- Variants ---------- */
 
-.button--primary {
-  background: var(--color-primary-600);
-  color: var(--color-text-on-brand);
-  box-shadow: var(--shadow-sm);
+.primary {
+  background: var(--accent-9);
+  color: var(--accent-contrast);
 }
 
-.button--primary:hover:not(:disabled) {
-  background: var(--color-primary-700);
+.primary:hover:not(:disabled) {
+  background: var(--accent-10);
 }
 
-.button--primary:active:not(:disabled) {
-  background: var(--color-primary-800);
+.primary:active:not(:disabled) {
+  background: var(--accent-11);
 }
 
-.button--secondary {
-  border-color: var(--color-border-strong);
-  background: var(--color-surface-0);
-  color: var(--color-text-body);
+.secondary {
+  border-color: var(--gray-7);
+  background: var(--color-panel-solid);
+  color: var(--gray-11);
 }
 
-.button--secondary:hover:not(:disabled) {
-  background: var(--color-surface-100);
-  color: var(--color-text-strong);
+.secondary:hover:not(:disabled) {
+  background: var(--gray-3);
+  color: var(--gray-12);
 }
 
-.button--ghost {
+.ghost {
   background: transparent;
-  color: var(--color-primary-600);
+  color: var(--accent-11);
 }
 
-.button--ghost:hover:not(:disabled) {
-  background: var(--color-primary-50);
+.ghost:hover:not(:disabled) {
+  background: var(--accent-a3);
 }
 
 /* Anchors styled as buttons should not pick up the global link underline. */
@@ -73,7 +72,7 @@
 
 /* ---------- Loading spinner ---------- */
 
-.button__spinner {
+.spinner {
   width: 0.875rem;
   height: 0.875rem;
   border: 2px solid currentColor;
@@ -89,7 +88,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .button__spinner {
+  .spinner {
     animation-duration: 2s;
   }
 }

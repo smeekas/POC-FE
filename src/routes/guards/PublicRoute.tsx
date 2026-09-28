@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from 'react-router';
 
 import { ROUTE_PATHS } from '../../constants/routePaths';
-import { hasAccessToken } from '../../utils/auth';
+import { useProfile } from '../../context/ProfileContext';
 
 /**
  * Gate for pages that only make sense when signed out, such as login and signup.
@@ -10,7 +10,9 @@ import { hasAccessToken } from '../../utils/auth';
  * valid is `PrivateRoute`'s problem.
  */
 export const PublicRoute = () => {
-  if (hasAccessToken()) {
+  const { profile } = useProfile();
+
+  if (profile) {
     return <Navigate to={ROUTE_PATHS.DASHBOARD} replace />;
   }
 

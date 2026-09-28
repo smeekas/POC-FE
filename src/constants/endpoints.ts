@@ -11,7 +11,7 @@ export const API_ENDPOINTS = {
     /** Registers a brand new user and returns an access token. */
     SIGNUP: 'auth/signup',
     /** Returns the logged in user together with their tenant context. Used for auth checks. */
-    PROFILE_CONTEXT: 'auth/profile-context',
+    PROFILE_CONTEXT: 'me',
     /** Invalidates the current session on the server. */
     LOGOUT: 'auth/logout',
   },
