@@ -1,11 +1,13 @@
 import { useNavigate } from 'react-router';
 
-import { Button } from '../../../components/ui/Button';
 import { ROUTE_PATHS } from '../../../constants/routePaths';
 import { clearAccessToken } from '../../../utils/auth';
-import { useProfileContextQuery } from '../../auth/hooks/useProfileContextQuery';
 
 import styles from '../../misc/pages/PlaceholderPage.module.css';
+import { useProfile } from '../../../context/ProfileContext';
+import { useQueryClient } from '@tanstack/react-query';
+import { QueryKey } from '../../../constants/queryKey';
+import { Button } from '@radix-ui/themes';
 
 /**
  * Placeholder landing page for signed in users.
@@ -15,28 +17,29 @@ import styles from '../../misc/pages/PlaceholderPage.module.css';
  */
 export const DashboardPage = () => {
   const navigate = useNavigate();
-  const { data: profileContext } = useProfileContextQuery();
-
+  const { profile } = useProfile();
+  const qc = useQueryClient();
   /** Drops the token and returns the user to the login screen. */
   const handleLogout = () => {
     clearAccessToken();
+    qc.setQueryData([QueryKey.PROFILE_CONTEXT], () => {
+      return null;
+    });
     navigate(ROUTE_PATHS.LOGIN, { replace: true });
   };
-
+  console.log(profile);
   return (
     <section className={styles.page}>
       <p className={styles.eyebrow}>Dashboard</p>
       <h1 className={styles.title}>
-        {profileContext ? `Hello, ${profileContext.data.email}` : 'Hello'}
+        {profile ? `Hello, ${profile.email}` : 'Hello'}
       </h1>
       <p className={styles.description}>
-        Documents, tenants and plans will live here. For now this page just proves
-        the private route guard works.
+        Documents, tenants and plans will live here. For now this page just
+        proves the private route guard works.
       </p>
 
-      <Button variant="secondary" onClick={handleLogout}>
-        Log out
-      </Button>
+      <Button onClick={handleLogout}>Log out</Button>
     </section>
   );
 };

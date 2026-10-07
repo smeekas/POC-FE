@@ -5,7 +5,6 @@ import { Link, useNavigate } from 'react-router';
 import { FormField } from '../../../components/form/FormField';
 import { PasswordInput } from '../../../components/form/PasswordInput';
 import { Alert } from '../../../components/ui/Alert';
-import { Button } from '../../../components/ui/Button';
 import { TextInput } from '../../../components/ui/TextInput';
 import { ROUTE_PATHS } from '../../../constants/routePaths';
 import {
@@ -19,6 +18,7 @@ import { useSignupMutation } from '../hooks/useSignupMutation';
 import { AuthFormHeader } from '../components/AuthFormHeader';
 
 import styles from './AuthPage.module.css';
+import { Button } from '@radix-ui/themes';
 
 /**
  * Registration screen.
@@ -39,7 +39,6 @@ export const SignupPage = () => {
   const onSubmit = handleSubmit((values) => {
     signupMutation.mutate(
       {
-        name: values.name,
         email: values.email,
         password: values.password,
       },
@@ -54,30 +53,31 @@ export const SignupPage = () => {
   return (
     <section className={styles.page}>
       <AuthFormHeader
-        title="Create your account"
-        subtitle="Start a workspace, or join one you have been invited to."
+        title='Create your account'
+        subtitle='Start a workspace, or join one you have been invited to.'
       />
 
       {signupMutation.isError ? (
-        <Alert severity="error">
+        <Alert severity='error'>
           {getApiErrorMessage(signupMutation.error)}
         </Alert>
       ) : null}
 
       <form className={styles.form} onSubmit={onSubmit} noValidate>
         <Controller
-          name="name"
+          name='email'
           control={control}
           render={({ field, fieldState }) => (
             <FormField
-              inputId="signup-name"
-              label="Full name"
+              inputId='signup-email'
+              label='Work email'
               error={fieldState.error?.message}
             >
               <TextInput
-                id="signup-name"
-                placeholder="Ada Lovelace"
-                autoComplete="name"
+                id='signup-email'
+                type='email'
+                placeholder='you@company.com'
+                autoComplete='email'
                 invalid={fieldState.invalid}
                 {...field}
               />
@@ -86,42 +86,21 @@ export const SignupPage = () => {
         />
 
         <Controller
-          name="email"
+          name='password'
           control={control}
           render={({ field, fieldState }) => (
             <FormField
-              inputId="signup-email"
-              label="Work email"
-              error={fieldState.error?.message}
-            >
-              <TextInput
-                id="signup-email"
-                type="email"
-                placeholder="you@company.com"
-                autoComplete="email"
-                invalid={fieldState.invalid}
-                {...field}
-              />
-            </FormField>
-          )}
-        />
-
-        <Controller
-          name="password"
-          control={control}
-          render={({ field, fieldState }) => (
-            <FormField
-              inputId="signup-password"
-              label="Password"
+              inputId='signup-password'
+              label='Password'
               error={fieldState.error?.message}
               hint={`At least ${MINIMUM_PASSWORD_LENGTH} characters, with a letter and a number.`}
             >
               <PasswordInput
-                id="signup-password"
+                id='signup-password'
                 name={field.name}
                 value={field.value}
-                placeholder="Create a password"
-                autoComplete="new-password"
+                placeholder='Create a password'
+                autoComplete='new-password'
                 invalid={fieldState.invalid}
                 onChange={field.onChange}
                 onBlur={field.onBlur}
@@ -131,20 +110,20 @@ export const SignupPage = () => {
         />
 
         <Controller
-          name="confirmPassword"
+          name='confirmPassword'
           control={control}
           render={({ field, fieldState }) => (
             <FormField
-              inputId="signup-confirm-password"
-              label="Confirm password"
+              inputId='signup-confirm-password'
+              label='Confirm password'
               error={fieldState.error?.message}
             >
               <PasswordInput
-                id="signup-confirm-password"
+                id='signup-confirm-password'
                 name={field.name}
                 value={field.value}
-                placeholder="Repeat your password"
-                autoComplete="new-password"
+                placeholder='Repeat your password'
+                autoComplete='new-password'
                 invalid={fieldState.invalid}
                 onChange={field.onChange}
                 onBlur={field.onBlur}
@@ -153,7 +132,7 @@ export const SignupPage = () => {
           )}
         />
 
-        <Button type="submit" fluid loading={signupMutation.isPending}>
+        <Button type='submit' loading={signupMutation.isPending}>
           {signupMutation.isPending ? 'Creating account…' : 'Create account'}
         </Button>
       </form>

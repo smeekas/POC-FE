@@ -1,9 +1,9 @@
 import { Link } from 'react-router';
 
-import { Button } from '../../../components/ui/Button';
 import { ROUTE_PATHS } from '../../../constants/routePaths';
 
 import styles from './PlaceholderPage.module.css';
+import { Button } from '@radix-ui/themes';
 
 /** Shown for any URL the route tree does not recognise. */
 export const NotFoundPage = () => {

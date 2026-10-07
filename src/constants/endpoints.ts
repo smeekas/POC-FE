@@ -15,4 +15,11 @@ export const API_ENDPOINTS = {
     /** Invalidates the current session on the server. */
     LOGOUT: 'auth/logout',
   },
+  PLANS: 'plan',
+  PLAN_USAGE: 'plan/usage',
+  CHANGE_PLAN: 'tenant/change-plan',
+  ONBOARDING: 'onboarding',
+  MEMBERS: {
+    GET_MEMBERS: 'users',
+  },
 } as const;

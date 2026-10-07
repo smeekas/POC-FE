@@ -6,6 +6,8 @@ import { QueryKey } from '../../../constants/queryKey';
 import type { APIResponse } from '../../../types/common.types';
 import { setAccessToken } from '../../../utils/auth';
 import type { LoginRequestDto, LoginResponseDto } from '../auth.dto';
+import { useNavigate } from 'react-router';
+import { ROUTE_PATHS } from '../../../constants/routePaths';
 
 /**
  * Logs an existing user in.
@@ -15,6 +17,7 @@ import type { LoginRequestDto, LoginResponseDto } from '../auth.dto';
  */
 export const useLoginMutation = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   return useMutation({
     mutationFn: async (payload: LoginRequestDto) => {
@@ -25,9 +28,16 @@ export const useLoginMutation = () => {
 
       return data;
     },
-    onSuccess: (response) => {
+    onSuccess: async (response) => {
       setAccessToken(response.data.access_token);
-      queryClient.invalidateQueries({ queryKey: [QueryKey.PROFILE_CONTEXT] });
+      console.log('save token');
+      await queryClient.invalidateQueries({
+        predicate(query) {
+          return query.queryKey.includes(QueryKey.PROFILE_CONTEXT);
+        },
+      });
+      console.log('navigate ');
+      navigate(ROUTE_PATHS.DASHBOARD, { replace: true });
     },
   });
 };

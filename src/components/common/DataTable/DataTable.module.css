@@ -1,0 +1,37 @@
+/* The whole header cell is the hit area, so the button fills it rather than sitting
+   inside it as a small target. */
+.sortButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.sortButton:hover {
+  color: var(--accent-11);
+}
+
+.sortButton:focus-visible {
+  outline: 2px solid var(--focus-8);
+  outline-offset: 2px;
+  border-radius: var(--radius-1);
+}
+
+.active {
+  color: var(--accent-11);
+}
+
+/* The idle arrows are a hint, not a reading: they stay out of the header's way until
+   the column is hovered or sorted. */
+.inactive {
+  opacity: 0.4;
+}
+
+.sortButton:hover .inactive {
+  opacity: 1;
+}

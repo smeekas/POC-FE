@@ -11,11 +11,6 @@ export const MINIMUM_PASSWORD_LENGTH = 8;
  */
 export const signupFormSchema = z
   .object({
-    name: z
-      .string()
-      .trim()
-      .min(1, 'Full name is required.')
-      .max(60, 'Full name cannot be longer than 60 characters.'),
     email: z
       .string()
       .trim()
@@ -41,7 +36,6 @@ export type SignupFormValues = z.infer<typeof signupFormSchema>;
 
 /** Empty signup form, used as the react-hook-form default so inputs start controlled. */
 export const SIGNUP_FORM_DEFAULT_VALUES: SignupFormValues = {
-  name: '',
   email: '',
   password: '',
   confirmPassword: '',

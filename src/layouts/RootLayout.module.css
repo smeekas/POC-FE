@@ -1,0 +1,7 @@
+/* A single 1fr row, so whatever the route renders is stretched to the full height
+   without the page having to ask for it. */
+.layout {
+  display: grid;
+  grid-template-rows: 1fr;
+  min-height: 100vh;
+}
