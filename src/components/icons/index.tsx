@@ -30,6 +30,30 @@ export const EyeIcon = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+/** Both arrows, shown on a sortable column that is not the one currently sorted. */
+export const SortIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg {...baseIconProps} {...props}>
+    <path d="m8 9 4-4 4 4" />
+    <path d="m16 15-4 4-4-4" />
+  </svg>
+);
+
+/** Up arrow, shown on the column currently sorted ascending. */
+export const SortAscIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg {...baseIconProps} {...props}>
+    <path d="M12 19V5" />
+    <path d="m6 11 6-6 6 6" />
+  </svg>
+);
+
+/** Down arrow, shown on the column currently sorted descending. */
+export const SortDescIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg {...baseIconProps} {...props}>
+    <path d="M12 5v14" />
+    <path d="m6 13 6 6 6-6" />
+  </svg>
+);
+
 /** Crossed out eye, shown when the password is visible and can be hidden. */
 export const EyeOffIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg {...baseIconProps} {...props}>

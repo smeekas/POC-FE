@@ -7,4 +7,7 @@
 export enum QueryKey {
   /** The logged in user and their tenant context. */
   PROFILE_CONTEXT = 'PROFILE_CONTEXT',
+  PLANS = 'PLANS',
+  PLAN_USAGE = 'PLAN_USAGE',
+  MEMBERS = 'MEMBERS',
 }

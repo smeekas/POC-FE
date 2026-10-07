@@ -1,11 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router';
+import { Link } from 'react-router';
 
 import { FormField } from '../../../components/form/FormField';
 import { PasswordInput } from '../../../components/form/PasswordInput';
 import { Alert } from '../../../components/ui/Alert';
-import { Button } from '../../../components/ui/Button';
 import { TextInput } from '../../../components/ui/TextInput';
 import { ROUTE_PATHS } from '../../../constants/routePaths';
 import {
@@ -18,10 +17,10 @@ import { useLoginMutation } from '../hooks/useLoginMutation';
 import { AuthFormHeader } from '../components/AuthFormHeader';
 
 import styles from './AuthPage.module.css';
+import { Button } from '@radix-ui/themes';
 
 /** Sign in screen: email and password, then straight to the dashboard. */
 export const LoginPage = () => {
-  const navigate = useNavigate();
   const { mutate, isError, error, isPending } = useLoginMutation();
 
   const { control, handleSubmit } = useForm<LoginFormValues>({
@@ -31,14 +30,7 @@ export const LoginPage = () => {
 
   /** Sends the credentials and, on success, hands the user over to the dashboard. */
   const onSubmit = handleSubmit((values) => {
-    mutate(
-      { email: values.email, password: values.password },
-      {
-        onSuccess: () => {
-          navigate(ROUTE_PATHS.DASHBOARD, { replace: true });
-        },
-      },
-    );
+    mutate({ email: values.email, password: values.password });
   });
 
   return (
@@ -97,7 +89,7 @@ export const LoginPage = () => {
           )}
         />
 
-        <Button type='submit' fluid loading={isPending}>
+        <Button type='submit' loading={isPending}>
           {isPending ? 'Signing in…' : 'Sign in'}
         </Button>
       </form>

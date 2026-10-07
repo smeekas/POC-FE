@@ -11,7 +11,7 @@ import { ProfileProvider } from './context/ProfileContext';
 /* Only the tokens: the app styles its own components, so the Radix Themes component
    and utility stylesheets would be dead weight. Import `styles.css` instead the day we
    start rendering Radix Themes components. */
-import '@radix-ui/themes/tokens.css';
+import '@radix-ui/themes/styles.css';
 import './index.css';
 
 /**

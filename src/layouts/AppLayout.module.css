@@ -1,0 +1,73 @@
+/* Radix Themes has no surface props, so the sidebar chrome stays here. The breakpoint
+   is Radix's `sm`, matching the responsive props on the layout itself. */
+.sidebar {
+  border-bottom: 1px solid var(--gray-5);
+  background: var(--gray-2);
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    border-right: 1px solid var(--gray-5);
+    border-bottom: none;
+  }
+}
+
+.tenant {
+  border-radius: var(--radius-3);
+  color: var(--gray-12);
+}
+
+.tenant:hover {
+  background: var(--gray-3);
+  color: var(--gray-12);
+  text-decoration: none;
+}
+
+/* ---------- Menu ---------- */
+
+/* Caption, not a row: it keeps the rows' left edge but drops to the faintest readable
+   grey with wide tracking, so it is never mistaken for something clickable. */
+.navLabel {
+  padding: 0 var(--space-3);
+  color: var(--gray-9);
+  font-size: var(--font-size-1);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: default;
+  user-select: none;
+}
+
+/* Hover and the active state paint the same box, so nothing shifts or resizes as the
+   pointer crosses the menu. */
+.navLink {
+  display: flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-3);
+  color: var(--gray-11);
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-2);
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+/* The global link rule underlines on hover, which a menu row should not do. */
+.navLink:hover {
+  background: var(--gray-4);
+  color: var(--gray-12);
+  text-decoration: none;
+}
+
+.navLink:active {
+  background: var(--gray-5);
+}
+
+.navLinkActive,
+.navLinkActive:hover {
+  background: var(--accent-4);
+  color: var(--accent-11);
+  font-weight: var(--font-weight-bold);
+}

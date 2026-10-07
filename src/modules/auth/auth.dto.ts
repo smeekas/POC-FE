@@ -14,7 +14,6 @@ export type LoginRequestDto = {
 
 /** Body sent to `POST auth/signup`. */
 export type SignupRequestDto = {
-  name: string;
   email: string;
   password: string;
 };

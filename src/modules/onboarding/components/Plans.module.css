@@ -1,0 +1,73 @@
+.planList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: var(--space-5);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plan {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-6) var(--space-5);
+  border: 1px solid var(--gray-5);
+  border-radius: var(--radius-4);
+  background: var(--color-panel-solid);
+  box-shadow: var(--shadow-2);
+}
+
+.current {
+  border-color: var(--accent-8);
+}
+
+.currentTag {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+}
+
+.name {
+  font-size: var(--font-size-4);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-11);
+}
+
+.price {
+  font-size: var(--font-size-8);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.1;
+}
+
+.period {
+  margin-left: var(--space-1);
+  color: var(--gray-10);
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-regular);
+}
+
+.featureList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: var(--space-4) 0 var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--gray-4);
+  list-style: none;
+  font-size: var(--font-size-2);
+}
+
+.featureOff {
+  color: var(--gray-9);
+}
+
+/* `auto` pins the action to the bottom, so the buttons line up across cards of
+   different heights. */
+.upgradeBtn {
+  width: 100%;
+  margin-top: auto;
+}

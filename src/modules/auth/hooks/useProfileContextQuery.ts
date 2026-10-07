@@ -5,7 +5,6 @@ import { API_ENDPOINTS } from '../../../constants/endpoints';
 import { QueryKey } from '../../../constants/queryKey';
 import type { APIResponse } from '../../../types/common.types';
 import type { ProfileRes } from '../../../types/profile.types';
-import { hasAccessToken } from '../../../utils/auth';
 
 /**
  * Fetches the logged in user and their tenant context.
@@ -17,14 +16,10 @@ import { hasAccessToken } from '../../../utils/auth';
 export const useProfileContextQuery = () => {
   return useQuery({
     queryKey: [QueryKey.PROFILE_CONTEXT],
-    queryFn: async () => {
-      const { data } = await axiosInstance.get<APIResponse<ProfileRes>>(
+    queryFn: () =>
+      axiosInstance.get<APIResponse<ProfileRes>>(
         API_ENDPOINTS.AUTH.PROFILE_CONTEXT,
-      );
-
-      return data;
-    },
-    enabled: hasAccessToken(),
+      ),
     retry: false,
   });
 };
