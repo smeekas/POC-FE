@@ -1,0 +1,65 @@
+.root {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+/* A tinted tile rather than a loose glyph, so the icon reads as part of the card and
+   gives the left edge something to sit against. */
+.icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-3);
+  background: var(--stat-tint, var(--gray-a3));
+  color: var(--stat-color, var(--gray-12));
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.label {
+  color: var(--gray-11);
+  font-size: var(--font-size-2);
+  line-height: var(--line-height-2);
+}
+
+/* The number is the whole point of the card, so it is sized to be read across a room
+   rather than scanned. */
+.value {
+  color: var(--stat-color, var(--gray-12));
+  font-size: var(--font-size-7);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+}
+
+.hint {
+  color: var(--gray-10);
+  font-size: var(--font-size-1);
+  line-height: var(--line-height-1);
+}
+
+.gray {
+  --stat-color: var(--gray-12);
+  --stat-tint: var(--gray-a3);
+}
+
+.green {
+  --stat-color: var(--green-11);
+  --stat-tint: var(--green-a3);
+}
+
+.orange {
+  --stat-color: var(--orange-11);
+  --stat-tint: var(--orange-a3);
+}
+
+.red {
+  --stat-color: var(--red-11);
+  --stat-tint: var(--red-a3);
+}

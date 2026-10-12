@@ -10,4 +10,10 @@ export enum QueryKey {
   PLANS = 'PLANS',
   PLAN_USAGE = 'PLAN_USAGE',
   MEMBERS = 'MEMBERS',
+  INVITED_MEMBERS = 'INVITED_MEMBERS',
+  DOCUMENTS = 'DOCUMENTS',
+  DOCUMENT_BY_ID = 'DOCUMENT_BY_ID',
+  TAGS = 'tags',
+  TenantUsage = 'tenantUsage',
+  TenantOverview = 'tenantOverview',
 }

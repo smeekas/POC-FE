@@ -1,9 +1,15 @@
-/** Placeholder for the document list a tenant works out of. */
+import { PageHeader } from '../../../components/common/PageHeader/PageHeader';
+import { DocumentsTable } from '../components/DocumentsTable';
+
+/** The document list a tenant works out of. */
 export const DocumentsPage = () => {
   return (
     <section>
-      <h1>Documents</h1>
-      <p>Documents will be listed here.</p>
+      <PageHeader
+        title='Documents'
+        description='Documents will be listed here.'
+      />
+      <DocumentsTable />
     </section>
   );
 };

@@ -4,7 +4,10 @@ import { axiosInstance } from '../../../api/axiosInstance';
 import { API_ENDPOINTS } from '../../../constants/endpoints';
 import { QueryKey } from '../../../constants/queryKey';
 import type { APIResponse } from '../../../types/common.types';
-import type { ProfileRes } from '../../../types/profile.types';
+import type {
+  PlatformAdminRes,
+  ProfileRes,
+} from '../../../types/profile.types';
 
 /**
  * Fetches the logged in user and their tenant context.
@@ -17,7 +20,7 @@ export const useProfileContextQuery = () => {
   return useQuery({
     queryKey: [QueryKey.PROFILE_CONTEXT],
     queryFn: () =>
-      axiosInstance.get<APIResponse<ProfileRes>>(
+      axiosInstance.get<APIResponse<ProfileRes | PlatformAdminRes>>(
         API_ENDPOINTS.AUTH.PROFILE_CONTEXT,
       ),
     retry: false,

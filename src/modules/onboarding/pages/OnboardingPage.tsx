@@ -11,12 +11,13 @@ import {
 
 import styles from './Onboarding.module.css';
 import { Button } from '@radix-ui/themes';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { axiosInstance } from '../../../api/axiosInstance';
 import { API_ENDPOINTS } from '../../../constants/endpoints';
 import type { APIResponse } from '../../../types/common.types';
 import { useNavigate } from 'react-router';
 import { ROUTE_PATHS } from '../../../constants/routePaths';
+import { QueryKey } from '../../../constants/queryKey';
 
 /** Post-signup screen where a user names the tenant they are creating. */
 export const OnboardingPage = () => {
@@ -24,12 +25,14 @@ export const OnboardingPage = () => {
     resolver: zodResolver(createWorkspaceFormSchema),
     defaultValues: CREATE_WORKSPACE_FORM_DEFAULT_VALUES,
   });
+  const qc = useQueryClient();
   const navigate = useNavigate();
   const { isPending, mutate } = useMutation({
     mutationFn: (reqBody: { name: string }) =>
       axiosInstance.post<APIResponse<null>>(API_ENDPOINTS.ONBOARDING, reqBody),
-    onSuccess(data) {
+    async onSuccess(data) {
       if (data.data.status === 201) {
+        await qc.invalidateQueries({ queryKey: [QueryKey.PROFILE_CONTEXT] });
         navigate(ROUTE_PATHS.UPGRADE);
       }
     },

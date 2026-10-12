@@ -1,0 +1,13 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  /* Barely-there rule: it separates the title from the page without drawing the eye. */
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-5);
+  border-bottom: 1px solid var(--gray-a3);
+}
+
+.description {
+  max-width: 48rem;
+}

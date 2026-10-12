@@ -1,12 +1,12 @@
 import { createContext, use, useMemo, type ReactNode } from 'react';
 
 import { useProfileContextQuery } from '../modules/auth/hooks/useProfileContextQuery';
-import type { ProfileRes } from '../types/profile.types';
+import type { PlatformAdminRes, ProfileRes } from '../types/profile.types';
 import { FullPageLoader } from '../components/common/FullPageLoader/FullPageLoader';
 
 export type ProfileContextValue = {
   /** The logged in user, or null while loading and when there is no valid session. */
-  profile: ProfileRes | null;
+  profile: ProfileRes | PlatformAdminRes | null;
   /** True while the profile call is in flight. */
   isLoading: boolean;
   /** True when the profile call failed, which for this endpoint means "not signed in". */
@@ -37,7 +37,6 @@ export type ProfileProviderProps = {
  */
 export const ProfileProvider = ({ children }: ProfileProviderProps) => {
   const { data, isLoading, isError } = useProfileContextQuery();
-  console.log({ data });
   const value = useMemo<ProfileContextValue>(
     () => ({
       profile: data?.data?.data ?? null,

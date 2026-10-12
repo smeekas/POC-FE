@@ -11,25 +11,34 @@ export type SortMode = 'asc' | 'desc';
  * (`sorter`), never both: the first is for server or parent owned ordering, the second
  * for a list the table already holds in full. A column with neither is not sortable.
  */
+export type DataTableColumn<K extends Record<string, unknown>> = {
+  name: string;
+  render: (ke: K) => ReactNode;
+  defaultSort?: SortMode;
+  identifier: string;
+} & (
+  | {
+      sort: true;
+      sorter?: never;
+    }
+  | {
+      sorter: (a: K, b: K) => boolean;
+      sort?: never;
+    }
+  /* A display only column, an actions menu say, has no field behind it to name. */
+  | { sort?: never; sorter?: never }
+);
+
 type DataTableProps<K extends Record<string, unknown>> = {
-  columns: ({
-    name: string;
-    render: (ke: K) => ReactNode;
-    identifier: string;
-    defaultSort?: SortMode;
-  } & (
-    | {
-        sort: true;
-        sorter?: never;
-      }
-    | { sorter: (a: K, b: K) => boolean; sort?: never }
-    | { sort?: never; sorter?: never }
-  ))[];
+  columns: DataTableColumn<K>[];
+  /** Makes the whole row a target. Omit it and rows stay inert. */
+  onRowClick?: (data: K) => void;
   row: K[];
   onSort?: (identifier: string, mode: string) => void;
+  loading?: boolean;
 };
 
-type SortState = { name: string; mode: SortMode };
+type SortState = Record<string, SortMode>;
 
 const sortIcons = { asc: SortAscIcon, desc: SortDescIcon };
 
@@ -41,44 +50,90 @@ function DataTable<T extends Record<string, unknown>>({
   columns,
   row,
   onSort,
+  loading,
+  onRowClick,
 }: DataTableProps<T>) {
-  const [sort, setSort] = useState<SortState | null>(() => {
-    const preSorted = columns.find(
-      (column) => column.defaultSort && (column.sorter ?? column.sort),
-    );
-
-    return preSorted
-      ? { name: preSorted.name, mode: preSorted.defaultSort! }
-      : null;
+  const [sort, setSort] = useState<SortState>(() => {
+    return columns.reduce((acc, column) => {
+      if (column.defaultSort && (column.sorter ?? column.sort)) {
+        return { ...acc, [column.name]: column.defaultSort };
+      } else return acc;
+    }, {});
   });
 
   /* Only `sorter` columns reorder here. An `onSort` column has handed ordering to the
      parent, so its rows arrive in the order they should be drawn. */
   const sortedRows = useMemo(() => {
-    const sorter = columns.find((column) => column.name === sort?.name)?.sorter;
-    if (!sort || !sorter) return row;
+    const sorters = columns
+      .filter((column) => column.sorter && sort[column.name])
+      .map((columnItem) => ({
+        sorter: columnItem.sorter,
+        mode: sort[columnItem.name],
+      }));
 
-    const ordered = [...row].sort((a, b) => (sorter(a, b) ? -1 : 1));
-    return sort.mode === 'asc' ? ordered : ordered.reverse();
+    if (sorters.length === 0) return row;
+
+    return sorters.reduce((acc, curr) => {
+      if (curr.mode === 'asc') {
+        return acc.sort((a, b) => (curr.sorter?.(a, b) ? -1 : 1));
+      }
+      return acc.sort((a, b) => (curr.sorter?.(a, b) ? 1 : -1));
+    }, row);
   }, [columns, row, sort]);
 
-  const handleSort = (column: DataTableProps<T>['columns'][number]) => {
-    const mode: SortMode =
-      sort?.name === column.name && sort.mode === 'asc' ? 'desc' : 'asc';
+  const handleSort = (column: DataTableColumn<T>) => {
+    const mode: SortMode = sort[column.name] === 'asc' ? 'desc' : 'asc';
 
-    setSort({ name: column.name, mode });
+    setSort((prev) => ({ ...prev, [column.name]: mode }));
     // set sort local
     // and inform via callback so Data can be fetched
     onSort?.(column.identifier, mode);
   };
 
+  const tableBody = useMemo(() => {
+    if (loading) {
+      return (
+        <Table.Row>
+          <Table.Cell className={styles.center} colSpan={columns.length}>
+            Loading...
+          </Table.Cell>
+        </Table.Row>
+      );
+    }
+    if (sortedRows.length === 0) {
+      return (
+        <Table.Row>
+          <Table.Cell className={styles.center} colSpan={columns.length}>
+            No record.
+          </Table.Cell>
+        </Table.Row>
+      );
+    }
+    /* A clickable row is a control, so it takes focus and answers Enter the way a link
+       would. Without `onRowClick` it stays plain markup. */
+    return sortedRows.map((item, rowIndex) => (
+      <Table.Row
+        key={rowIndex}
+        className={onRowClick ? styles.clickableRow : undefined}
+        tabIndex={onRowClick ? 0 : undefined}
+        onClick={() => onRowClick?.(item)}
+        onKeyDown={(event) => {
+          if (onRowClick && event.key === 'Enter') onRowClick(item);
+        }}
+      >
+        {columns.map((column) => (
+          <Table.Cell key={column.name}>{column.render(item)}</Table.Cell>
+        ))}
+      </Table.Row>
+    ));
+  }, [loading, sortedRows, onRowClick, columns]);
   return (
-    <Table.Root variant='surface'>
+    <Table.Root variant='surface' className={styles.table}>
       <Table.Header>
         <Table.Row>
           {columns.map((column) => {
             const isSortable = Boolean(column.sorter ?? column.sort);
-            const activeMode = sort?.name === column.name ? sort.mode : null;
+            const activeMode = sort[column.name] ? sort[column.name] : null;
             const Icon = activeMode ? sortIcons[activeMode] : SortIcon;
 
             return (
@@ -112,15 +167,7 @@ function DataTable<T extends Record<string, unknown>>({
         </Table.Row>
       </Table.Header>
 
-      <Table.Body>
-        {sortedRows.map((item, rowIndex) => (
-          <Table.Row key={rowIndex}>
-            {columns.map((column) => (
-              <Table.Cell key={column.name}>{column.render(item)}</Table.Cell>
-            ))}
-          </Table.Row>
-        ))}
-      </Table.Body>
+      <Table.Body>{tableBody}</Table.Body>
     </Table.Root>
   );
 }

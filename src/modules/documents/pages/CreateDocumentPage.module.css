@@ -1,0 +1,23 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 40rem;
+}
+
+/* The save button sits under the fields and only as wide as it needs to be, so the
+   column of inputs stays the thing the eye follows down the page.
+   Delete is sent to the opposite edge: three buttons shoulder to shoulder read as three
+   equal choices, and one of them cannot be taken back. */
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.primaryActions {
+  display: flex;
+  gap: var(--space-3);
+}

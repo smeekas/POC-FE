@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from 'react-router';
+import { Navigate } from 'react-router';
 
 import { ROUTE_PATHS } from '../../constants/routePaths';
 import { clearAccessToken } from '../../utils/auth';
@@ -15,7 +15,6 @@ type PrivateRouteProps = { children: ReactNode };
 export const PrivateRoute = ({ children }: PrivateRouteProps) => {
   const { isError, profile } = useProfile();
 
-  console.log({ profile }, window.location.pathname, isError);
   if (!profile) {
     return <Navigate to={ROUTE_PATHS.LOGIN} replace />;
   }

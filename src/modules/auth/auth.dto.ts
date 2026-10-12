@@ -21,6 +21,7 @@ export type SignupRequestDto = {
 /** `data` of `POST auth/login`: the token is all the backend hands back. */
 export type LoginResponseDto = {
   access_token: string;
+  redirect?: string;
 };
 
 /** `POST auth/signup` answers `201` with no payload, so its `data` is null. */

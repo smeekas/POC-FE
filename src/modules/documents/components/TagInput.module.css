@@ -1,0 +1,28 @@
+/* The panel tracks the width of the field it hangs off, so the options line up under the
+   text they are filtered by. The class is doubled to out-specify the padding Radix's own
+   `size` prop sets: a list of options wants tighter gutters than a prose popover. */
+.content.content {
+  width: var(--radix-popper-anchor-width);
+  max-height: 14rem;
+  padding: var(--space-1);
+  overflow-y: auto;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.option {
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-2);
+  color: var(--gray-12);
+  font-size: var(--font-size-2);
+  line-height: var(--line-height-2);
+  cursor: pointer;
+}
+
+.option:not(.disabled):hover {
+  background: var(--accent-a3);
+}
