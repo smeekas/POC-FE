@@ -1,83 +1,57 @@
-import { Avatar, Badge, Box, Flex, Grid, Separator, Text } from '@radix-ui/themes';
+import { GearIcon } from '@radix-ui/react-icons';
+import { Avatar, Badge, Box, Button, Flex, Grid, Text } from '@radix-ui/themes';
 import { NavLink, Outlet } from 'react-router';
 
+import { Sidebar } from '../components/common/Sidebar/Sidebar';
+import { UserRole } from '../constants/role';
 import { ROUTE_PATHS } from '../constants/routePaths';
-import { useProfile } from '../context/ProfileContext';
+import { useTenantUser } from '../hooks/useTenantUser';
 
 import styles from './AppLayout.module.css';
 
-/* Stand-ins until the tenant name and the user's display name come back from the API. */
-const DUMMY_TENANT_NAME = 'Acme Workspace';
-const DUMMY_USER_NAME = 'Alex Morgan';
-
 const NAV_ITEMS = [
-  { to: ROUTE_PATHS.DOCUMENTS, label: 'Documents' },
-  { to: ROUTE_PATHS.MEMBERS, label: 'Members' },
+  {
+    to: ROUTE_PATHS.DOCUMENTS,
+    label: 'Documents',
+    role: [UserRole.MEMBER],
+  },
+  { to: ROUTE_PATHS.MEMBERS, label: 'Members', role: [] as UserRole[] },
 ];
 
 /** Signed in shell: tenant and navigation on the left, the routed page on the right. */
 export const AppLayout = () => {
-  const { profile } = useProfile();
+  const { profile } = useTenantUser();
+
+  /* Filtered here rather than inside the sidebar: who may reach what is this shell's
+     question, and the sidebar only draws the rows it is handed. */
+  const navItems = NAV_ITEMS.filter((navItem) => {
+    if (profile?.role === UserRole.ADMIN) return true;
+    return profile?.role && navItem.role.includes(profile.role);
+  });
 
   return (
     <Grid
       columns={{ initial: 'minmax(0, 1fr)', sm: '16rem minmax(0, 1fr)' }}
       minHeight='100%'
     >
-      <Flex
-        asChild
-        direction={{ initial: 'row', sm: 'column' }}
-        align={{ initial: 'center', sm: 'stretch' }}
-        gap={{ initial: '4', sm: '5' }}
-        p='4'
-        className={styles.sidebar}
-      >
-        <aside>
+      <Sidebar
+        items={navItems}
+        navLabel='Workspace'
+        header={
           <Flex asChild align='center' gap='2' p='2'>
             <NavLink to={ROUTE_PATHS.DASHBOARD} className={styles.tenant}>
               <Avatar
                 size='2'
                 variant='solid'
-                fallback={DUMMY_TENANT_NAME.charAt(0)}
+                fallback={profile?.tenant?.name?.[0] || ''}
               />
               <Text size='3' weight='bold' truncate>
-                {DUMMY_TENANT_NAME}
+                {profile?.tenant?.name}
               </Text>
             </NavLink>
           </Flex>
-
-          <Flex
-            asChild
-            direction={{ initial: 'row', sm: 'column' }}
-            gap='1'
-          >
-            <nav>
-              <Box display={{ initial: 'none', sm: 'block' }} mb='2'>
-                <Text as='p' size='1' className={styles.navLabel}>
-                  Workspace
-                </Text>
-              </Box>
-
-              {NAV_ITEMS.map((navItem) => (
-                <NavLink
-                  key={navItem.to}
-                  to={navItem.to}
-                  className={({ isActive }) =>
-                    [styles.navLink, isActive ? styles.navLinkActive : '']
-                      .filter(Boolean)
-                      .join(' ')
-                  }
-                >
-                  {navItem.label}
-                </NavLink>
-              ))}
-            </nav>
-          </Flex>
-
-          <Box display={{ initial: 'none', sm: 'block' }} mt='auto'>
-            <Separator size='4' />
-          </Box>
-
+        }
+        footer={
           <Flex
             align='center'
             gap='2'
@@ -88,7 +62,7 @@ export const AppLayout = () => {
               size='2'
               radius='full'
               color='gray'
-              fallback={DUMMY_USER_NAME.charAt(0)}
+              fallback={profile?.email[0] || ''}
             />
 
             <Flex
@@ -97,7 +71,7 @@ export const AppLayout = () => {
               minWidth='0'
             >
               <Text size='2' weight='medium' truncate>
-                {DUMMY_USER_NAME}
+                {profile?.email}
               </Text>
               <Text size='1' color='gray' truncate>
                 {profile?.email}
@@ -109,9 +83,19 @@ export const AppLayout = () => {
                 {profile.role}
               </Badge>
             )}
+
+            {/* The icon says nothing to a screen reader, so the link carries the name. */}
+            <Button asChild size={'1'} variant='ghost'>
+              <NavLink
+                to={ROUTE_PATHS.PROFILE_SETTINGS}
+                aria-label='Profile settings'
+              >
+                <GearIcon />
+              </NavLink>
+            </Button>
           </Flex>
-        </aside>
-      </Flex>
+        }
+      />
 
       <Box asChild p='6'>
         <main>

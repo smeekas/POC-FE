@@ -28,16 +28,18 @@ export const useLoginMutation = () => {
 
       return data;
     },
-    onSuccess: async (response) => {
+    onSuccess: (response) => {
       setAccessToken(response.data.access_token);
-      console.log('save token');
-      await queryClient.invalidateQueries({
+      queryClient.invalidateQueries({
         predicate(query) {
           return query.queryKey.includes(QueryKey.PROFILE_CONTEXT);
         },
       });
-      console.log('navigate ');
-      navigate(ROUTE_PATHS.DASHBOARD, { replace: true });
+      if (response.data.redirect) {
+        navigate(response.data.redirect, { replace: true });
+      } else {
+        navigate(ROUTE_PATHS.DOCUMENTS, { replace: true });
+      }
     },
   });
 };

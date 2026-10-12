@@ -8,6 +8,12 @@ export const ROUTE_PATHS = {
   UPGRADE: '/onboarding/upgrade',
   DASHBOARD: '/dashboard',
   DOCUMENTS: '/documents',
+  CREATE_DOCUMENT: '/documents/create',
+  EDIT_DOCUMENT: (id: number) => `/documents/${id}`,
   MEMBERS: '/members',
+  PROFILE_SETTINGS: '/profile-settings',
+  PLATFORM_ADMIN_DASHBOARD: '/platform-admin/dashboard',
+  PLATFORM_ADMIN_SETTINGS: '/platform-admin/settings',
+  ACCEPT_INVITATION: '/accept',
   NOT_FOUND: '*',
 } as const;

@@ -6,6 +6,7 @@ export type ProfileRes = {
   email: string;
   require_onboarding: boolean;
   plan?: {
+    id:number
     name: string;
     tags: boolean;
     price: number;
@@ -14,6 +15,11 @@ export type ProfileRes = {
     max_documents: number;
   };
   tenant?: {
-    name: number;
+    name: string;
   };
+};
+export type PlatformAdminRes = {
+  id: number;
+  email: string;
+  isPlatformAdmin: boolean;
 };

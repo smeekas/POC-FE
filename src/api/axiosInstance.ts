@@ -24,7 +24,11 @@ axiosInstance.interceptors.request.use((requestConfig) => {
 
   return requestConfig;
 });
-
+const skip = [
+  ROUTE_PATHS.LOGIN,
+  ROUTE_PATHS.SIGNUP,
+  ROUTE_PATHS.ACCEPT_INVITATION,
+] as string[];
 /**
  * Drops the stored token and sends the user back to login when the server says the
  * session is no longer valid.
@@ -33,8 +37,7 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     const isUnauthorized = error?.response?.status === 401;
-    const isAlreadyOnLoginPage = window.location.pathname === ROUTE_PATHS.LOGIN;
-
+    const isAlreadyOnLoginPage = skip.includes(window.location.pathname);
     if (isUnauthorized && !isAlreadyOnLoginPage) {
       clearAccessToken();
       window.location.assign(ROUTE_PATHS.LOGIN);

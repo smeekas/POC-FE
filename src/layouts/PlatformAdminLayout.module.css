@@ -1,0 +1,12 @@
+/* Same affordance as the tenant block in `AppLayout`: a header slot is this layout's
+   own, so its styling lives with the layout rather than in the shared sidebar. */
+.brand {
+  border-radius: var(--radius-3);
+  color: var(--gray-12);
+}
+
+.brand:hover {
+  background: var(--gray-3);
+  color: var(--gray-12);
+  text-decoration: none;
+}

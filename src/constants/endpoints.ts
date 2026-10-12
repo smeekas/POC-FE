@@ -21,5 +21,20 @@ export const API_ENDPOINTS = {
   ONBOARDING: 'onboarding',
   MEMBERS: {
     GET_MEMBERS: 'users',
+    INVITED_MEMBERS: 'invite',
+    SEND_INVITATION: 'invite',
+    ACCEPT_INVITE: 'invite/accept',
+    UPDATE_INVITATION: (id: number) => `invite/${id}`,
   },
+  DOCUMENT: {
+    LIST: 'doc',
+    BY_ID: (id: number) => `doc/${id}`,
+    CREATE: 'doc',
+    DELETE: (id: number) => `doc/${id}`,
+  },
+  Tags: 'tags',
+  PlatformAdmin:{
+    usage:'/platform-admin/usage',
+    overview:'/platform-admin/overview'
+  }
 } as const;

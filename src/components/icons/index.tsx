@@ -54,6 +54,52 @@ export const SortDescIcon = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+/** Magnifier, shown inside the search bar. */
+export const SearchIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg {...baseIconProps} {...props}>
+    <circle cx="11" cy="11" r="7" />
+    <path d="m20 20-3.5-3.5" />
+  </svg>
+);
+
+/** Cross, shown on the button that empties the search bar. */
+export const CloseIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg {...baseIconProps} {...props}>
+    <path d="M18 6 6 18" />
+    <path d="m6 6 12 12" />
+  </svg>
+);
+
+/** Chevron, shown on the pagination control that steps back a page. */
+export const ChevronLeftIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg {...baseIconProps} {...props}>
+    <path d="m15 18-6-6 6-6" />
+  </svg>
+);
+
+/** Chevron, shown on the pagination control that steps forward a page. */
+export const ChevronRightIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg {...baseIconProps} {...props}>
+    <path d="m9 18 6-6-6-6" />
+  </svg>
+);
+
+/** Chevron, shown on a dropdown trigger to say it opens a menu. */
+export const ChevronDownIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg {...baseIconProps} {...props}>
+    <path d="m6 9 6 6 6-6" />
+  </svg>
+);
+
+/** Vertical ellipsis, the trigger for a row's action menu. */
+export const MoreVerticalIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg {...baseIconProps} {...props}>
+    <circle cx="12" cy="5" r="1" fill="currentColor" />
+    <circle cx="12" cy="12" r="1" fill="currentColor" />
+    <circle cx="12" cy="19" r="1" fill="currentColor" />
+  </svg>
+);
+
 /** Crossed out eye, shown when the password is visible and can be hidden. */
 export const EyeOffIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg {...baseIconProps} {...props}>

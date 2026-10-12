@@ -13,6 +13,8 @@ import { ProfileProvider } from './context/ProfileContext';
    start rendering Radix Themes components. */
 import '@radix-ui/themes/styles.css';
 import './index.css';
+import { Toaster } from 'react-hot-toast';
+import { createPortal } from 'react-dom';
 
 /**
  * Radix Themes owns the design tokens for the whole app.
@@ -31,6 +33,7 @@ createRoot(document.getElementById('root')!).render(
       scaling='100%'
       appearance='light'
     >
+      {createPortal(<Toaster position='top-center' />, document.body)}
       <QueryClientProvider client={queryClient}>
         <ProfileProvider>
           <BrowserRouter>

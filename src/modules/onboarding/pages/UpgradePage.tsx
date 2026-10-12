@@ -1,44 +1,25 @@
 import { Button } from '@radix-ui/themes';
-import { usePlansQuery } from '../hooks/usePlansQuery';
-import styles from './Upgrade.module.css';
-import Plans from '../components/Plans';
-import { usePlanUsage } from '../hooks/usePlanUsage';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { axiosInstance } from '../../../api/axiosInstance';
-import { API_ENDPOINTS } from '../../../constants/endpoints';
 import { useNavigate } from 'react-router';
+
 import { ROUTE_PATHS } from '../../../constants/routePaths';
-import type { APIResponse } from '../../../types/common.types';
-import { QueryKey } from '../../../constants/queryKey';
+import { useProfile } from '../../../context/ProfileContext';
+import PlanSelection from '../components/PlanSelection';
+import { usePlanUsage } from '../hooks/usePlanUsage';
+import styles from './Upgrade.module.css';
 
 function UpgradePage() {
-  const { data, isLoading, isError } = usePlansQuery();
+  const { profile } = useProfile();
   const { data: planUsage, isLoading: isPlanLoading } = usePlanUsage();
-  const qc = useQueryClient();
   const navigate = useNavigate();
-  const { mutate, isPending, variables } = useMutation({
-    mutationFn: (reqBody: { planId: number }) =>
-      axiosInstance.post<APIResponse<null>>(API_ENDPOINTS.CHANGE_PLAN, reqBody),
-    onSuccess: async (data) => {
-      if (data.status === 204) {
-        await qc.invalidateQueries({ queryKey: [QueryKey.PROFILE_CONTEXT] });
-        navigate(ROUTE_PATHS.DASHBOARD);
-      }
-    },
-  });
-  const plans = data?.data?.data ?? [];
 
-  const currentPlan = plans.find((plan) => plan.is_free);
+  /* The profile already carries the tenant's own plan in full, so the header needs
+     nothing from the plan list; `PlanSelection` fetches that for the cards. A platform
+     admin has no plan, hence the narrowing rather than a plain read. */
+  const currentPlan = profile && 'plan' in profile ? profile.plan : undefined;
 
-  const onUpgrade = (planId: number) => {
-    mutate({ planId });
-  };
   const onCta = () => {
     navigate(ROUTE_PATHS.DASHBOARD);
   };
-  if (isLoading) return <p>Loading plans…</p>;
-
-  if (isError) return <p>Could not load the plans. Please try again.</p>;
 
   return (
     <section className={styles.page}>
@@ -78,16 +59,7 @@ function UpgradePage() {
         </Button>
       </header>
 
-      <Plans
-        plans={plans}
-        currentPlanId={currentPlan?.id}
-        onUpgrade={onUpgrade}
-        isPending={
-          variables?.planId && isPending
-            ? { planId: variables?.planId }
-            : undefined
-        }
-      />
+      <PlanSelection onChanged={() => navigate(ROUTE_PATHS.DASHBOARD)} />
 
       <p className={styles.tagline}>
         Pick the limits that fit your team. You can change plan later.

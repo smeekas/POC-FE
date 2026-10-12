@@ -14,7 +14,7 @@ export const PublicRoute = ({ children }: PublicRouteProps) => {
   const { profile } = useProfile();
 
   if (profile) {
-    return <Navigate to={ROUTE_PATHS.DASHBOARD} replace />;
+    return <Navigate to={ROUTE_PATHS.ROOT} replace />;
   }
 
   return children;

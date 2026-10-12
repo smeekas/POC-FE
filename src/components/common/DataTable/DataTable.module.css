@@ -1,3 +1,12 @@
+/* Radix sizes the type, but its rows still sit tight for a list this scannable, so the
+   cells get their own vertical rhythm on top of the `size` prop. */
+.table th,
+.table td {
+  padding-top: var(--space-2);
+  padding-bottom: var(--space-2);
+  vertical-align: middle;
+}
+
 /* The whole header cell is the hit area, so the button fills it rather than sitting
    inside it as a small target. */
 .sortButton {
@@ -34,4 +43,24 @@
 
 .sortButton:hover .inactive {
   opacity: 1;
+}
+
+.center {
+  text-align: center;
+}
+
+/* Only rows that go somewhere light up: a hover state on an inert row promises a click
+   that does nothing. */
+.clickableRow {
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.clickableRow:hover {
+  background-color: var(--gray-a3);
+}
+
+.clickableRow:focus-visible {
+  outline: 2px solid var(--focus-8);
+  outline-offset: -2px;
 }
