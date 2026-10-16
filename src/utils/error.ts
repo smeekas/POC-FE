@@ -1,4 +1,4 @@
-import { AxiosError } from 'axios';
+import { AxiosError, type AxiosResponse } from 'axios';
 
 /** The error shape NestJS returns by default for a failed request. */
 type NestErrorResponseBody = {
@@ -15,9 +15,20 @@ const FALLBACK_ERROR_MESSAGE = 'Something went wrong. Please try again.';
  * NestJS validation failures arrive as an array of messages, so we take the first one
  * rather than dumping the whole list into the UI.
  */
-export const getApiErrorMessage = (error: unknown): string => {
+export const getApiErrorMessage = (
+  error:
+    | AxiosError
+    | Error
+    | AxiosResponse<{
+        data: unknown;
+        status: number;
+        statusMessage: string;
+      }>['data'],
+): string => {
   if (error instanceof AxiosError) {
-    const responseBody = error.response?.data as NestErrorResponseBody | undefined;
+    const responseBody = error.response?.data as
+      | NestErrorResponseBody
+      | undefined;
     const message = responseBody?.message;
 
     if (Array.isArray(message) && message.length > 0) {
@@ -33,8 +44,10 @@ export const getApiErrorMessage = (error: unknown): string => {
     }
   }
 
-  if (error instanceof Error && error.message) {
-    return error.message;
+  if (error instanceof Error) {
+    return error.message || FALLBACK_ERROR_MESSAGE;
+  } else if ('request' in error) {
+    return error.statusMessage;
   }
 
   return FALLBACK_ERROR_MESSAGE;

@@ -1,10 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 
 import { axiosInstance } from '../../../api/axiosInstance';
 import { API_ENDPOINTS } from '../../../constants/endpoints';
 import { QueryKey } from '../../../constants/queryKey';
 import type { APIResponse } from '../../../types/common.types';
 import { setAccessToken } from '../../../utils/auth';
+import { getApiErrorMessage } from '../../../utils/error';
 import type { LoginRequestDto, LoginResponseDto } from '../auth.dto';
 import { useNavigate } from 'react-router';
 import { ROUTE_PATHS } from '../../../constants/routePaths';
@@ -29,17 +31,25 @@ export const useLoginMutation = () => {
       return data;
     },
     onSuccess: (response) => {
-      setAccessToken(response.data.access_token);
-      queryClient.invalidateQueries({
-        predicate(query) {
-          return query.queryKey.includes(QueryKey.PROFILE_CONTEXT);
-        },
-      });
-      if (response.data.redirect) {
-        navigate(response.data.redirect, { replace: true });
+      if (response.status === 200) {
+        toast.success(response.statusMessage);
+        setAccessToken(response.data.access_token);
+        queryClient.invalidateQueries({
+          predicate(query) {
+            return query.queryKey.includes(QueryKey.PROFILE_CONTEXT);
+          },
+        });
+        if (response.data.redirect) {
+          navigate(response.data.redirect, { replace: true });
+        } else {
+          navigate(ROUTE_PATHS.DOCUMENTS, { replace: true });
+        }
       } else {
-        navigate(ROUTE_PATHS.DOCUMENTS, { replace: true });
+        toast.error(getApiErrorMessage(response));
       }
+    },
+    onError: (error) => {
+      toast.error(getApiErrorMessage(error));
     },
   });
 };

@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 import { FormField } from '../../../components/form/FormField';
 import { TextInput } from '../../../components/ui/TextInput';
@@ -18,6 +19,7 @@ import type { APIResponse } from '../../../types/common.types';
 import { useNavigate } from 'react-router';
 import { ROUTE_PATHS } from '../../../constants/routePaths';
 import { QueryKey } from '../../../constants/queryKey';
+import { getApiErrorMessage } from '../../../utils/error';
 
 /** Post-signup screen where a user names the tenant they are creating. */
 export const OnboardingPage = () => {
@@ -32,9 +34,15 @@ export const OnboardingPage = () => {
       axiosInstance.post<APIResponse<null>>(API_ENDPOINTS.ONBOARDING, reqBody),
     async onSuccess(data) {
       if (data.data.status === 201) {
+        toast.success(data.data.statusMessage);
         await qc.invalidateQueries({ queryKey: [QueryKey.PROFILE_CONTEXT] });
         navigate(ROUTE_PATHS.UPGRADE);
+      } else {
+        toast.error(getApiErrorMessage(data.data));
       }
+    },
+    onError(error) {
+      toast.error(getApiErrorMessage(error));
     },
   });
   /** Placeholder submit until the create-workspace endpoint exists. */

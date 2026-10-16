@@ -33,6 +33,7 @@ import {
 } from '../dto/invitedMembers.dto';
 import useChangeStatus from '../hooks/useChangeStatus';
 import CopyInvitationLink from './CopyInvitationLink';
+import { ActionButton } from '../../../components/ui/ActionButton';
 
 /**
  * Invites that have gone out but not yet turned into members, with the count beside the
@@ -136,9 +137,9 @@ export const InvitedMembersTable = () => {
             </Flex>
             <Dialog.Root open={open} onOpenChange={handleOpenChange}>
               <Dialog.Trigger>
-                <Button>
+                <ActionButton feature='user'>
                   <PlusIcon /> Invite
-                </Button>
+                </ActionButton>
               </Dialog.Trigger>
               <Dialog.Content maxWidth='450px'>
                 <Dialog.Title>Invite user</Dialog.Title>

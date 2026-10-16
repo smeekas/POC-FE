@@ -24,7 +24,7 @@ export const API_ENDPOINTS = {
     INVITED_MEMBERS: 'invite',
     SEND_INVITATION: 'invite',
     ACCEPT_INVITE: 'invite/accept',
-    UPDATE_INVITATION: (id: number) => `invite/${id}`,
+    UPDATE_INVITATION: (id: number, status: string) => `invite/${id}/${status}`,
   },
   DOCUMENT: {
     LIST: 'doc',
@@ -33,8 +33,8 @@ export const API_ENDPOINTS = {
     DELETE: (id: number) => `doc/${id}`,
   },
   Tags: 'tags',
-  PlatformAdmin:{
-    usage:'/platform-admin/usage',
-    overview:'/platform-admin/overview'
-  }
+  PlatformAdmin: {
+    usage: '/platform-admin/usage',
+    overview: '/platform-admin/overview',
+  },
 } as const;
