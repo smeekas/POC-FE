@@ -15,3 +15,11 @@ const App = () => {
 };
 
 export default App;
+
+/**
+ *  FUTURE PLAN
+ * no hardcoded feature
+ * retrieve feature list
+ * check if feature can be accessed or not
+ * DYNAMIC RBAC
+ */

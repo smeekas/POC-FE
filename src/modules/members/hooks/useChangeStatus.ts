@@ -16,10 +16,7 @@ function useChangeStatus() {
       reqStatus: InviteMemberUpdateEnum;
     }) =>
       axiosInstance.patch<APIResponse<null | { url: string }>>(
-        API_ENDPOINTS.MEMBERS.UPDATE_INVITATION(id),
-        {
-          status: reqStatus,
-        },
+        API_ENDPOINTS.MEMBERS.UPDATE_INVITATION(id, reqStatus),
       ),
     onSuccess(data) {
       if (data.status === 200) {
@@ -30,7 +27,3 @@ function useChangeStatus() {
 }
 
 export default useChangeStatus;
-/**
-   Revoke = 'revoke',
-  Resend = 'resend',
- */

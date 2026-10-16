@@ -1,9 +1,14 @@
+import { Flex } from '@radix-ui/themes';
+import { useCallback } from 'react';
+
 import DataTable from '../../../components/common/DataTable/DataTable';
 import Pagination from '../../../components/ui/Pagination';
+import SearchBar from '../../../components/ui/SearchBar';
 import { PaginationEnum } from '../../../constants/pagination';
 import usePagination from '../../../hooks/usePagination';
 import { getMemberColumns } from '../columns/members.columns';
 import { useGetMembers } from '../hooks/useGetMembers';
+import { LimitGuard } from '../../../guards/LimitGuard';
 
 /**
  * The member list itself: owns its paging and sorting params, fetches against them and
@@ -15,8 +20,27 @@ export const MembersTable = () => {
   const members = data?.data?.data || [];
   const metaData = data?.data?.meta;
 
+  /* The search box debounces against this, so it has to keep the same identity between
+     renders. */
+  const handleSearch = useCallback(
+    (value: string) => changeParams(PaginationEnum.Search, value),
+    [changeParams],
+  );
+
   return (
     <>
+      {/* Sits at the top of the page rather than beside the invite button further down:
+          a full workspace is the first thing to say about the member list. */}
+      <LimitGuard feature='user' />
+
+      <Flex mb='3'>
+        <SearchBar
+          defaultValue={filterObj.search}
+          placeholder='Search members…'
+          onSearch={handleSearch}
+        />
+      </Flex>
+
       <DataTable
         loading={isLoading || isRefetching}
         onSort={(key, value) =>

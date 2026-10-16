@@ -20,6 +20,7 @@ import type { AppRouteNode } from './route.types';
 import Gateway from '../global/Gateway';
 import UpgradePage from '../modules/onboarding/pages/UpgradePage';
 import PlatformAdminGuard from '../guards/PlatformAdminGuard';
+import TenantUserGuard from '../guards/TenantUserGuard';
 
 /**
  * The application route tree.
@@ -53,7 +54,7 @@ export const appRouteTree: AppRouteNode[] = [
         element: Outlet,
         path: '',
         private: true,
-        guard: [Gateway],
+        guard: [Gateway, TenantUserGuard],
         children: [
           {
             element: AppLayout,
@@ -110,7 +111,6 @@ export const appRouteTree: AppRouteNode[] = [
             index: true,
           },
           {
-            // guard: [Gateway],
             element: UpgradePage,
             path: 'upgrade',
           },

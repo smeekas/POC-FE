@@ -54,7 +54,11 @@ export const CreateDocumentPage = () => {
     resolver: zodResolver(createDocumentFormSchema),
     defaultValues: CREATE_DOCUMENT_FORM_DEFAULT_VALUES,
     values: doc
-      ? { title: doc.title, description: doc.description }
+      ? {
+          title: doc.title,
+          description: doc.description,
+          tags: doc.tags?.join(','),
+        }
       : undefined,
   });
   const formTags = watch('tags');

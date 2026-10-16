@@ -1,7 +1,7 @@
-import { useProfile } from '../context/ProfileContext';
+import { useTenantUser } from './useTenantUser';
 
 export function usePlan() {
-  const profile = useProfile();
+  const profile = useTenantUser();
   if (!profile.profile?.plan) throw new Error('no plan yet');
   return profile.profile?.plan;
 }

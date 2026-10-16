@@ -6,13 +6,15 @@ export type ProfileRes = {
   email: string;
   require_onboarding: boolean;
   plan?: {
-    id:number
+    id: number;
     name: string;
     tags: boolean;
     price: number;
     is_free: boolean;
     max_user: number;
     max_documents: number;
+    documentLimitReached: boolean;
+    userLimitReached: boolean;
   };
   tenant?: {
     name: string;

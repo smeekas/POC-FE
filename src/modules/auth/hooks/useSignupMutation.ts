@@ -1,8 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 
 import { axiosInstance } from '../../../api/axiosInstance';
 import { API_ENDPOINTS } from '../../../constants/endpoints';
 import type { APIResponse } from '../../../types/common.types';
+import { getApiErrorMessage } from '../../../utils/error';
 import type { SignupRequestDto, SignupResponseDto } from '../auth.dto';
 
 /**
@@ -20,6 +22,15 @@ export const useSignupMutation = () => {
       );
 
       return data;
+    },
+    onSuccess: (response) => {
+      if (response.status === 201) toast.success(response.statusMessage);
+      else {
+        toast.error(getApiErrorMessage(response));
+      }
+    },
+    onError: (error) => {
+      toast.error(getApiErrorMessage(error));
     },
   });
 };
