@@ -51,7 +51,7 @@ export const SearchBar = ({
 
   const handleChange = (nextValue: string) => {
     setValue(nextValue);
-    search(nextValue);
+    search(nextValue.trim());
   };
 
   /* Clearing is a decision rather than a keystroke, so it does not wait out the debounce. */
