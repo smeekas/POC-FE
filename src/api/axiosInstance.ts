@@ -12,6 +12,7 @@ export const axiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 });
 
 /** Attaches the stored access token to every outgoing request. */
