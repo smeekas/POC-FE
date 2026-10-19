@@ -1,5 +1,4 @@
 import {
-  ActionIcon,
   Avatar,
   Badge,
   Box,
@@ -8,8 +7,7 @@ import {
   Text,
   useMantineTheme,
 } from '@mantine/core';
-import { GearIcon } from '@radix-ui/react-icons';
-import { NavLink, Outlet } from 'react-router';
+import { Outlet } from 'react-router';
 
 import { Sidebar } from '../components/common/Sidebar/Sidebar';
 import { ROUTE_PATHS } from '../constants/routePaths';
@@ -23,6 +21,7 @@ const PLATFORM_NAME = 'Platform';
 
 const NAV_ITEMS = [
   { to: ROUTE_PATHS.PLATFORM_ADMIN_DASHBOARD, label: 'Dashboard' },
+  { to: ROUTE_PATHS.PLATFORM_ADMIN_SETTINGS, label: 'Settings' },
 ];
 
 /**
@@ -61,34 +60,22 @@ export const PlatformAdminLayout = () => {
         footer={
           <Group
             align='center'
-            justify='space-between'
             gap='xs'
             wrap='nowrap'
             pt={{ base: 0, sm: 'sm' }}
             ml={{ base: 'auto', sm: 0 }}
           >
-            <Group align='center' gap='xs' wrap='nowrap'>
-              <Avatar size='md' radius='full' color='gray'>
-                {profile?.email[0] || ''}
-              </Avatar>
+            <Avatar size='md' radius='full' color='gray'>
+              {profile?.email[0] || ''}
+            </Avatar>
 
-              <Stack gap={0} display={{ base: 'none', sm: 'flex' }} miw={0}>
-                <Text size='sm' fw={500} truncate>
-                  {profile?.email}
-                </Text>
-              </Stack>
-            </Group>
-
-            {/* The icon says nothing to a screen reader, so the link carries the name. */}
-            <ActionIcon
-              component={NavLink}
-              to={ROUTE_PATHS.PLATFORM_ADMIN_SETTINGS}
-              aria-label='Platform admin settings'
-              variant='subtle'
-              color='gray'
-            >
-              <GearIcon />
-            </ActionIcon>
+            <Stack gap={0} display={{ base: 'none', sm: 'flex' }} miw={0}>
+              {/* Not every address fits the 16rem column, so the full one stays
+                  reachable on hover. */}
+              <Text size='sm' fw={500} truncate title={profile?.email}>
+                {profile?.email}
+              </Text>
+            </Stack>
           </Group>
         }
       />

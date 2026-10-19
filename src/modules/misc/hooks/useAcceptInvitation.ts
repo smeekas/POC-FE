@@ -13,7 +13,6 @@ export function useAcceptInvitation() {
         reqBody,
       ),
     onSuccess(data) {
-      console.log(data);
       if (data?.status !== 200) {
         toast.success(data?.data?.statusMessage);
       } else {
