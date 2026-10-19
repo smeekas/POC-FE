@@ -1,4 +1,4 @@
-import { Button } from '@radix-ui/themes';
+import { Button } from '@mantine/core';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 
@@ -31,7 +31,7 @@ export const PlatformAdminSettingsPage = () => {
         description='The account you are signed in to the platform console with.'
       />
 
-      <Button color='red' variant='soft' onClick={handleLogout}>
+      <Button color='red' variant='light' onClick={handleLogout}>
         Log out
       </Button>
     </section>

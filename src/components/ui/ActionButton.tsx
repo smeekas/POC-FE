@@ -1,13 +1,16 @@
-import { Button, Flex, Tooltip } from '@radix-ui/themes';
-import type { ComponentProps } from 'react';
+import { Box, Button, Tooltip, type ButtonProps } from '@mantine/core';
+import type { ComponentPropsWithoutRef } from 'react';
 
 import { useFeature, type PlanFeature } from '../../hooks/useFeature';
 import { usePlan } from '../../hooks/usePlan';
 import { getLimitReachedMessage } from '../../utils/plan';
 
-export type ActionButtonProps = ComponentProps<typeof Button> & {
-  feature: PlanFeature;
-};
+/* Mantine's Button is polymorphic, so its props come from `ButtonProps` plus the
+   intrinsic button attributes rather than from `ComponentProps<typeof Button>`. */
+export type ActionButtonProps = ButtonProps &
+  ComponentPropsWithoutRef<'button'> & {
+    feature: PlanFeature;
+  };
 
 /**
  * A button for an action the plan can run out of, such as creating a document or
@@ -32,11 +35,13 @@ export const ActionButton = ({
      around it. The wrapper is focusable to keep the explanation reachable by keyboard. */
   return (
     <Tooltip
-      content={`${getLimitReachedMessage(plan, feature)} Upgrade in settings to add more.`}
+      label={`${getLimitReachedMessage(plan, feature)} Upgrade in settings to add more.`}
+      multiline
+      w={260}
     >
-      <Flex display='inline-flex' tabIndex={0}>
+      <Box display='inline-flex' tabIndex={0}>
         {button}
-      </Flex>
+      </Box>
     </Tooltip>
   );
 };

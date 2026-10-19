@@ -3,26 +3,26 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-3);
-  padding: var(--space-6);
+  gap: var(--mantine-spacing-sm);
+  padding: var(--mantine-spacing-xl);
   text-align: center;
 }
 
 .eyebrow {
-  color: var(--accent-11);
-  font-size: var(--font-size-2);
-  font-weight: var(--font-weight-bold);
+  color: var(--mantine-primary-color-7);
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .title {
-  font-size: var(--font-size-7);
+  font-size: var(--mantine-font-size-3xl);
 }
 
 .description {
   max-width: 28rem;
-  margin-bottom: var(--space-4);
-  color: var(--gray-10);
-  font-size: var(--font-size-2);
+  margin-bottom: var(--mantine-spacing-md);
+  color: var(--mantine-color-dimmed);
+  font-size: var(--mantine-font-size-sm);
 }

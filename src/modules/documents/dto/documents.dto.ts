@@ -4,6 +4,7 @@ import type {
 } from '../../../types/common.types';
 
 export type DocumentItem = {
+  created_by: number;
   id: number;
   title: string;
   user: {

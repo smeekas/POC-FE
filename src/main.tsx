@@ -1,38 +1,30 @@
-import { Theme } from '@radix-ui/themes';
+import { MantineProvider } from '@mantine/core';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { StrictMode } from 'react';
+import { createPortal } from 'react-dom';
 import { createRoot } from 'react-dom/client';
+import { Toaster } from 'react-hot-toast';
 import { BrowserRouter } from 'react-router';
 
 import App from './App.tsx';
 import { queryClient } from './api/queryClient';
 import { ProfileProvider } from './context/ProfileContext';
+import { theme } from './theme';
 
-/* Only the tokens: the app styles its own components, so the Radix Themes component
-   and utility stylesheets would be dead weight. Import `styles.css` instead the day we
-   start rendering Radix Themes components. */
-import '@radix-ui/themes/styles.css';
+import '@mantine/core/styles.css';
 import './index.css';
-import { Toaster } from 'react-hot-toast';
-import { createPortal } from 'react-dom';
 
 /**
- * Radix Themes owns the design tokens for the whole app.
+ * Mantine owns the design tokens for the whole app.
  *
- * Everything renders inside `<Theme>`, so component stylesheets can reach the token
- * variables it defines (`--accent-*`, `--gray-*`, `--space-*`, `--radius-*`,
- * `--shadow-*`, `--font-size-*`) instead of hand rolled ones. Change the look of the
- * app from these props rather than from CSS.
+ * Everything renders inside `<MantineProvider>`, so component stylesheets can reach the
+ * variables it generates from `theme.ts` (`--mantine-color-*`, `--mantine-spacing-*`,
+ * `--mantine-radius-*`, `--mantine-shadow-*`, `--mantine-font-size-*`) instead of hand
+ * rolled ones. Change the look of the app from `theme.ts` rather than from CSS.
  */
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Theme
-      accentColor='purple'
-      grayColor='slate'
-      radius='medium'
-      scaling='100%'
-      appearance='light'
-    >
+    <MantineProvider theme={theme} defaultColorScheme='light'>
       {createPortal(<Toaster position='top-center' />, document.body)}
       <QueryClientProvider client={queryClient}>
         <ProfileProvider>
@@ -41,6 +33,6 @@ createRoot(document.getElementById('root')!).render(
           </BrowserRouter>
         </ProfileProvider>
       </QueryClientProvider>
-    </Theme>
+    </MantineProvider>
   </StrictMode>,
 );

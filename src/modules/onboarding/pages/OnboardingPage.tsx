@@ -1,9 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Button, TextInput } from '@mantine/core';
 import { Controller, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-import { FormField } from '../../../components/form/FormField';
-import { TextInput } from '../../../components/ui/TextInput';
 import {
   CREATE_WORKSPACE_FORM_DEFAULT_VALUES,
   createWorkspaceFormSchema,
@@ -11,7 +10,6 @@ import {
 } from '../../../schema/workspace';
 
 import styles from './Onboarding.module.css';
-import { Button } from '@radix-ui/themes';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { axiosInstance } from '../../../api/axiosInstance';
 import { API_ENDPOINTS } from '../../../constants/endpoints';
@@ -65,21 +63,16 @@ export const OnboardingPage = () => {
             name='name'
             control={control}
             render={({ field, fieldState }) => (
-              <FormField
-                inputId='workspace-name'
+              <TextInput
+                id='workspace-name'
                 label='Workspace name'
+                placeholder='Acme Inc.'
+                autoComplete='organization'
+                disabled={isPending}
+                autoFocus
                 error={fieldState.error?.message}
-              >
-                <TextInput
-                  id='workspace-name'
-                  placeholder='Acme Inc.'
-                  autoComplete='organization'
-                  disabled={isPending}
-                  autoFocus
-                  invalid={fieldState.invalid}
-                  {...field}
-                />
-              </FormField>
+                {...field}
+              />
             )}
           />
 

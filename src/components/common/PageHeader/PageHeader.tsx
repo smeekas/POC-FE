@@ -1,4 +1,4 @@
-import { Heading, Text } from '@radix-ui/themes';
+import { Text, Title } from '@mantine/core';
 
 import styles from './PageHeader.module.css';
 
@@ -14,12 +14,12 @@ export type PageHeaderProps = {
 export const PageHeader = ({ title, description }: PageHeaderProps) => {
   return (
     <header className={styles.header}>
-      <Heading as='h1' size='6' trim='start'>
+      <Title order={1} size='2xl'>
         {title}
-      </Heading>
+      </Title>
 
       {description && (
-        <Text as='p' size='2' color='gray' className={styles.description}>
+        <Text component='p' size='sm' c='dimmed' className={styles.description}>
           {description}
         </Text>
       )}

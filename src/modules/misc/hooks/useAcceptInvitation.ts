@@ -12,6 +12,14 @@ export function useAcceptInvitation() {
         API_ENDPOINTS.MEMBERS.ACCEPT_INVITE,
         reqBody,
       ),
+    onSuccess(data) {
+      console.log(data);
+      if (data?.status !== 200) {
+        toast.success(data?.data?.statusMessage);
+      } else {
+        toast.success(data?.data?.statusMessage);
+      }
+    },
     onError(error) {
       toast.error(getApiErrorMessage(error));
     },

@@ -1,18 +1,19 @@
 import {
   Badge,
   Button,
-  Dialog,
-  Flex,
-  Heading,
+  Group,
+  Input,
+  Modal,
   SegmentedControl,
-} from '@radix-ui/themes';
+  Stack,
+  TextInput,
+  Title,
+} from '@mantine/core';
 
 import DataTable from '../../../components/common/DataTable/DataTable';
 import { getInvitedMemberColumns } from '../columns/invitedMembers.columns';
 import { useGetInvitedMembers } from '../hooks/useGetInvitedMembers';
 import { PlusIcon } from '@radix-ui/react-icons';
-import { FormField } from '../../../components/form/FormField';
-import { TextInput } from '../../../components/ui/TextInput';
 import { UserRole } from '../../../constants/role';
 import {
   INVITE_FORM_DEFAULT_VALUES,
@@ -123,109 +124,102 @@ export const InvitedMembersTable = () => {
     invitationResponse?.data.data.url || statusUpdateResponse?.data.data?.url;
   return (
     <>
-      <Flex asChild direction='column' gap='3' mt='6'>
-        <section>
-          <Flex justify='between'>
-            <Flex align='center' gap='2'>
-              <Heading as='h2' size='4' trim='start'>
-                Pending invitations
-              </Heading>
+      <Stack component='section' gap='sm' mt='xl'>
+        <Group justify='space-between'>
+          <Group align='center' gap='xs'>
+            <Title order={2} size='lg'>
+              Pending invitations
+            </Title>
 
-              <Badge radius='full' color='gray'>
-                {invitations.length}
-              </Badge>
-            </Flex>
-            <Dialog.Root open={open} onOpenChange={handleOpenChange}>
-              <Dialog.Trigger>
-                <ActionButton feature='user'>
-                  <PlusIcon /> Invite
-                </ActionButton>
-              </Dialog.Trigger>
-              <Dialog.Content maxWidth='450px'>
-                <Dialog.Title>Invite user</Dialog.Title>
+            <Badge radius='full' color='gray'>
+              {invitations.length}
+            </Badge>
+          </Group>
 
-                {/* `noValidate` hands validation to zod, so the browser does not pop its
-                    own bubble over the field error. */}
-                <form onSubmit={onSubmit} noValidate>
-                  <Flex gap={'2'} direction={'column'}>
-                    <Controller
-                      name='email'
-                      control={control}
-                      render={({ field, fieldState }) => (
-                        <FormField
-                          inputId='invite-email'
-                          label='Email'
-                          error={fieldState.error?.message}
-                        >
-                          <TextInput
-                            id='invite-email'
-                            type='email'
-                            placeholder='abc@org.com'
-                            autoComplete='email'
-                            invalid={fieldState.invalid}
-                            {...field}
-                          />
-                        </FormField>
-                      )}
+          <ActionButton
+            feature='user'
+            leftSection={<PlusIcon />}
+            onClick={() => handleOpenChange(true)}
+          >
+            Invite
+          </ActionButton>
+
+          <Modal
+            opened={open}
+            onClose={() => handleOpenChange(false)}
+            title='Invite user'
+            size='450px'
+            centered
+          >
+            {/* `noValidate` hands validation to zod, so the browser does not pop its
+                own bubble over the field error. */}
+            <form onSubmit={onSubmit} noValidate>
+              <Stack gap='xs'>
+                <Controller
+                  name='email'
+                  control={control}
+                  render={({ field, fieldState }) => (
+                    <TextInput
+                      id='invite-email'
+                      label='Email'
+                      type='email'
+                      placeholder='abc@org.com'
+                      autoComplete='email'
+                      error={fieldState.error?.message}
+                      {...field}
                     />
-                    <Controller
-                      name='role'
-                      control={control}
-                      render={({ field, fieldState }) => (
-                        <FormField
-                          inputId='invite-role'
-                          label='Role'
-                          error={fieldState.error?.message}
-                        >
-                          <SegmentedControl.Root
-                            id='invite-role'
-                            value={field.value}
-                            onValueChange={field.onChange}
-                          >
-                            <SegmentedControl.Item value={UserRole.MEMBER}>
-                              MEMBER
-                            </SegmentedControl.Item>
-                            <SegmentedControl.Item value={UserRole.ADMIN}>
-                              ADMIN
-                            </SegmentedControl.Item>
-                          </SegmentedControl.Root>
-                        </FormField>
-                      )}
-                    />
+                  )}
+                />
 
-                    {/* Two roles, one of them always picked: a segmented control says that
-                better than a radio list does. */}
-                  </Flex>
-                  <Flex gap='3' mt='4' justify='end'>
-                    <Dialog.Close>
-                      <Button
-                        disabled={isPending}
-                        type='button'
-                        variant='soft'
-                        color='gray'
-                      >
-                        Cancel
-                      </Button>
-                    </Dialog.Close>
-                    <Button
-                      type='submit'
-                      loading={isPending}
-                      disabled={isSuccess}
+                {/* Two roles, one of them always picked: a segmented control says that
+                    better than a radio list does. */}
+                <Controller
+                  name='role'
+                  control={control}
+                  render={({ field, fieldState }) => (
+                    <Input.Wrapper
+                      id='invite-role'
+                      label='Role'
+                      error={fieldState.error?.message}
                     >
-                      send
-                    </Button>
-                  </Flex>
-                </form>
-              </Dialog.Content>
-            </Dialog.Root>
-          </Flex>
-          <DataTable
-            loading={isLoading || isRefetching}
-            columns={columns}
-            row={invitations}
-          />
-        </section>
-      </Flex>
+                      <SegmentedControl
+                        id='invite-role'
+                        fullWidth
+                        value={field.value}
+                        onChange={field.onChange}
+                        data={[
+                          { label: 'MEMBER', value: UserRole.MEMBER },
+                          { label: 'ADMIN', value: UserRole.ADMIN },
+                        ]}
+                      />
+                    </Input.Wrapper>
+                  )}
+                />
+              </Stack>
+
+              <Group gap='sm' mt='md' justify='flex-end'>
+                <Button
+                  disabled={isPending}
+                  type='button'
+                  variant='default'
+                  onClick={() => handleOpenChange(false)}
+                >
+                  Cancel
+                </Button>
+                <Button type='submit' loading={isPending} disabled={isSuccess}>
+                  send
+                </Button>
+              </Group>
+            </form>
+          </Modal>
+        </Group>
+
+        <DataTable
+          loading={isLoading || isRefetching}
+          columns={columns}
+          row={invitations}
+        />
+      </Stack>
       <ConfirmDialog
         onOpenChange={(open) => {
           if (!open) handleRevokeClose();

@@ -1,9 +1,10 @@
-import { Button, Dialog, Flex } from '@radix-ui/themes';
-import { useState } from 'react';
-import { TextInput } from '../../../components/ui/TextInput';
+import { Button, Group, Modal, TextInput } from '@mantine/core';
 import { CopyIcon } from '@radix-ui/react-icons';
-import styles from './copyBotton.module.css';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
+
+import styles from './copyButton.module.css';
+
 type CopyInvitationLinkProps = {
   link: string | undefined;
 };
@@ -22,38 +23,38 @@ function CopyInvitationLink({ link }: CopyInvitationLinkProps) {
     }
   }
   return (
-    <Dialog.Root
-      open={open}
-      onOpenChange={(open) => {
-        if (!open) setOpen(false);
-      }}
+    <Modal
+      opened={open}
+      onClose={() => setOpen(false)}
+      title='Copy invitation link'
+      size='450px'
+      centered
     >
-      <Dialog.Content maxWidth='450px'>
-        <Dialog.Title>Copy invitation link</Dialog.Title>
+      <Group gap={0} wrap='nowrap'>
+        <TextInput
+          value={linkWithDomain}
+          disabled
+          classNames={{
+            root: styles['copy-root'],
+            input: styles['copy-input'],
+          }}
+        />
+        <Button
+          size='md'
+          className={styles['copy-button']}
+          aria-label='Copy invitation link'
+          onClick={copyText}
+        >
+          <CopyIcon />
+        </Button>
+      </Group>
 
-        <Flex>
-          <TextInput
-            value={linkWithDomain}
-            disabled
-            className={styles['copy-input']}
-          />
-          <Button
-            size={'3'}
-            className={styles['copy-button']}
-            onClick={copyText}
-          >
-            <CopyIcon />
-          </Button>
-        </Flex>
-        <Flex gap='3' mt='4' justify='end'>
-          <Dialog.Close>
-            <Button type='button' variant='soft' color='gray'>
-              Close
-            </Button>
-          </Dialog.Close>
-        </Flex>
-      </Dialog.Content>
-    </Dialog.Root>
+      <Group gap='sm' mt='md' justify='flex-end'>
+        <Button type='button' variant='default' onClick={() => setOpen(false)}>
+          Close
+        </Button>
+      </Group>
+    </Modal>
   );
 }
 

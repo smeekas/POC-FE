@@ -1,4 +1,4 @@
-import { Spinner } from '../../ui/Spinner';
+import { Loader } from '@mantine/core';
 
 import styles from './FullPageLoader.module.css';
 
@@ -10,7 +10,7 @@ export type FullPageLoaderProps = {
 export const FullPageLoader = ({ message }: FullPageLoaderProps) => {
   return (
     <div className={styles.loader} role='status' aria-live='polite'>
-      <Spinner size='large' />
+      <Loader size='lg' />
       {message && <p className={styles.message}>{message}</p>}
     </div>
   );

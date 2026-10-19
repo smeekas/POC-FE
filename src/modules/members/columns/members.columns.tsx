@@ -1,4 +1,4 @@
-import { Badge } from '@radix-ui/themes';
+import { Badge } from '@mantine/core';
 import dayjs from 'dayjs';
 
 import type {

@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { ROUTE_PATHS } from '../../../constants/routePaths';
 
 import styles from './PlaceholderPage.module.css';
-import { Button } from '@radix-ui/themes';
+import { Button } from '@mantine/core';
 
 /** Shown for any URL the route tree does not recognise. */
 export const NotFoundPage = () => {
@@ -15,8 +15,8 @@ export const NotFoundPage = () => {
         The link may be out of date, or the page may have moved.
       </p>
 
-      <Button asChild>
-        <Link to={ROUTE_PATHS.ROOT}>Take me home</Link>
+      <Button component={Link} to={ROUTE_PATHS.ROOT}>
+        Take me home
       </Button>
     </section>
   );

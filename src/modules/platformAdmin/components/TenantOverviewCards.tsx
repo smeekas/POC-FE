@@ -3,7 +3,7 @@ import {
   HomeIcon,
   RocketIcon,
 } from '@radix-ui/react-icons';
-import { Grid } from '@radix-ui/themes';
+import { SimpleGrid } from '@mantine/core';
 
 import { StatCard } from '../../../components/ui/StatCard';
 import { useGetOverview } from '../hooks/useGetOverview';
@@ -26,7 +26,7 @@ export const TenantOverviewCards = () => {
   const overview = data?.data?.data;
 
   return (
-    <Grid columns={{ initial: '1', sm: '3' }} gap='4' mb='5'>
+    <SimpleGrid cols={{ base: 1, sm: 3 }} spacing='md' mb='lg'>
       <StatCard
         label='Tenants'
         value={overview?.tenantCount}
@@ -53,7 +53,7 @@ export const TenantOverviewCards = () => {
         icon={<ExclamationTriangleIcon />}
         color={overview?.atLimit ? 'red' : 'gray'}
       />
-    </Grid>
+    </SimpleGrid>
   );
 };
 

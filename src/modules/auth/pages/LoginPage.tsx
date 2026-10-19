@@ -1,11 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Alert, Button, PasswordInput, TextInput } from '@mantine/core';
 import { Controller, useForm } from 'react-hook-form';
 import { Link } from 'react-router';
 
-import { FormField } from '../../../components/form/FormField';
-import { PasswordInput } from '../../../components/form/PasswordInput';
-import { Alert } from '../../../components/ui/Alert';
-import { TextInput } from '../../../components/ui/TextInput';
 import { ROUTE_PATHS } from '../../../constants/routePaths';
 import {
   LOGIN_FORM_DEFAULT_VALUES,
@@ -17,7 +14,6 @@ import { useLoginMutation } from '../hooks/useLoginMutation';
 import { AuthFormHeader } from '../components/AuthFormHeader';
 
 import styles from './AuthPage.module.css';
-import { Button } from '@radix-ui/themes';
 
 /** Sign in screen: email and password, then straight to the dashboard. */
 export const LoginPage = () => {
@@ -41,7 +37,9 @@ export const LoginPage = () => {
       />
 
       {isError ? (
-        <Alert severity='error'>{getApiErrorMessage(error)}</Alert>
+        <Alert color='red' role='alert'>
+          {getApiErrorMessage(error)}
+        </Alert>
       ) : null}
 
       <form className={styles.form} onSubmit={onSubmit} noValidate>
@@ -49,20 +47,15 @@ export const LoginPage = () => {
           name='email'
           control={control}
           render={({ field, fieldState }) => (
-            <FormField
-              inputId='login-email'
+            <TextInput
+              id='login-email'
               label='Email'
+              type='email'
+              placeholder='you@company.com'
+              autoComplete='email'
               error={fieldState.error?.message}
-            >
-              <TextInput
-                id='login-email'
-                type='email'
-                placeholder='you@company.com'
-                autoComplete='email'
-                invalid={fieldState.invalid}
-                {...field}
-              />
-            </FormField>
+              {...field}
+            />
           )}
         />
 
@@ -70,22 +63,14 @@ export const LoginPage = () => {
           name='password'
           control={control}
           render={({ field, fieldState }) => (
-            <FormField
-              inputId='login-password'
+            <PasswordInput
+              id='login-password'
               label='Password'
+              placeholder='Enter your password'
+              autoComplete='current-password'
               error={fieldState.error?.message}
-            >
-              <PasswordInput
-                id='login-password'
-                name={field.name}
-                value={field.value}
-                placeholder='Enter your password'
-                autoComplete='current-password'
-                invalid={fieldState.invalid}
-                onChange={field.onChange}
-                onBlur={field.onBlur}
-              />
-            </FormField>
+              {...field}
+            />
           )}
         />
 

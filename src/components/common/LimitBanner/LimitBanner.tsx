@@ -1,4 +1,4 @@
-import { Button, Flex, Text } from '@radix-ui/themes';
+import { Button, Group, Text } from '@mantine/core';
 import { NavLink } from 'react-router';
 
 import { ROUTE_PATHS } from '../../../constants/routePaths';
@@ -17,23 +17,29 @@ export const LimitBanner = ({ feature }: LimitBannerProps) => {
   const plan = usePlan();
 
   return (
-    <Flex
+    <Group
       className={styles.banner}
       align='center'
-      justify='between'
-      gap='3'
+      justify='space-between'
+      gap='sm'
       wrap='wrap'
-      px='4'
-      py='3'
-      mb='3'
+      px='md'
+      py='sm'
+      mb='sm'
     >
-      <Text size='2' weight='medium'>
+      <Text size='sm' fw={500}>
         {getLimitReachedMessage(plan, feature)}
       </Text>
 
-      <Button asChild className={styles.cta} size='2' variant='outline'>
-        <NavLink to={ROUTE_PATHS.PROFILE_SETTINGS}>Upgrade in settings</NavLink>
+      <Button
+        component={NavLink}
+        to={ROUTE_PATHS.PROFILE_SETTINGS}
+        className={styles.cta}
+        size='sm'
+        variant='white'
+      >
+        Upgrade in settings
       </Button>
-    </Flex>
+    </Group>
   );
 };

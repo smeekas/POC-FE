@@ -1,13 +1,13 @@
-/* Radix Themes has no surface props, so the sidebar chrome stays here. The breakpoint
-   is Radix's `sm`, matching the responsive props on the component itself. */
+/* Mantine has no surface props, so the sidebar chrome stays here. The breakpoint is
+   Mantine's `sm`, matching the responsive props on the component itself. */
 .sidebar {
-  border-bottom: 1px solid var(--gray-5);
-  background: var(--gray-2);
+  border-bottom: 1px solid var(--mantine-color-gray-3);
+  background: var(--mantine-color-gray-0);
 }
 
-@media (min-width: 768px) {
+@media (min-width: $mantine-breakpoint-sm) {
   .sidebar {
-    border-right: 1px solid var(--gray-5);
+    border-right: 1px solid var(--mantine-color-gray-3);
     border-bottom: none;
   }
 }
@@ -17,10 +17,10 @@
 /* Caption, not a row: it keeps the rows' left edge but drops to the faintest readable
    grey with wide tracking, so it is never mistaken for something clickable. */
 .navLabel {
-  padding: 0 var(--space-3);
-  color: var(--gray-9);
-  font-size: var(--font-size-1);
-  font-weight: var(--font-weight-medium);
+  padding: 0 var(--mantine-spacing-sm);
+  color: var(--mantine-color-gray-6);
+  font-size: var(--mantine-font-size-xs);
+  font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: default;
@@ -32,13 +32,13 @@
 .navLink {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-3);
-  color: var(--gray-11);
-  font-size: var(--font-size-2);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-2);
+  gap: var(--mantine-spacing-xs);
+  padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
+  border-radius: var(--mantine-radius-md);
+  color: var(--mantine-color-gray-7);
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 500;
+  line-height: 20px;
   transition:
     background var(--transition-fast),
     color var(--transition-fast);
@@ -46,18 +46,18 @@
 
 /* The global link rule underlines on hover, which a menu row should not do. */
 .navLink:hover {
-  background: var(--gray-4);
-  color: var(--gray-12);
+  background: var(--mantine-color-gray-1);
+  color: var(--mantine-color-text);
   text-decoration: none;
 }
 
 .navLink:active {
-  background: var(--gray-5);
+  background: var(--mantine-color-gray-2);
 }
 
 .navLinkActive,
 .navLinkActive:hover {
-  background: var(--accent-4);
-  color: var(--accent-11);
-  font-weight: var(--font-weight-bold);
+  background: var(--mantine-primary-color-light);
+  color: var(--mantine-primary-color-light-color);
+  font-weight: 700;
 }

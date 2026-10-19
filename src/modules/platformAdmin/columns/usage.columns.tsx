@@ -1,4 +1,4 @@
-import { Badge } from '@radix-ui/themes';
+import { Badge } from '@mantine/core';
 
 import type { DataTableColumn } from '../../../components/common/DataTable/DataTable';
 import { ProgressBar } from '../../../components/ui/ProgressBar';
@@ -48,7 +48,7 @@ export const getUsageColumns = (): DataTableColumn<UsageItem>[] => [
     name: 'Plan',
     identifier: 'plan',
     render: (usage) => (
-      <Badge variant='soft' color='gray'>
+      <Badge variant='light' color='gray'>
         {usage.plan.name}
       </Badge>
     ),

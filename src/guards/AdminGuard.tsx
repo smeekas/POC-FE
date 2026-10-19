@@ -6,8 +6,9 @@ import { ROUTE_PATHS } from '../constants/routePaths';
 
 type AdminGuardProps = {
   children: ReactNode;
+  navigate?: boolean;
 };
-function AdminGuard({ children }: AdminGuardProps) {
+function AdminGuard({ children, navigate = true }: AdminGuardProps) {
   const profile = useProfile();
 
   if (
@@ -16,7 +17,9 @@ function AdminGuard({ children }: AdminGuardProps) {
     profile.profile?.role === UserRole.ADMIN
   )
     return children;
-  return <Navigate to={ROUTE_PATHS.ROOT} />;
+
+  if (navigate) return <Navigate to={ROUTE_PATHS.ROOT} />;
+  return null;
 }
 
 export default AdminGuard;

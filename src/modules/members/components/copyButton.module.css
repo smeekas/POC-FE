@@ -1,0 +1,16 @@
+/* The field and the copy button read as one control, so the edges where they meet are
+   squared off. `copy-input` is applied through Mantine's Styles API so it lands on the
+   inner `input` rather than on the wrapper Mantine puts around it. */
+.copy-root {
+  flex: 1;
+}
+
+.copy-input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.copy-button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}

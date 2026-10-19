@@ -18,10 +18,13 @@ export const useChangePlan = () => {
 
   return useMutation({
     mutationFn: (reqBody: { planId: number }) =>
-      axiosInstance.post<APIResponse<null>>(API_ENDPOINTS.CHANGE_PLAN, reqBody),
+      axiosInstance.post<APIResponse<{ name: string }>>(
+        API_ENDPOINTS.CHANGE_PLAN,
+        reqBody,
+      ),
     onSuccess: async (response) => {
-      if (response.status === 204) {
-        toast.success(response.data.statusMessage);
+      if (response.status === 201) {
+        toast.success(`Plan changed to ${response.data.data?.name}`);
         await queryClient.invalidateQueries({
           queryKey: [QueryKey.PROFILE_CONTEXT],
         });

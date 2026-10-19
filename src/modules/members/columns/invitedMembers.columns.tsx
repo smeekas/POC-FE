@@ -1,4 +1,4 @@
-import { Badge, DropdownMenu, IconButton } from '@radix-ui/themes';
+import { ActionIcon, Badge, Menu } from '@mantine/core';
 import dayjs from 'dayjs';
 
 import type { DataTableColumn } from '../../../components/common/DataTable/DataTable';
@@ -49,26 +49,24 @@ export const getInvitedMemberColumns = ({
     name: '',
     identifier: 'id',
     render: (invite) => (
-      <DropdownMenu.Root>
-        <DropdownMenu.Trigger>
-          <IconButton
-            variant='ghost'
+      <Menu position='bottom-end' withinPortal>
+        <Menu.Target>
+          <ActionIcon
+            variant='subtle'
             color='gray'
             aria-label={`Actions for ${invite.email}`}
           >
             <MoreVerticalIcon />
-          </IconButton>
-        </DropdownMenu.Trigger>
+          </ActionIcon>
+        </Menu.Target>
 
-        <DropdownMenu.Content variant='soft'>
-          <DropdownMenu.Item onSelect={() => onResend(invite)}>
-            Resend
-          </DropdownMenu.Item>
-          <DropdownMenu.Item color='red' onSelect={() => onRevoke(invite)}>
+        <Menu.Dropdown>
+          <Menu.Item onClick={() => onResend(invite)}>Resend</Menu.Item>
+          <Menu.Item color='red' onClick={() => onRevoke(invite)}>
             Revoke
-          </DropdownMenu.Item>
-        </DropdownMenu.Content>
-      </DropdownMenu.Root>
+          </Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
     ),
   },
 ];

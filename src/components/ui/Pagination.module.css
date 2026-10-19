@@ -1,8 +1,0 @@
-/* Matches the width of a page button so the row does not shift as gaps come and go. */
-.gap {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: var(--space-5);
-  user-select: none;
-}

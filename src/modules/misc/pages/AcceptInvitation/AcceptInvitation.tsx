@@ -1,14 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@radix-ui/themes';
+import { Alert, Button, PasswordInput } from '@mantine/core';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Navigate, useNavigate, useSearchParams } from 'react-router';
 
 import { ConfirmDialog } from '../../../../components/common/ConfirmDialog/ConfirmDialog';
 import { AuthFormHeader } from '../../../auth/components/AuthFormHeader';
-import { FormField } from '../../../../components/form/FormField';
-import { PasswordInput } from '../../../../components/form/PasswordInput';
-import { Alert } from '../../../../components/ui/Alert';
 import { ROUTE_PATHS } from '../../../../constants/routePaths';
 import {
   ACCEPT_INVITATION_FORM_DEFAULT_VALUES,
@@ -81,7 +78,9 @@ function AcceptInvitation() {
         />
 
         {isError ? (
-          <Alert severity='error'>{getApiErrorMessage(error)}</Alert>
+          <Alert color='red' role='alert'>
+            {getApiErrorMessage(error)}
+          </Alert>
         ) : null}
 
         <form className={styles.form} onSubmit={onSubmit} noValidate>
@@ -89,23 +88,15 @@ function AcceptInvitation() {
             name='password'
             control={control}
             render={({ field, fieldState }) => (
-              <FormField
-                inputId='accept-password'
+              <PasswordInput
+                id='accept-password'
                 label='Password'
+                placeholder='Create a password'
+                autoComplete='new-password'
+                description={`At least ${MINIMUM_PASSWORD_LENGTH} characters, with a letter and a number.`}
                 error={fieldState.error?.message}
-                hint={`At least ${MINIMUM_PASSWORD_LENGTH} characters, with a letter and a number.`}
-              >
-                <PasswordInput
-                  id='accept-password'
-                  name={field.name}
-                  value={field.value}
-                  placeholder='Create a password'
-                  autoComplete='new-password'
-                  invalid={fieldState.invalid}
-                  onChange={field.onChange}
-                  onBlur={field.onBlur}
-                />
-              </FormField>
+                {...field}
+              />
             )}
           />
 
@@ -113,22 +104,14 @@ function AcceptInvitation() {
             name='confirmPassword'
             control={control}
             render={({ field, fieldState }) => (
-              <FormField
-                inputId='accept-confirm-password'
+              <PasswordInput
+                id='accept-confirm-password'
                 label='Confirm password'
+                placeholder='Repeat your password'
+                autoComplete='new-password'
                 error={fieldState.error?.message}
-              >
-                <PasswordInput
-                  id='accept-confirm-password'
-                  name={field.name}
-                  value={field.value}
-                  placeholder='Repeat your password'
-                  autoComplete='new-password'
-                  invalid={fieldState.invalid}
-                  onChange={field.onChange}
-                  onBlur={field.onBlur}
-                />
-              </FormField>
+                {...field}
+              />
             )}
           />
 
