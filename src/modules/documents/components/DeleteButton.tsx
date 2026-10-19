@@ -1,5 +1,5 @@
 import { TrashIcon } from '@radix-ui/react-icons';
-import { Button } from '@radix-ui/themes';
+import { Button } from '@mantine/core';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router';
@@ -8,6 +8,7 @@ import ConfirmDialog from '../../../components/common/ConfirmDialog/ConfirmDialo
 import { ROUTE_PATHS } from '../../../constants/routePaths';
 import { getApiErrorMessage } from '../../../utils/error';
 import useDeleteDocument from '../hooks/useDeleteDocument';
+import { withViewerControl } from '../../../hoc/withViewerControl';
 
 export type DeleteButtonProps = {
   docId: number;
@@ -22,7 +23,10 @@ export type DeleteButtonProps = {
  * Drawn as a quiet red ghost rather than a third solid button, because a destructive
  * action should be findable without competing with the one the page is actually for.
  */
-export const DeleteButton = ({ docId, disabled = false }: DeleteButtonProps) => {
+export const DeleteButton = ({
+  docId,
+  disabled = false,
+}: DeleteButtonProps) => {
   const navigate = useNavigate();
   const [confirming, setConfirming] = useState(false);
   const { mutate, isPending } = useDeleteDocument();
@@ -45,12 +49,12 @@ export const DeleteButton = ({ docId, disabled = false }: DeleteButtonProps) => 
     <>
       <Button
         type='button'
-        variant='ghost'
+        variant='subtle'
         color='red'
+        leftSection={<TrashIcon width={16} height={16} />}
         disabled={disabled || isPending}
         onClick={() => setConfirming(true)}
       >
-        <TrashIcon width={16} height={16} />
         Delete
       </Button>
 
@@ -69,4 +73,5 @@ export const DeleteButton = ({ docId, disabled = false }: DeleteButtonProps) => 
   );
 };
 
-export default DeleteButton;
+const ViewerControlledButton = withViewerControl(DeleteButton);
+export default ViewerControlledButton;

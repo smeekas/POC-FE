@@ -1,4 +1,4 @@
-import { Badge, Flex } from '@radix-ui/themes';
+import { Badge, Group } from '@mantine/core';
 
 import type {
   DataTableColumn,
@@ -45,16 +45,16 @@ export const getDocumentColumns = (
       sort: true,
       render: (document) =>
         document.tags?.length ? (
-          <Flex gap='1' wrap='wrap'>
+          <Group gap='2xs' wrap='wrap'>
             {/* Outlined rather than filled: a soft grey chip is the same wash as the row
               hover, so the tag disappeared under the cursor. A border holds its shape
               against whatever the row is doing. */}
             {document.tags.map((tag) => (
-              <Badge key={tag} color='gray' variant='outline' highContrast>
+              <Badge key={tag} color='gray' variant='outline'>
                 {tag}
               </Badge>
             ))}
-          </Flex>
+          </Group>
         ) : (
           EMPTY_VALUE
         ),

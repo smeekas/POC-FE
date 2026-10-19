@@ -1,15 +1,19 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Badge, Button, Flex, Text } from '@radix-ui/themes';
+import {
+  Alert,
+  Badge,
+  Button,
+  Group,
+  Loader,
+  Text,
+  Textarea,
+  TextInput,
+} from '@mantine/core';
 import { Controller, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router';
 
 import { PageHeader } from '../../../components/common/PageHeader/PageHeader';
-import { FormField } from '../../../components/form/FormField';
-import { Alert } from '../../../components/ui/Alert';
-import { Spinner } from '../../../components/ui/Spinner';
-import { TextArea } from '../../../components/ui/TextArea';
-import { TextInput } from '../../../components/ui/TextInput';
 import { ROUTE_PATHS } from '../../../constants/routePaths';
 import {
   CREATE_DOCUMENT_FORM_DEFAULT_VALUES,
@@ -25,6 +29,7 @@ import useUpdateDocument from '../hooks/useUpdateDocument';
 import styles from './CreateDocumentPage.module.css';
 import { HasTagFeature } from '../../../guards/HasTagsFeature';
 import { usePlan } from '../../../hooks/usePlan';
+import { useIsViewer } from '../hooks/useIsViewer';
 
 /**
  * The one form behind both creating and editing a document.
@@ -38,16 +43,15 @@ export const CreateDocumentPage = () => {
   const { tags: hasTags } = usePlan();
   const docId = !id ? null : +id;
   const editMode = !!docId;
-
   const { data: docData, isLoading: isDocumentLoading } = useGetDocument(docId);
   const doc = docData?.data?.data;
-
   const createDocument = useCreateDocument();
   const updateDocument = useUpdateDocument(docId);
   const { isPending, isError, error } = editMode
     ? updateDocument
     : createDocument;
-
+  const isDisabled = useIsViewer(doc?.created_by);
+  const isSaveBtnDisabled = editMode && isDisabled;
   /* `values` rather than `defaultValues` for the document: the fetch resolves after the
      first render, and only `values` re-seeds the form when it lands. */
   const { control, handleSubmit, watch } = useForm<CreateDocumentFormValues>({
@@ -94,50 +98,47 @@ export const CreateDocumentPage = () => {
       },
     );
   });
-
+  const title = isSaveBtnDisabled ? 'View Document' : 'Edit document';
   return (
     <section>
       <PageHeader
-        title={editMode ? 'Edit document' : 'Create document'}
+        title={editMode ? title : 'Create document'}
         description={
           editMode
-            ? 'Change the title or what this document holds.'
+            ? isSaveBtnDisabled
+              ? ''
+              : 'Change the title or what this document holds.'
             : 'Give the document a title and say what it holds.'
         }
       />
 
       {isError ? (
-        <Alert severity='error'>{getApiErrorMessage(error)}</Alert>
+        <Alert color='red' role='alert'>
+          {getApiErrorMessage(error)}
+        </Alert>
       ) : null}
 
       {isDocumentLoading ? (
-        <Flex align='center' gap='2'>
-          <Spinner size='small' />
-          <Text size='2' color='gray'>
+        <Group align='center' gap='xs'>
+          <Loader size='xs' />
+          <Text size='sm' c='dimmed'>
             Loading document...
           </Text>
-        </Flex>
+        </Group>
       ) : (
         <form className={styles.form} onSubmit={onSubmit} noValidate>
           <Controller
             name='title'
             control={control}
             render={({ field, fieldState }) => (
-              <FormField
-                inputId='document-title'
+              <TextInput
+                id='document-title'
                 label='Title'
+                disabled={isSaveBtnDisabled}
+                placeholder='Quarterly report'
                 error={fieldState.error?.message}
-              >
-                <TextInput
-                  id='document-title'
-                  name={field.name}
-                  value={field.value}
-                  placeholder='Quarterly report'
-                  invalid={fieldState.invalid}
-                  onChange={field.onChange}
-                  onBlur={field.onBlur}
-                />
-              </FormField>
+                {...field}
+              />
             )}
           />
 
@@ -145,22 +146,15 @@ export const CreateDocumentPage = () => {
             name='description'
             control={control}
             render={({ field, fieldState }) => (
-              <FormField
-                inputId='document-description'
+              <Textarea
+                id='document-description'
                 label='Description'
+                disabled={isSaveBtnDisabled}
+                rows={6}
+                placeholder='What is this document about?'
                 error={fieldState.error?.message}
-              >
-                <TextArea
-                  id='document-description'
-                  name={field.name}
-                  value={field.value}
-                  rows={6}
-                  placeholder='What is this document about?'
-                  invalid={fieldState.invalid}
-                  onChange={field.onChange}
-                  onBlur={field.onBlur}
-                />
-              </FormField>
+                {...field}
+              />
             )}
           />
           <HasTagFeature>
@@ -168,24 +162,17 @@ export const CreateDocumentPage = () => {
               name='tags'
               control={control}
               render={({ field, fieldState }) => (
-                <FormField
-                  inputId='document-tag'
+                <TextInput
+                  id='document-tag'
                   label='Tags'
+                  disabled={isSaveBtnDisabled}
+                  placeholder='comma separated tags'
                   error={fieldState.error?.message}
-                >
-                  <TextInput
-                    id='document-tag'
-                    name={field.name}
-                    value={field.value}
-                    placeholder='comma separated tags'
-                    invalid={fieldState.invalid}
-                    onChange={field.onChange}
-                    onBlur={field.onBlur}
-                  />
-                </FormField>
+                  {...field}
+                />
               )}
             />
-            <Flex gap='1' wrap='wrap'>
+            <Group gap='2xs' wrap='wrap'>
               {allTags.map((item) => {
                 return (
                   <Badge key={item} variant='outline'>
@@ -193,18 +180,21 @@ export const CreateDocumentPage = () => {
                   </Badge>
                 );
               })}
-            </Flex>
+            </Group>
           </HasTagFeature>
           <div className={styles.actions}>
             <div className={styles.primaryActions}>
-              <Button type='submit' loading={isPending}>
+              <Button
+                type='submit'
+                loading={isPending}
+                disabled={isSaveBtnDisabled}
+              >
                 Save
               </Button>
 
               <Button
                 type='button'
-                variant='soft'
-                color='gray'
+                variant='default'
                 disabled={isPending}
                 onClick={() => navigate(ROUTE_PATHS.DOCUMENTS)}
               >
@@ -216,8 +206,12 @@ export const CreateDocumentPage = () => {
                 undoes the page instead of completing it, so it should not sit where a
                 hand aiming for Save can land on it. Only an existing document has
                 anything to delete. */}
-            {docId !== null && (
-              <DeleteButton docId={docId} disabled={isPending} />
+            {docId !== null && doc && (
+              <DeleteButton
+                id={doc.created_by}
+                docId={docId}
+                disabled={isPending}
+              />
             )}
           </div>
         </form>

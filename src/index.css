@@ -1,33 +1,22 @@
 /**
  * The only global stylesheet in the app.
  *
- * Colour, spacing, radius, shadow and type scales all come from Radix Themes, so this
- * file carries nothing but the page level reset, the handful of element defaults Radix
- * leaves alone, and the few tokens Radix does not ship. Component styles live in a
- * `.module.css` next to their component.
+ * Colour, spacing, radius, shadow and type scales all come from Mantine (see
+ * `src/theme.ts`), so this file carries nothing but the page level sizing, the handful
+ * of element defaults Mantine leaves alone, and the few tokens Mantine does not ship.
+ * Component styles live in a `.module.css` next to their component.
  */
 
 :root {
-  /* Motion — the one scale Radix Themes does not expose as tokens. */
+  /* Motion — the one scale Mantine does not expose as tokens. */
   --transition-fast: 120ms ease;
   --transition-base: 200ms ease;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
 html,
 body,
-#root,
-.radix-themes {
+#root {
   height: 100%;
-}
-
-body {
-  margin: 0;
 }
 
 h1,
@@ -35,10 +24,10 @@ h2,
 h3,
 h4 {
   margin: 0;
-  color: var(--gray-12);
-  font-weight: var(--font-weight-bold);
+  color: var(--mantine-color-text);
+  font-weight: 700;
   line-height: 1.25;
-  letter-spacing: var(--letter-spacing-4);
+  letter-spacing: -0.0025em;
 }
 
 p {
@@ -46,18 +35,18 @@ p {
 }
 
 a {
-  color: var(--accent-11);
-  font-weight: var(--font-weight-medium);
+  color: var(--mantine-color-anchor);
+  font-weight: 500;
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
 a:hover {
-  color: var(--accent-12);
+  color: var(--mantine-primary-color-9);
   text-decoration: underline;
 }
 
 :focus-visible {
-  outline: 2px solid var(--focus-8);
+  outline: 2px solid var(--mantine-primary-color-filled);
   outline-offset: 2px;
 }

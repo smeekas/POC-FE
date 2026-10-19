@@ -1,5 +1,14 @@
+import {
+  ActionIcon,
+  Avatar,
+  Badge,
+  Box,
+  Group,
+  Stack,
+  Text,
+  useMantineTheme,
+} from '@mantine/core';
 import { GearIcon } from '@radix-ui/react-icons';
-import { Avatar, Badge, Box, Button, Flex, Grid, Text } from '@radix-ui/themes';
 import { NavLink, Outlet } from 'react-router';
 
 import { Sidebar } from '../components/common/Sidebar/Sidebar';
@@ -21,6 +30,9 @@ const NAV_ITEMS = [
 /** Signed in shell: tenant and navigation on the left, the routed page on the right. */
 export const AppLayout = () => {
   const { profile } = useTenantUser();
+  /* Avatar falls back to grey rather than the accent, so the brand mark has to name the
+     theme's primary colour explicitly for it to follow `theme.primaryColor`. */
+  const { primaryColor } = useMantineTheme();
 
   /* Filtered here rather than inside the sidebar: who may reach what is this shell's
      question, and the sidebar only draws the rows it is handed. */
@@ -30,78 +42,64 @@ export const AppLayout = () => {
   });
 
   return (
-    <Grid
-      columns={{ initial: 'minmax(0, 1fr)', sm: '16rem minmax(0, 1fr)' }}
-      minHeight='100%'
-    >
+    <div className={styles.shell}>
       <Sidebar
         items={navItems}
         navLabel='Workspace'
         header={
-          <Flex asChild align='center' gap='2' p='2'>
-            <NavLink to={ROUTE_PATHS.DASHBOARD} className={styles.tenant}>
-              <Avatar
-                size='2'
-                variant='solid'
-                fallback={profile?.tenant?.name?.[0] || ''}
-              />
-              <Text size='3' weight='bold' truncate>
-                {profile?.tenant?.name}
-              </Text>
-            </NavLink>
-          </Flex>
+          <Group align='center' gap='xs' p='xs' wrap='nowrap'>
+            <Avatar size='md' color={primaryColor} variant='filled'>
+              {profile?.tenant?.name?.[0] || ''}
+            </Avatar>
+            <Text size='md' fw={700} truncate>
+              {profile?.tenant?.name}
+            </Text>
+          </Group>
         }
         footer={
-          <Flex
+          <Group
             align='center'
-            gap='2'
-            pt={{ initial: '0', sm: '3' }}
-            ml={{ initial: 'auto', sm: '0' }}
+            gap='xs'
+            wrap='nowrap'
+            pt={{ base: 0, sm: 'sm' }}
+            ml={{ base: 'auto', sm: 0 }}
           >
-            <Avatar
-              size='2'
-              radius='full'
-              color='gray'
-              fallback={profile?.email[0] || ''}
-            />
+            <Avatar size='md' radius='full' color='gray'>
+              {profile?.email[0] || ''}
+            </Avatar>
 
-            <Flex
-              direction='column'
-              display={{ initial: 'none', sm: 'flex' }}
-              minWidth='0'
-            >
-              <Text size='2' weight='medium' truncate>
+            <Stack gap={0} display={{ base: 'none', sm: 'flex' }} miw={0}>
+              <Text size='sm' fw={500} truncate>
                 {profile?.email}
               </Text>
-              <Text size='1' color='gray' truncate>
+              <Text size='xs' c='dimmed' truncate>
                 {profile?.email}
               </Text>
-            </Flex>
+            </Stack>
 
             {profile?.role && (
-              <Badge radius='full' variant='soft'>
+              <Badge radius='full' variant='light'>
                 {profile.role}
               </Badge>
             )}
 
             {/* The icon says nothing to a screen reader, so the link carries the name. */}
-            <Button asChild size={'1'} variant='ghost'>
-              <NavLink
-                to={ROUTE_PATHS.PROFILE_SETTINGS}
-                aria-label='Profile settings'
-              >
-                <GearIcon />
-              </NavLink>
-            </Button>
-          </Flex>
+            <ActionIcon
+              component={NavLink}
+              to={ROUTE_PATHS.PROFILE_SETTINGS}
+              aria-label='Profile settings'
+              variant='subtle'
+              color='gray'
+            >
+              <GearIcon />
+            </ActionIcon>
+          </Group>
         }
       />
 
-      <Box asChild p='6'>
-        <main>
-          <Outlet />
-        </main>
+      <Box component='main' p='xl'>
+        <Outlet />
       </Box>
-    </Grid>
+    </div>
   );
 };

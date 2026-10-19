@@ -4,25 +4,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-6) var(--space-4);
-  background: var(--accent-2);
+  padding: var(--mantine-spacing-xl) var(--mantine-spacing-md);
+  background: var(--mantine-primary-color-0);
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: var(--mantine-spacing-lg);
   width: 100%;
   max-width: 26rem;
-  padding: var(--space-6);
-  border: 1px solid var(--gray-a5);
-  border-radius: var(--radius-5);
-  background: var(--color-panel-solid);
-  box-shadow: var(--shadow-4);
+  padding: var(--mantine-spacing-xl);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: var(--mantine-radius-xl);
+  background: var(--mantine-color-body);
+  box-shadow: var(--mantine-shadow-xl);
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: var(--mantine-spacing-lg);
 }

@@ -1,11 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Alert, Button, PasswordInput, TextInput } from '@mantine/core';
 import { Controller, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router';
 
-import { FormField } from '../../../components/form/FormField';
-import { PasswordInput } from '../../../components/form/PasswordInput';
-import { Alert } from '../../../components/ui/Alert';
-import { TextInput } from '../../../components/ui/TextInput';
 import { ROUTE_PATHS } from '../../../constants/routePaths';
 import {
   MINIMUM_PASSWORD_LENGTH,
@@ -18,7 +15,6 @@ import { useSignupMutation } from '../hooks/useSignupMutation';
 import { AuthFormHeader } from '../components/AuthFormHeader';
 
 import styles from './AuthPage.module.css';
-import { Button } from '@radix-ui/themes';
 
 /**
  * Registration screen.
@@ -58,7 +54,7 @@ export const SignupPage = () => {
       />
 
       {signupMutation.isError ? (
-        <Alert severity='error'>
+        <Alert color='red' role='alert'>
           {getApiErrorMessage(signupMutation.error)}
         </Alert>
       ) : null}
@@ -68,20 +64,15 @@ export const SignupPage = () => {
           name='email'
           control={control}
           render={({ field, fieldState }) => (
-            <FormField
-              inputId='signup-email'
+            <TextInput
+              id='signup-email'
               label='Work email'
+              type='email'
+              placeholder='you@company.com'
+              autoComplete='email'
               error={fieldState.error?.message}
-            >
-              <TextInput
-                id='signup-email'
-                type='email'
-                placeholder='you@company.com'
-                autoComplete='email'
-                invalid={fieldState.invalid}
-                {...field}
-              />
-            </FormField>
+              {...field}
+            />
           )}
         />
 
@@ -89,23 +80,15 @@ export const SignupPage = () => {
           name='password'
           control={control}
           render={({ field, fieldState }) => (
-            <FormField
-              inputId='signup-password'
+            <PasswordInput
+              id='signup-password'
               label='Password'
+              placeholder='Create a password'
+              autoComplete='new-password'
+              description={`At least ${MINIMUM_PASSWORD_LENGTH} characters, with a letter and a number.`}
               error={fieldState.error?.message}
-              hint={`At least ${MINIMUM_PASSWORD_LENGTH} characters, with a letter and a number.`}
-            >
-              <PasswordInput
-                id='signup-password'
-                name={field.name}
-                value={field.value}
-                placeholder='Create a password'
-                autoComplete='new-password'
-                invalid={fieldState.invalid}
-                onChange={field.onChange}
-                onBlur={field.onBlur}
-              />
-            </FormField>
+              {...field}
+            />
           )}
         />
 
@@ -113,22 +96,14 @@ export const SignupPage = () => {
           name='confirmPassword'
           control={control}
           render={({ field, fieldState }) => (
-            <FormField
-              inputId='signup-confirm-password'
+            <PasswordInput
+              id='signup-confirm-password'
               label='Confirm password'
+              placeholder='Repeat your password'
+              autoComplete='new-password'
               error={fieldState.error?.message}
-            >
-              <PasswordInput
-                id='signup-confirm-password'
-                name={field.name}
-                value={field.value}
-                placeholder='Repeat your password'
-                autoComplete='new-password'
-                invalid={fieldState.invalid}
-                onChange={field.onChange}
-                onBlur={field.onBlur}
-              />
-            </FormField>
+              {...field}
+            />
           )}
         />
 

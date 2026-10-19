@@ -1,4 +1,4 @@
-import { Button } from '@radix-ui/themes';
+import { Button } from '@mantine/core';
 import { useNavigate } from 'react-router';
 
 import { ROUTE_PATHS } from '../../../constants/routePaths';
@@ -54,7 +54,7 @@ function UpgradePage() {
             </p>
           )}
         </div>
-        <Button variant='ghost' onClick={onCta}>
+        <Button variant='subtle' onClick={onCta}>
           Go to dashboard
         </Button>
       </header>

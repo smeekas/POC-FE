@@ -1,19 +1,14 @@
-/* Radix Themes exposes no background prop, so the accent fill lives here. The text
-   token is the one Radix guarantees to be readable on a solid accent surface. */
+/* Mantine exposes no background prop on Group, so the accent fill lives here. The
+   paired token is the one Mantine guarantees to be readable on this tinted surface. */
 .banner {
-  border-radius: var(--radius-3);
-  background: var(--accent-7);
-  color: var(--accent-contrast);
+  border-radius: var(--mantine-radius-md);
+  background: var(--mantine-primary-color-light);
+  color: var(--mantine-primary-color-light-color);
 }
 
-/* On a solid accent background every Radix button variant reads as accent on accent,
-   so the call to action inverts instead. */
-.cta {
-  /* background: var(--color-panel-solid); */
-  /* color: var(--accent-11); */
-}
-
+/* On a tinted accent background a `light` button reads as accent on accent, so the
+   call to action sits on a solid surface instead. */
 .cta:hover {
-  background: var(--accent-2);
+  background: var(--mantine-primary-color-0);
   text-decoration: none;
 }

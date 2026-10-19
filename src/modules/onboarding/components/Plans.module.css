@@ -1,7 +1,7 @@
 .planList {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-  gap: var(--space-5);
+  gap: var(--mantine-spacing-lg);
   width: 100%;
   margin: 0;
   padding: 0;
@@ -12,57 +12,57 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
-  padding: var(--space-6) var(--space-5);
-  border: 1px solid var(--gray-5);
-  border-radius: var(--radius-4);
-  background: var(--color-panel-solid);
-  box-shadow: var(--shadow-2);
+  gap: var(--mantine-spacing-xs);
+  padding: var(--mantine-spacing-xl) var(--mantine-spacing-lg);
+  border: 1px solid var(--mantine-color-gray-3);
+  border-radius: var(--mantine-radius-lg);
+  background: var(--mantine-color-body);
+  box-shadow: var(--mantine-shadow-sm);
 }
 
 .current {
-  border-color: var(--accent-8);
+  border-color: var(--mantine-primary-color-4);
 }
 
 .currentTag {
   position: absolute;
-  top: var(--space-4);
-  right: var(--space-4);
+  top: var(--mantine-spacing-md);
+  right: var(--mantine-spacing-md);
 }
 
 .name {
-  font-size: var(--font-size-4);
+  font-size: var(--mantine-font-size-lg);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--accent-11);
+  color: var(--mantine-primary-color-7);
 }
 
 .price {
-  font-size: var(--font-size-8);
-  font-weight: var(--font-weight-bold);
+  font-size: var(--mantine-font-size-4xl);
+  font-weight: 700;
   line-height: 1.1;
 }
 
 .period {
-  margin-left: var(--space-1);
-  color: var(--gray-10);
-  font-size: var(--font-size-2);
-  font-weight: var(--font-weight-regular);
+  margin-left: var(--mantine-spacing-2xs);
+  color: var(--mantine-color-dimmed);
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 400;
 }
 
 .featureList {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
-  margin: var(--space-4) 0 var(--space-6);
-  padding-top: var(--space-5);
-  border-top: 1px solid var(--gray-4);
+  gap: var(--mantine-spacing-sm);
+  margin: var(--mantine-spacing-md) 0 var(--mantine-spacing-xl);
+  padding-top: var(--mantine-spacing-lg);
+  border-top: 1px solid var(--mantine-color-gray-2);
   list-style: none;
-  font-size: var(--font-size-2);
+  font-size: var(--mantine-font-size-sm);
 }
 
 .featureOff {
-  color: var(--gray-9);
+  color: var(--mantine-color-gray-5);
 }
 
 /* `auto` pins the action to the bottom, so the buttons line up across cards of

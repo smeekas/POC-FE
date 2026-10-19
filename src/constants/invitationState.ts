@@ -10,7 +10,7 @@ export enum InvitationState {
  */
 export const INVITATION_STATE_COLORS = {
   [InvitationState.ACCEPTED]: 'green',
-  [InvitationState.PENDING]: 'amber',
+  [InvitationState.PENDING]: 'yellow',
   [InvitationState.EXPIRED]: 'gray',
   [InvitationState.REVOKED]: 'red',
 } as const;

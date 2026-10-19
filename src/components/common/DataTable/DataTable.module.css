@@ -1,9 +1,9 @@
-/* Radix sizes the type, but its rows still sit tight for a list this scannable, so the
-   cells get their own vertical rhythm on top of the `size` prop. */
+/* Mantine sizes the type, but its rows still sit tight for a list this scannable, so
+   the cells get their own vertical rhythm on top of the `verticalSpacing` prop. */
 .table th,
 .table td {
-  padding-top: var(--space-2);
-  padding-bottom: var(--space-2);
+  padding-top: var(--mantine-spacing-xs);
+  padding-bottom: var(--mantine-spacing-xs);
   vertical-align: middle;
 }
 
@@ -12,7 +12,7 @@
 .sortButton {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
+  gap: var(--mantine-spacing-2xs);
   padding: 0;
   border: none;
   background: none;
@@ -22,17 +22,17 @@
 }
 
 .sortButton:hover {
-  color: var(--accent-11);
+  color: var(--mantine-primary-color-light-color);
 }
 
 .sortButton:focus-visible {
-  outline: 2px solid var(--focus-8);
+  outline: 2px solid var(--mantine-primary-color-filled);
   outline-offset: 2px;
-  border-radius: var(--radius-1);
+  border-radius: var(--mantine-radius-xs);
 }
 
 .active {
-  color: var(--accent-11);
+  color: var(--mantine-primary-color-light-color);
 }
 
 /* The idle arrows are a hint, not a reading: they stay out of the header's way until
@@ -56,11 +56,7 @@
   transition: background-color var(--transition-fast);
 }
 
-.clickableRow:hover {
-  background-color: var(--gray-a3);
-}
-
 .clickableRow:focus-visible {
-  outline: 2px solid var(--focus-8);
+  outline: 2px solid var(--mantine-primary-color-filled);
   outline-offset: -2px;
 }

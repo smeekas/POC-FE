@@ -1,10 +1,8 @@
-import { Button, Flex, Heading, Separator } from '@radix-ui/themes';
+import { Button, Divider, Stack, TextInput, Title } from '@mantine/core';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 
 import { PageHeader } from '../../../components/common/PageHeader/PageHeader';
-import { FormField } from '../../../components/form/FormField';
-import { TextInput } from '../../../components/ui/TextInput';
 import { QueryKey } from '../../../constants/queryKey';
 import { ROUTE_PATHS } from '../../../constants/routePaths';
 import { clearAccessToken } from '../../../utils/auth';
@@ -41,50 +39,48 @@ export const ProfileSettingsPage = () => {
         description='Your account as this workspace sees it.'
       />
 
-      <Flex direction='column' gap='3' maxWidth='420px'>
-        <FormField inputId='profile-email' label='Email'>
-          <TextInput
-            id='profile-email'
-            type='email'
-            value={profile?.email ?? EMPTY_VALUE}
-            readOnly
-            disabled
-          />
-        </FormField>
+      <Stack gap='sm' maw='420px'>
+        <TextInput
+          id='profile-email'
+          label='Email'
+          type='email'
+          value={profile?.email ?? EMPTY_VALUE}
+          readOnly
+          disabled
+        />
 
-        <FormField inputId='profile-role' label='Role'>
-          <TextInput
-            id='profile-role'
-            value={profile?.role ?? EMPTY_VALUE}
-            readOnly
-            disabled
-          />
-        </FormField>
+        <TextInput
+          id='profile-role'
+          label='Role'
+          value={profile?.role ?? EMPTY_VALUE}
+          readOnly
+          disabled
+        />
 
-        <FormField inputId='profile-workspace' label='Workspace'>
-          <TextInput
-            id='profile-workspace'
-            value={profile?.tenant?.name ?? EMPTY_VALUE}
-            readOnly
-            disabled
-          />
-        </FormField>
+        <TextInput
+          id='profile-workspace'
+          label='Workspace'
+          value={profile?.tenant?.name ?? EMPTY_VALUE}
+          readOnly
+          disabled
+        />
+      </Stack>
 
-      </Flex>
-
-      <Separator size='4' my='5' />
-
-      {/* The plan is the one thing on this page that can actually be changed, so it is
+      <Divider my='lg' />
+      {/* <AdminGuard navigate={false}> */}
+      <>
+        {/* The plan is the one thing on this page that can actually be changed, so it is
           the cards rather than another disabled field. */}
-      <Heading as='h2' size='4' mb='3'>
-        Plan
-      </Heading>
+        <Title order={2} size='lg' mb='sm'>
+          Plan
+        </Title>
 
-      <PlanSelection />
+        <PlanSelection />
 
-      <Separator size='4' my='5' />
-
-      <Button color='red' variant='soft' onClick={handleLogout}>
+        <Divider my='lg' />
+      </>
+      {/* </AdminGuard */}
+      <Button color='red' variant='light' onClick={handleLogout}>
         Log out
       </Button>
     </section>

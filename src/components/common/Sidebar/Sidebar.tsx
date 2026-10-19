@@ -1,4 +1,4 @@
-import { Box, Flex, Separator, Text } from '@radix-ui/themes';
+import { Box, Divider, Flex, Text } from '@mantine/core';
 import type { ReactNode } from 'react';
 import { NavLink } from 'react-router';
 
@@ -33,56 +33,52 @@ export type SidebarProps = {
 export const Sidebar = ({ items, navLabel, header, footer }: SidebarProps) => {
   return (
     <Flex
-      asChild
-      direction={{ initial: 'row', sm: 'column' }}
-      align={{ initial: 'center', sm: 'stretch' }}
-      gap={{ initial: '4', sm: '5' }}
-      p='4'
+      component='aside'
+      direction={{ base: 'row', sm: 'column' }}
+      align={{ base: 'center', sm: 'stretch' }}
+      gap={{ base: 'md', sm: 'lg' }}
+      p='md'
       className={styles.sidebar}
     >
-      <aside>
-        {header}
+      {header}
 
-        <Flex asChild direction={{ initial: 'row', sm: 'column' }} gap='1'>
-          <nav>
-            {navLabel && (
-              <Box display={{ initial: 'none', sm: 'block' }} mb='2'>
-                <Text as='p' size='1' className={styles.navLabel}>
-                  {navLabel}
-                </Text>
-              </Box>
-            )}
-
-            {items.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                end={item.end}
-                className={({ isActive }) =>
-                  [styles.navLink, isActive ? styles.navLinkActive : '']
-                    .filter(Boolean)
-                    .join(' ')
-                }
-              >
-                {item.icon}
-                {item.label}
-              </NavLink>
-            ))}
-          </nav>
-        </Flex>
-
-        {/* `mt='auto'` is what pins the footer to the bottom of a tall sidebar, so the
-            separator has to stay a direct child of the column. */}
-        {footer && (
-          <>
-            <Box display={{ initial: 'none', sm: 'block' }} mt='auto'>
-              <Separator size='4' />
-            </Box>
-
-            {footer}
-          </>
+      <Flex component='nav' direction={{ base: 'row', sm: 'column' }} gap='2xs'>
+        {navLabel && (
+          <Box display={{ base: 'none', sm: 'block' }} mb='xs'>
+            <Text component='p' size='xs' className={styles.navLabel}>
+              {navLabel}
+            </Text>
+          </Box>
         )}
-      </aside>
+
+        {items.map((item) => (
+          <NavLink
+            key={item.to}
+            to={item.to}
+            end={item.end}
+            className={({ isActive }) =>
+              [styles.navLink, isActive ? styles.navLinkActive : '']
+                .filter(Boolean)
+                .join(' ')
+            }
+          >
+            {item.icon}
+            {item.label}
+          </NavLink>
+        ))}
+      </Flex>
+
+      {/* `mt='auto'` is what pins the footer to the bottom of a tall sidebar, so the
+          separator has to stay a direct child of the column. */}
+      {footer && (
+        <>
+          <Box display={{ base: 'none', sm: 'block' }} mt='auto'>
+            <Divider />
+          </Box>
+
+          {footer}
+        </>
+      )}
     </Flex>
   );
 };

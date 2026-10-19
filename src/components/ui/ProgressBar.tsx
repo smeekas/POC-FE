@@ -1,6 +1,5 @@
+import { Group, Progress, Stack, Text } from '@mantine/core';
 import type { ReactNode } from 'react';
-
-import styles from './ProgressBar.module.css';
 
 export type ProgressBarColor = 'gray' | 'green' | 'orange' | 'red';
 
@@ -35,30 +34,29 @@ export const ProgressBar = ({
   const percent = max > 0 ? Math.min(Math.max((value / max) * 100, 0), 100) : 0;
 
   return (
-    <div className={`${styles.root} ${styles[color]}`}>
+    <Stack gap='2xs'>
       {(!hideValue || trailing) && (
-        <div className={styles.meta}>
+        <Group justify='space-between' align='center' gap='xs' wrap='nowrap'>
           {!hideValue && (
-            <span className={styles.value}>
+            <Text size='xs' c='dimmed'>
               {value} / {max}
-            </span>
+            </Text>
           )}
           {trailing}
-        </div>
+        </Group>
       )}
 
-      <div
-        className={styles.track}
-        role='progressbar'
+      <Progress
+        value={percent}
+        color={color}
+        size='sm'
         aria-label={label}
         aria-valuenow={value}
         aria-valuemin={0}
         aria-valuemax={max}
         aria-valuetext={`${value} of ${max}`}
-      >
-        <div className={styles.fill} style={{ width: `${percent}%` }} />
-      </div>
-    </div>
+      />
+    </Stack>
   );
 };
 

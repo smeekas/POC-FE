@@ -1,11 +1,11 @@
 .header {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: var(--mantine-spacing-2xs);
   /* Barely-there rule: it separates the title from the page without drawing the eye. */
-  padding-bottom: var(--space-3);
-  margin-bottom: var(--space-5);
-  border-bottom: 1px solid var(--gray-a3);
+  padding-bottom: var(--mantine-spacing-sm);
+  margin-bottom: var(--mantine-spacing-lg);
+  border-bottom: 1px solid var(--mantine-color-gray-2);
 }
 
 .description {

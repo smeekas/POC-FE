@@ -1,4 +1,4 @@
-import { Flex } from '@radix-ui/themes';
+import { Group } from '@mantine/core';
 import { useCallback } from 'react';
 
 import DataTable from '../../../components/common/DataTable/DataTable';
@@ -33,13 +33,13 @@ export const MembersTable = () => {
           a full workspace is the first thing to say about the member list. */}
       <LimitGuard feature='user' />
 
-      <Flex mb='3'>
+      <Group mb='sm'>
         <SearchBar
           defaultValue={filterObj.search}
           placeholder='Search members…'
           onSearch={handleSearch}
         />
-      </Flex>
+      </Group>
 
       <DataTable
         loading={isLoading || isRefetching}

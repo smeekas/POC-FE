@@ -1,7 +1,7 @@
 .layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  background: var(--color-background);
+  background: var(--mantine-color-body);
 }
 
 /* ---------- Brand panel ---------- */
@@ -12,32 +12,32 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: var(--space-8);
-  padding: var(--space-8);
+  gap: var(--mantine-spacing-3xl);
+  padding: var(--mantine-spacing-3xl);
   background: radial-gradient(
     120% 120% at 0% 0%,
-    var(--accent-11) 0%,
-    var(--accent-12) 55%,
-    var(--gray-12) 100%
+    var(--mantine-primary-color-7) 0%,
+    var(--mantine-primary-color-9) 55%,
+    var(--mantine-color-text) 100%
   );
-  color: var(--white-a11);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .wordmark {
-  color: var(--white-a12);
-  font-size: var(--font-size-4);
-  font-weight: var(--font-weight-bold);
-  letter-spacing: var(--letter-spacing-4);
+  color: rgba(255, 255, 255, 0.95);
+  font-size: var(--mantine-font-size-lg);
+  font-weight: 700;
+  letter-spacing: -0.0025em;
 }
 
 /* Sized against the panel width rather than a fixed step, so the three lines hold
    their shape from the 960px breakpoint all the way up. */
 .statement {
-  color: var(--white-a12);
-  font-size: clamp(var(--font-size-8), 4.2vw, var(--font-size-9));
-  font-weight: var(--font-weight-bold);
+  color: rgba(255, 255, 255, 0.95);
+  font-size: clamp(var(--mantine-font-size-4xl), 4.2vw, var(--mantine-font-size-5xl));
+  font-weight: 700;
   line-height: 1.1;
-  letter-spacing: var(--letter-spacing-9);
+  letter-spacing: -0.025em;
 }
 
 .statement span {
@@ -50,7 +50,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-8) var(--space-5);
+  padding: var(--mantine-spacing-3xl) var(--mantine-spacing-lg);
 }
 
 .card {
@@ -68,14 +68,14 @@
   }
 
   .content {
-    padding: var(--space-6) var(--space-4);
+    padding: var(--mantine-spacing-xl) var(--mantine-spacing-md);
   }
 
   .card {
-    padding: var(--space-5);
-    border: 1px solid var(--gray-6);
-    border-radius: var(--radius-5);
-    background: var(--color-panel-solid);
-    box-shadow: var(--shadow-3);
+    padding: var(--mantine-spacing-lg);
+    border: 1px solid var(--mantine-color-gray-3);
+    border-radius: var(--mantine-radius-xl);
+    background: var(--mantine-color-body);
+    box-shadow: var(--mantine-shadow-md);
   }
 }

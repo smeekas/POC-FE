@@ -2,9 +2,8 @@ import { AxiosError, type AxiosResponse } from 'axios';
 
 /** The error shape NestJS returns by default for a failed request. */
 type NestErrorResponseBody = {
-  message?: string | string[];
-  error?: string;
-  statusCode?: number;
+  status?: number;
+  statusMessage: string;
 };
 
 const FALLBACK_ERROR_MESSAGE = 'Something went wrong. Please try again.';
@@ -25,15 +24,12 @@ export const getApiErrorMessage = (
         statusMessage: string;
       }>['data'],
 ): string => {
+  console.log(error);
   if (error instanceof AxiosError) {
     const responseBody = error.response?.data as
       | NestErrorResponseBody
       | undefined;
-    const message = responseBody?.message;
-
-    if (Array.isArray(message) && message.length > 0) {
-      return message[0];
-    }
+    const message = responseBody?.statusMessage;
 
     if (typeof message === 'string' && message.trim().length > 0) {
       return message;

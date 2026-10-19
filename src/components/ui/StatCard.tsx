@@ -1,7 +1,5 @@
-import { Card } from '@radix-ui/themes';
+import { Group, Paper, Stack, Text, ThemeIcon } from '@mantine/core';
 import type { ReactNode } from 'react';
-
-import styles from './StatCard.module.css';
 
 export type StatCardColor = 'gray' | 'green' | 'orange' | 'red';
 
@@ -27,17 +25,29 @@ export const StatCard = ({
   color = 'gray',
 }: StatCardProps) => {
   return (
-    <Card size='2' className={styles[color]}>
-      <div className={styles.root}>
-        {icon && <span className={styles.icon}>{icon}</span>}
+    <Paper withBorder p='md' radius='md'>
+      <Group align='flex-start' gap='sm' wrap='nowrap'>
+        {icon && (
+          <ThemeIcon variant='light' color={color} size='lg' radius='md'>
+            {icon}
+          </ThemeIcon>
+        )}
 
-        <div className={styles.body}>
-          <span className={styles.label}>{label}</span>
-          <span className={styles.value}>{value ?? EMPTY_VALUE}</span>
-          {hint && <span className={styles.hint}>{hint}</span>}
-        </div>
-      </div>
-    </Card>
+        <Stack gap={2}>
+          <Text size='xs' c='dimmed' fw={500}>
+            {label}
+          </Text>
+          <Text size='2xl' fw={700} lh={1.2}>
+            {value ?? EMPTY_VALUE}
+          </Text>
+          {hint && (
+            <Text size='xs' c='dimmed'>
+              {hint}
+            </Text>
+          )}
+        </Stack>
+      </Group>
+    </Paper>
   );
 };
 

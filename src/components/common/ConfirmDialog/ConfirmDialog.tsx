@@ -1,4 +1,4 @@
-import { AlertDialog, Button, Flex } from '@radix-ui/themes';
+import { Button, Group, Modal, Text } from '@mantine/core';
 
 export type ConfirmDialogProps = {
   open: boolean;
@@ -19,8 +19,9 @@ export type ConfirmDialogProps = {
 /**
  * Asks before something that cannot be taken back.
  *
- * Built on `AlertDialog` rather than `Dialog`, so it cannot be dismissed by clicking
- * away from it: answering is the only way out, which is the point of asking.
+ * It cannot be dismissed by clicking away from it: answering is the only way out,
+ * which is the point of asking. While the action it started is in flight it cannot be
+ * dismissed at all.
  *
  * The confirming button does not close the dialog by itself. The caller closes it, so a
  * request can be awaited under `loading` and the dialog can stay up if it fails.
@@ -37,32 +38,40 @@ export const ConfirmDialog = ({
   onConfirm,
 }: ConfirmDialogProps) => {
   return (
-    <AlertDialog.Root open={open} onOpenChange={onOpenChange}>
-      <AlertDialog.Content maxWidth='450px'>
-        <AlertDialog.Title>{title}</AlertDialog.Title>
-        {description && (
-          <AlertDialog.Description size='2'>
-            {description}
-          </AlertDialog.Description>
-        )}
+    <Modal
+      opened={open}
+      onClose={() => onOpenChange(false)}
+      title={title}
+      size='450px'
+      centered
+      closeOnClickOutside={false}
+      closeOnEscape={!loading}
+      withCloseButton={!loading}
+    >
+      {description && (
+        <Text size='sm' c='dimmed'>
+          {description}
+        </Text>
+      )}
 
-        <Flex gap='3' mt='4' justify='end'>
-          <AlertDialog.Cancel>
-            <Button variant='soft' color='gray' disabled={loading}>
-              {cancelLabel}
-            </Button>
-          </AlertDialog.Cancel>
+      <Group gap='sm' mt='md' justify='flex-end'>
+        <Button
+          variant='default'
+          disabled={loading}
+          onClick={() => onOpenChange(false)}
+        >
+          {cancelLabel}
+        </Button>
 
-          <Button
-            color={destructive ? 'red' : undefined}
-            loading={loading}
-            onClick={onConfirm}
-          >
-            {confirmLabel}
-          </Button>
-        </Flex>
-      </AlertDialog.Content>
-    </AlertDialog.Root>
+        <Button
+          color={destructive ? 'red' : undefined}
+          loading={loading}
+          onClick={onConfirm}
+        >
+          {confirmLabel}
+        </Button>
+      </Group>
+    </Modal>
   );
 };
 

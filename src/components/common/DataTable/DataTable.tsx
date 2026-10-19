@@ -1,4 +1,4 @@
-import { Table } from '@radix-ui/themes';
+import { Table } from '@mantine/core';
 import { useMemo, useState, type ReactNode } from 'react';
 
 import { SortAscIcon, SortDescIcon, SortIcon } from '../../icons';
@@ -93,26 +93,26 @@ function DataTable<T extends Record<string, unknown>>({
   const tableBody = useMemo(() => {
     if (loading) {
       return (
-        <Table.Row>
-          <Table.Cell className={styles.center} colSpan={columns.length}>
+        <Table.Tr>
+          <Table.Td className={styles.center} colSpan={columns.length}>
             Loading...
-          </Table.Cell>
-        </Table.Row>
+          </Table.Td>
+        </Table.Tr>
       );
     }
     if (sortedRows.length === 0) {
       return (
-        <Table.Row>
-          <Table.Cell className={styles.center} colSpan={columns.length}>
+        <Table.Tr>
+          <Table.Td className={styles.center} colSpan={columns.length}>
             No record.
-          </Table.Cell>
-        </Table.Row>
+          </Table.Td>
+        </Table.Tr>
       );
     }
     /* A clickable row is a control, so it takes focus and answers Enter the way a link
        would. Without `onRowClick` it stays plain markup. */
     return sortedRows.map((item, rowIndex) => (
-      <Table.Row
+      <Table.Tr
         key={rowIndex}
         className={onRowClick ? styles.clickableRow : undefined}
         tabIndex={onRowClick ? 0 : undefined}
@@ -122,22 +122,27 @@ function DataTable<T extends Record<string, unknown>>({
         }}
       >
         {columns.map((column) => (
-          <Table.Cell key={column.name}>{column.render(item)}</Table.Cell>
+          <Table.Td key={column.name}>{column.render(item)}</Table.Td>
         ))}
-      </Table.Row>
+      </Table.Tr>
     ));
   }, [loading, sortedRows, onRowClick, columns]);
   return (
-    <Table.Root variant='surface' className={styles.table}>
-      <Table.Header>
-        <Table.Row>
+    <Table
+      withTableBorder
+      withColumnBorders={false}
+      highlightOnHover={Boolean(onRowClick)}
+      className={styles.table}
+    >
+      <Table.Thead>
+        <Table.Tr>
           {columns.map((column) => {
             const isSortable = Boolean(column.sorter ?? column.sort);
             const activeMode = sort[column.name] ? sort[column.name] : null;
             const Icon = activeMode ? sortIcons[activeMode] : SortIcon;
 
             return (
-              <Table.ColumnHeaderCell
+              <Table.Th
                 key={column.name}
                 aria-sort={
                   activeMode
@@ -161,14 +166,14 @@ function DataTable<T extends Record<string, unknown>>({
                 ) : (
                   column.name
                 )}
-              </Table.ColumnHeaderCell>
+              </Table.Th>
             );
           })}
-        </Table.Row>
-      </Table.Header>
+        </Table.Tr>
+      </Table.Thead>
 
-      <Table.Body>{tableBody}</Table.Body>
-    </Table.Root>
+      <Table.Tbody>{tableBody}</Table.Tbody>
+    </Table>
   );
 }
 

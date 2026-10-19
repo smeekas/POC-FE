@@ -1,23 +1,15 @@
-import {
-  useEffect,
-  useMemo,
-  useState,
-  type InputHTMLAttributes,
-  type Ref,
-} from 'react';
+import { CloseButton, TextInput, type TextInputProps } from '@mantine/core';
+import { useEffect, useMemo, useState, type Ref } from 'react';
 
 import { debounce } from '../../utils/debounce';
-import { CloseIcon, SearchIcon } from '../icons';
-import { TextInput } from './TextInput';
-
-import styles from './SearchBar.module.css';
+import { SearchIcon } from '../icons';
 
 /** Long enough to cover the pause between keystrokes, short enough to feel immediate. */
 const DEFAULT_DEBOUNCE_MS = 400;
 
 export type SearchBarProps = Omit<
-  InputHTMLAttributes<HTMLInputElement>,
-  'value' | 'onChange' | 'type'
+  TextInputProps,
+  'value' | 'onChange' | 'type' | 'defaultValue'
 > & {
   /** The text the field starts with, typically whatever the URL already carries. */
   defaultValue?: string;
@@ -42,7 +34,6 @@ export const SearchBar = ({
   debounceMs = DEFAULT_DEBOUNCE_MS,
   label = 'Search',
   placeholder = 'Search…',
-  className,
   ref,
   ...inputProps
 }: SearchBarProps) => {
@@ -71,31 +62,25 @@ export const SearchBar = ({
   };
 
   return (
-    <div className={[styles.wrapper, className ?? ''].filter(Boolean).join(' ')}>
-      <SearchIcon className={styles.searchIcon} />
-
-      <TextInput
-        ref={ref}
-        type='search'
-        aria-label={label}
-        placeholder={placeholder}
-        className={styles.input}
-        value={value}
-        onChange={(event) => handleChange(event.target.value)}
-        {...inputProps}
-      />
-
-      {value && (
-        <button
-          type='button'
-          className={styles.clearButton}
-          aria-label='Clear search'
-          onClick={handleClear}
-        >
-          <CloseIcon width={14} height={14} />
-        </button>
-      )}
-    </div>
+    <TextInput
+      ref={ref}
+      type='search'
+      aria-label={label}
+      placeholder={placeholder}
+      value={value}
+      onChange={(event) => handleChange(event.currentTarget.value)}
+      leftSection={<SearchIcon />}
+      rightSection={
+        value ? (
+          <CloseButton
+            size='sm'
+            aria-label='Clear search'
+            onClick={handleClear}
+          />
+        ) : null
+      }
+      {...inputProps}
+    />
   );
 };
 
