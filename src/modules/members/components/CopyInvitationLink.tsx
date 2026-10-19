@@ -19,7 +19,7 @@ function CopyInvitationLink({ link }: CopyInvitationLinkProps) {
       if (err instanceof Error) {
         toast.error(err.message);
       }
-      console.log(err);
+      toast.error('something went wrong');
     }
   }
   return (

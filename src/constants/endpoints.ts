@@ -25,6 +25,7 @@ export const API_ENDPOINTS = {
     SEND_INVITATION: 'invite',
     ACCEPT_INVITE: 'invite/accept',
     UPDATE_INVITATION: (id: number, status: string) => `invite/${id}/${status}`,
+    list: () => 'users/list',
   },
   DOCUMENT: {
     LIST: 'doc',

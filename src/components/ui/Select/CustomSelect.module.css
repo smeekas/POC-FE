@@ -1,0 +1,44 @@
+/* Option labels here are user data — email addresses, tag names — so without a cap the
+   control stretches to whatever the longest one happens to be and the filter row
+   reflows as the data changes. `--custom-select-max-width` is the knob: set it per
+   usage for a one-off, or pass Mantine's `maw`, which lands inline and so wins over
+   this rule either way. The dropdown follows, since Combobox matches it to the
+   control's width. */
+.root {
+  max-width: var(--custom-select-max-width, 24rem);
+}
+
+/* The `+N` pill keeps the count of pills fixed, and this keeps them on one line: with
+   nothing to wrap onto a second row the control holds its height. `overflow` is the
+   backstop for a single label long enough to fill the row on its own. */
+.pillsList {
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+/* The accent tint that replaces the check icon, in the light pair rather than the
+   filled one so a long list of options stays calm.
+
+   `data-checked` is the chosen value. It is not `data-combobox-selected`, which marks
+   the option the keyboard cursor is on and is set imperatively as the user arrows
+   through the list. Excluding it leaves the cursor its own filled highlight, so the
+   cursor stays visible when it lands on the chosen row. That `:not()` also lifts this
+   rule over Mantine's equally specific hover rule, which would otherwise grey the tint
+   out on hover. */
+.option[data-checked]:not([data-combobox-selected]) {
+  background-color: var(--mantine-primary-color-light);
+  color: var(--mantine-primary-color-light-color);
+  font-weight: 700;
+}
+/* Rows sit flush by default, which lets the tint bleed into its neighbours. `2xs` is
+   the theme's smallest step and enough to separate them without the list reading as
+   spaced out.
+
+   This cannot be a `gap` on the options list: with `withScrollArea` on, that element
+   holds a single ScrollArea rather than the rows, so there is nothing between for a gap
+   to act on. Spacing the rows against each other works wherever they are nested, and
+   the adjacent sibling keeps it strictly between rows, so the list still ends on
+   Mantine's own dropdown padding. Vertical only, so no row narrows against the edge. */
+.option + .option {
+  margin-top: var(--mantine-spacing-2xs);
+}

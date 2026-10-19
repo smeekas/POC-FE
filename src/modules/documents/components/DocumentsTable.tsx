@@ -30,7 +30,7 @@ export const DocumentsTable = () => {
       {/* Pushed to the right edge: the primary action sits opposite the page title,
           clear of the column the table reads down. */}
       <Group justify='space-between' mb='sm'>
-        <DocumentFilters onChangeParams={changeParams} />
+        <DocumentFilters onChangeParams={changeParams} filters={filterObj} />
 
         {/* created by email filter */}
         {/* t ag filter */}

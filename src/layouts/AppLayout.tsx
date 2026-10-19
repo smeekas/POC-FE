@@ -1,15 +1,12 @@
 import {
-  ActionIcon,
   Avatar,
-  Badge,
   Box,
   Group,
   Stack,
   Text,
   useMantineTheme,
 } from '@mantine/core';
-import { GearIcon } from '@radix-ui/react-icons';
-import { NavLink, Outlet } from 'react-router';
+import { Outlet } from 'react-router';
 
 import { Sidebar } from '../components/common/Sidebar/Sidebar';
 import { UserRole } from '../constants/role';
@@ -25,6 +22,11 @@ const NAV_ITEMS = [
     role: [UserRole.MEMBER],
   },
   { to: ROUTE_PATHS.MEMBERS, label: 'Members', role: [] as UserRole[] },
+  {
+    to: ROUTE_PATHS.PROFILE_SETTINGS,
+    label: 'Settings',
+    role: [UserRole.MEMBER],
+  },
 ];
 
 /** Signed in shell: tenant and navigation on the left, the routed page on the right. */
@@ -68,31 +70,20 @@ export const AppLayout = () => {
               {profile?.email[0] || ''}
             </Avatar>
 
+            {/* Address over role, the quieter line second: two short lines fit the
+                16rem column where one row of address, badge and icon could not. */}
             <Stack gap={0} display={{ base: 'none', sm: 'flex' }} miw={0}>
-              <Text size='sm' fw={500} truncate>
+              {/* Not every address fits even a line of its own, so the full one stays
+                  reachable on hover. */}
+              <Text size='sm' fw={500} truncate title={profile?.email}>
                 {profile?.email}
               </Text>
-              <Text size='xs' c='dimmed' truncate>
-                {profile?.email}
-              </Text>
+              {profile?.role && (
+                <Text size='xs' c='dimmed' tt='capitalize' truncate>
+                  {profile.role.toLowerCase()}
+                </Text>
+              )}
             </Stack>
-
-            {profile?.role && (
-              <Badge radius='full' variant='light'>
-                {profile.role}
-              </Badge>
-            )}
-
-            {/* The icon says nothing to a screen reader, so the link carries the name. */}
-            <ActionIcon
-              component={NavLink}
-              to={ROUTE_PATHS.PROFILE_SETTINGS}
-              aria-label='Profile settings'
-              variant='subtle'
-              color='gray'
-            >
-              <GearIcon />
-            </ActionIcon>
           </Group>
         }
       />

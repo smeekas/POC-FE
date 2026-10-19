@@ -24,7 +24,6 @@ export const getApiErrorMessage = (
         statusMessage: string;
       }>['data'],
 ): string => {
-  console.log(error);
   if (error instanceof AxiosError) {
     const responseBody = error.response?.data as
       | NestErrorResponseBody
