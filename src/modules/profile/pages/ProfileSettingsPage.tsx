@@ -1,13 +1,17 @@
 import { Button, Divider, Stack, TextInput, Title } from '@mantine/core';
-import { useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 
 import { PageHeader } from '../../../components/common/PageHeader/PageHeader';
 import { QueryKey } from '../../../constants/queryKey';
 import { ROUTE_PATHS } from '../../../constants/routePaths';
-import { clearAccessToken } from '../../../utils/auth';
 import { useTenantUser } from '../../../hooks/useTenantUser';
 import PlanSelection from '../../onboarding/components/PlanSelection';
+import { axiosInstance } from '../../../api/axiosInstance';
+import { API_ENDPOINTS } from '../../../constants/endpoints';
+import type { APIResponse } from '../../../types/common.types';
+import toast from 'react-hot-toast';
+import { getApiErrorMessage } from '../../../utils/error';
 
 /** Stands in for a field the profile endpoint did not fill. */
 const EMPTY_VALUE = '—';
@@ -24,12 +28,21 @@ export const ProfileSettingsPage = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { profile } = useTenantUser();
+  const { mutate, isPending } = useMutation({
+    mutationFn: () =>
+      axiosInstance.post<APIResponse<null>>(API_ENDPOINTS.AUTH.LOGOUT),
+    onSuccess: (data) => {
+      if (data.status === 201) {
+        queryClient.setQueryData([QueryKey.PROFILE_CONTEXT], null);
+        navigate(ROUTE_PATHS.LOGIN, { replace: true });
+      }
+    },
+    onError: (err) => toast.error(getApiErrorMessage(err)),
+  });
 
   /** Drops the token and returns the user to the login screen. */
   const handleLogout = () => {
-    clearAccessToken();
-    queryClient.setQueryData([QueryKey.PROFILE_CONTEXT], null);
-    navigate(ROUTE_PATHS.LOGIN, { replace: true });
+    mutate();
   };
 
   return (
@@ -80,7 +93,12 @@ export const ProfileSettingsPage = () => {
         <Divider my='lg' />
       </>
       {/* </AdminGuard */}
-      <Button color='red' variant='light' onClick={handleLogout}>
+      <Button
+        color='red'
+        variant='light'
+        onClick={handleLogout}
+        loading={isPending}
+      >
         Log out
       </Button>
     </section>

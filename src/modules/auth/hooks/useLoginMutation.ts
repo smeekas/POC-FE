@@ -5,7 +5,6 @@ import { axiosInstance } from '../../../api/axiosInstance';
 import { API_ENDPOINTS } from '../../../constants/endpoints';
 import { QueryKey } from '../../../constants/queryKey';
 import type { APIResponse } from '../../../types/common.types';
-import { setAccessToken } from '../../../utils/auth';
 import { getApiErrorMessage } from '../../../utils/error';
 import type { LoginRequestDto, LoginResponseDto } from '../auth.dto';
 import { useNavigate } from 'react-router';
@@ -33,13 +32,12 @@ export const useLoginMutation = () => {
     onSuccess: (response) => {
       if (response.status === 200) {
         toast.success(response.statusMessage);
-        setAccessToken(response.data.access_token);
         queryClient.invalidateQueries({
           predicate(query) {
             return query.queryKey.includes(QueryKey.PROFILE_CONTEXT);
           },
         });
-        if (response.data.redirect) {
+        if (response?.data?.redirect) {
           navigate(response.data.redirect, { replace: true });
         } else {
           navigate(ROUTE_PATHS.DOCUMENTS, { replace: true });
