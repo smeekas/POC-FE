@@ -3,12 +3,9 @@ import axios from 'axios';
 import { ROUTE_PATHS } from '../constants/routePaths';
 import { clearAccessToken, getAccessToken } from '../utils/auth';
 
-/** Base URL of the NestJS backend. */
-const API_BASE_URL = 'http://localhost:9009/';
-
 /** The single axios client every API call in the app goes through. */
 export const axiosInstance = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: import.meta.env.API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
