@@ -5,7 +5,7 @@ import { clearAccessToken, getAccessToken } from '../utils/auth';
 
 /** The single axios client every API call in the app goes through. */
 export const axiosInstance = axios.create({
-  baseURL: import.meta.env.API_BASE_URL,
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
