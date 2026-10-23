@@ -6,7 +6,6 @@ export const ROUTE_PATHS = {
   SIGNUP: '/signup',
   ONBOARDING: '/onboarding',
   UPGRADE: '/onboarding/upgrade',
-  DASHBOARD: '/dashboard',
   DOCUMENTS: '/documents',
   CREATE_DOCUMENT: '/documents/create',
   EDIT_DOCUMENT: (id: number) => `/documents/${id}`,

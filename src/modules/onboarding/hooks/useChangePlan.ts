@@ -15,7 +15,6 @@ import { getApiErrorMessage } from '../../../utils/error';
  */
 export const useChangePlan = () => {
   const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: (reqBody: { planId: number }) =>
       axiosInstance.post<APIResponse<{ name: string }>>(

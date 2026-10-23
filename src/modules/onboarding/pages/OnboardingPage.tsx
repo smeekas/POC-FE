@@ -31,7 +31,7 @@ export const OnboardingPage = () => {
     mutationFn: (reqBody: { name: string }) =>
       axiosInstance.post<APIResponse<null>>(API_ENDPOINTS.ONBOARDING, reqBody),
     async onSuccess(data) {
-      if (data.data.status === 201) {
+      if (data.status === 201) {
         toast.success(data.data.statusMessage);
         await qc.invalidateQueries({ queryKey: [QueryKey.PROFILE_CONTEXT] });
         navigate(ROUTE_PATHS.UPGRADE);

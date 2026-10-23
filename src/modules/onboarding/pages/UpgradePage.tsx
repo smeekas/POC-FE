@@ -18,7 +18,7 @@ function UpgradePage() {
   const currentPlan = profile && 'plan' in profile ? profile.plan : undefined;
 
   const onCta = () => {
-    navigate(ROUTE_PATHS.DASHBOARD);
+    navigate(ROUTE_PATHS.ROOT);
   };
 
   return (
@@ -59,7 +59,7 @@ function UpgradePage() {
         </Button>
       </header>
 
-      <PlanSelection onChanged={() => navigate(ROUTE_PATHS.DASHBOARD)} />
+      <PlanSelection onChanged={() => navigate(ROUTE_PATHS.ROOT)} />
 
       <p className={styles.tagline}>
         Pick the limits that fit your team. You can change plan later.

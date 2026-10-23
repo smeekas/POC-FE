@@ -26,7 +26,7 @@ export const PlanSelection = ({ onChanged }: PlanSelectionProps) => {
       { planId },
       {
         onSuccess: (response) => {
-          if (response.status === 204) onChanged?.();
+          if (response.status === 201) onChanged?.();
         },
       },
     );
