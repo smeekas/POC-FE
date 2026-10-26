@@ -1,4 +1,4 @@
-import { Badge } from '@mantine/core';
+import { Badge, Select } from '@mantine/core';
 import dayjs from 'dayjs';
 
 import type {
@@ -6,9 +6,10 @@ import type {
   SortMode,
 } from '../../../components/common/DataTable/DataTable';
 import { DateFormats } from '../../../constants/dateFormats';
-import { ROLE_COLORS } from '../../../constants/role';
+import { ROLE_COLORS, UserRole } from '../../../constants/role';
 import type { MemberItem } from '../dto/members.dto';
-
+import CustomSelect from '../../../components/ui/Select/CustomSelect';
+import styles from '../components/memberTable.module.css';
 /**
  * Columns of the member list.
  *
@@ -17,6 +18,10 @@ import type { MemberItem } from '../dto/members.dto';
  */
 export const getMemberColumns = (
   sortedColumns: Record<string, SortMode>,
+  options: {
+    currentUser?: number;
+    onRoleChange: (id: number, role: UserRole) => void;
+  },
 ): DataTableColumn<MemberItem>[] => [
   {
     name: 'Email',
@@ -30,9 +35,28 @@ export const getMemberColumns = (
     identifier: 'role',
     sort: true,
     defaultSort: sortedColumns['role'],
-    render: (member) => (
-      <Badge color={ROLE_COLORS[member.role]}>{member.role}</Badge>
-    ),
+    render: (member) => {
+      return (
+        <CustomSelect
+          width={'100'}
+          defaultValue={member.role}
+          disabled={member.id === options.currentUser}
+          size='sm'
+          onChange={(value) => options.onRoleChange(member.id, value!)}
+          classNames={{ root: styles.root }}
+          data={[
+            {
+              label: UserRole.MEMBER,
+              value: UserRole.MEMBER,
+            },
+            {
+              label: UserRole.ADMIN,
+              value: UserRole.ADMIN,
+            },
+          ]}
+        />
+      );
+    },
   },
   {
     name: 'Joined',

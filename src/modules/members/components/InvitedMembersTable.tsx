@@ -35,6 +35,7 @@ import {
 import useChangeStatus from '../hooks/useChangeStatus';
 import CopyInvitationLink from './CopyInvitationLink';
 import { ActionButton } from '../../../components/ui/ActionButton';
+import { useDeleteInvitation } from '../hooks/useDeleteInvitation';
 
 /**
  * Invites that have gone out but not yet turned into members, with the count beside the
@@ -50,6 +51,8 @@ export const InvitedMembersTable = () => {
     isSuccess,
     data: invitationResponse,
   } = useSendInvitation();
+  const { mutate: deleteMutate, isPending: deletePending } =
+    useDeleteInvitation();
   const {
     mutate: changeStatusMutation,
     isPending: statusChangePending,
@@ -60,6 +63,8 @@ export const InvitedMembersTable = () => {
 
   const [resend, handleResendOpen, handleResendClose] =
     useModalState<InvitedMemberItem>();
+  const [deleteInvite, handleDeleteOpen, handleDeleteClose] =
+    useModalState<InvitedMemberItem>();
   /* Awaiting the revoke and resend endpoints: the menu is wired, the calls are not. */
   const columns = getInvitedMemberColumns({
     onResend: (user) => {
@@ -67,6 +72,9 @@ export const InvitedMembersTable = () => {
     },
     onRevoke: (user) => {
       handleRevokeOpen(user);
+    },
+    onDelete(invite) {
+      handleDeleteOpen(invite);
     },
   });
 
@@ -251,6 +259,29 @@ export const InvitedMembersTable = () => {
         title='Are you sure?'
         description={
           resend ? `invitation will be re-sent to ${resend?.email}` : ''
+        }
+      />
+      <ConfirmDialog
+        onOpenChange={(open) => {
+          if (!open) handleDeleteClose();
+        }}
+        onConfirm={() => {
+          if (deleteInvite) {
+            deleteMutate(deleteInvite.id, {
+              onSuccess(data) {
+                if (data.status === 200) handleDeleteClose();
+              },
+            });
+          }
+        }}
+        loading={deletePending}
+        destructive
+        open={deleteInvite !== null}
+        title='Are you sure?'
+        description={
+          deleteInvite
+            ? `invitation will be deleted for ${deleteInvite?.email}`
+            : ''
         }
       />
       <CopyInvitationLink link={link} key={link || ''} />

@@ -1,0 +1,3 @@
+.root {
+  max-width: var(--custom-select-max-width, 8rem);
+}
