@@ -9,6 +9,8 @@ import usePagination from '../../../hooks/usePagination';
 import { getMemberColumns } from '../columns/members.columns';
 import { useGetMembers } from '../hooks/useGetMembers';
 import { LimitGuard } from '../../../guards/LimitGuard';
+import { useChangeRole } from '../hooks/useChangeRole';
+import { useTenantUser } from '../../../hooks/useTenantUser';
 
 /**
  * The member list itself: owns its paging and sorting params, fetches against them and
@@ -19,7 +21,10 @@ export const MembersTable = () => {
   const { data, isLoading, isRefetching } = useGetMembers(filterObj);
   const members = data?.data?.data || [];
   const metaData = data?.data?.meta;
-
+  const { mutate } = useChangeRole();
+  const {
+    profile: { id },
+  } = useTenantUser();
   /* The search box debounces against this, so it has to keep the same identity between
      renders. */
   const handleSearch = useCallback(
@@ -46,7 +51,12 @@ export const MembersTable = () => {
         onSort={(key, value) =>
           changeParams(PaginationEnum.OrderBy, `${key}:${value}`)
         }
-        columns={getMemberColumns(sortedColumns)}
+        columns={getMemberColumns(sortedColumns, {
+          currentUser: id,
+          onRoleChange(id, role) {
+            mutate({ id, role });
+          },
+        })}
         row={members}
       />
 

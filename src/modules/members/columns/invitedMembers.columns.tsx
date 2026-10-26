@@ -11,12 +11,14 @@ import type { InvitedMemberItem } from '../dto/invitedMembers.dto';
 export type InvitedMemberActions = {
   onRevoke: (invite: InvitedMemberItem) => void;
   onResend: (invite: InvitedMemberItem) => void;
+  onDelete: (invite: InvitedMemberItem) => void;
 };
 
 /** Columns of the invite list, with the row menu hanging off the last one. */
 export const getInvitedMemberColumns = ({
   onRevoke,
   onResend,
+  onDelete,
 }: InvitedMemberActions): DataTableColumn<InvitedMemberItem>[] => [
   {
     name: 'Email',
@@ -62,8 +64,11 @@ export const getInvitedMemberColumns = ({
 
         <Menu.Dropdown>
           <Menu.Item onClick={() => onResend(invite)}>Resend</Menu.Item>
-          <Menu.Item color='red' onClick={() => onRevoke(invite)}>
+          <Menu.Item color='yellow' onClick={() => onRevoke(invite)}>
             Revoke
+          </Menu.Item>
+          <Menu.Item color='red' onClick={() => onDelete(invite)}>
+            Delete
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>

@@ -16,7 +16,11 @@ function CustomSelect<T extends Primitive>(props: SelectProps<T>) {
     <Select<T>
       withCheckIcon={false}
       {...props}
-      classNames={{ root: styles.root, option: styles.option }}
+      classNames={{
+        root: styles.root,
+        option: styles.option,
+        ...props.classNames,
+      }}
     />
   );
 }
