@@ -4,7 +4,10 @@ import dayjs from 'dayjs';
 import type { DataTableColumn } from '../../../components/common/DataTable/DataTable';
 import { MoreVerticalIcon } from '../../../components/icons';
 import { DateFormats } from '../../../constants/dateFormats';
-import { INVITATION_STATE_COLORS } from '../../../constants/invitationState';
+import {
+  INVITATION_STATE_COLORS,
+  InvitationState,
+} from '../../../constants/invitationState';
 import { ROLE_COLORS } from '../../../constants/role';
 import type { InvitedMemberItem } from '../dto/invitedMembers.dto';
 
@@ -67,9 +70,11 @@ export const getInvitedMemberColumns = ({
           <Menu.Item color='yellow' onClick={() => onRevoke(invite)}>
             Revoke
           </Menu.Item>
-          <Menu.Item color='red' onClick={() => onDelete(invite)}>
-            Delete
-          </Menu.Item>
+          {invite.status !== InvitationState.ACCEPTED && (
+            <Menu.Item color='red' onClick={() => onDelete(invite)}>
+              Delete
+            </Menu.Item>
+          )}
         </Menu.Dropdown>
       </Menu>
     ),

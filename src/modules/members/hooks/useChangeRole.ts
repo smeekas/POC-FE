@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { QueryKey } from '../../../constants/queryKey';
 import { axiosInstance } from '../../../api/axiosInstance';
 import type { UserRole } from '../../../constants/role';

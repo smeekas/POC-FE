@@ -1,4 +1,3 @@
-import { Badge, Select } from '@mantine/core';
 import dayjs from 'dayjs';
 
 import type {
@@ -6,7 +5,7 @@ import type {
   SortMode,
 } from '../../../components/common/DataTable/DataTable';
 import { DateFormats } from '../../../constants/dateFormats';
-import { ROLE_COLORS, UserRole } from '../../../constants/role';
+import { UserRole } from '../../../constants/role';
 import type { MemberItem } from '../dto/members.dto';
 import CustomSelect from '../../../components/ui/Select/CustomSelect';
 import styles from '../components/memberTable.module.css';
