@@ -17,9 +17,13 @@ function useCreateDocument() {
         API_ENDPOINTS.DOCUMENT.CREATE,
         reqBody,
       ),
-    onSuccess() {
-      /* The list the new document belongs in is now stale. */
-      qc.invalidateQueries({ queryKey: [QueryKey.DOCUMENTS] });
+    onSuccess(data) {
+      if (data.status === 201) {
+        /* The list the new document belongs in is now stale. */
+        qc.invalidateQueries({ queryKey: [QueryKey.DOCUMENTS] });
+      } else {
+        toast.error(getApiErrorMessage(data.data));
+      }
     },
     onError(error) {
       toast.error(getApiErrorMessage(error));

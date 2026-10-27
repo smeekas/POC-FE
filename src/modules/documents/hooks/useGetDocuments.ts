@@ -7,9 +7,10 @@ import type { DocumentsResponse } from '../dto/documents.dto';
 function useGetDocuments(filters: Record<string, string | undefined>) {
   return useQuery({
     queryKey: [QueryKey.DOCUMENTS, ...Object.values(filters)],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       axiosInstance.get<DocumentsResponse>(API_ENDPOINTS.DOCUMENT.LIST, {
         params: filters,
+        signal,
       }),
   });
 }
