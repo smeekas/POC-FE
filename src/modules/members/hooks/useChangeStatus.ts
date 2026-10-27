@@ -4,6 +4,8 @@ import { API_ENDPOINTS } from '../../../constants/endpoints';
 import type { InviteMemberUpdateEnum } from '../dto/invitedMembers.dto';
 import { QueryKey } from '../../../constants/queryKey';
 import type { APIResponse } from '../../../types/common.types';
+import toast from 'react-hot-toast';
+import { getApiErrorMessage } from '../../../utils/error';
 
 function useChangeStatus() {
   const qc = useQueryClient();
@@ -21,8 +23,12 @@ function useChangeStatus() {
     onSuccess(data) {
       if (data.status === 200) {
         qc.invalidateQueries({ queryKey: [QueryKey.INVITED_MEMBERS] });
+        toast.success(data.data.statusMessage);
+      } else {
+        toast.error(getApiErrorMessage(data.data));
       }
     },
+    onError: (err) => toast.error(getApiErrorMessage(err)),
   });
 }
 

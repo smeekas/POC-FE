@@ -16,7 +16,7 @@ export function useAcceptInvitation() {
       if (data?.status !== 200) {
         toast.success(data?.data?.statusMessage);
       } else {
-        toast.success(data?.data?.statusMessage);
+        toast.error(getApiErrorMessage(data.data));
       }
     },
     onError(error) {
