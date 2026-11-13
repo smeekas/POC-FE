@@ -6,9 +6,14 @@
 }
 
 @media (min-width: $mantine-breakpoint-sm) {
+  /* The shell pins this column to the viewport, so a nav taller than the screen has to
+     scroll within itself rather than be clipped — and without carrying the page with
+     it. */
   .sidebar {
     border-right: 1px solid var(--mantine-color-gray-3);
     border-bottom: none;
+    min-height: 0;
+    overflow-y: auto;
   }
 }
 

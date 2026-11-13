@@ -12,6 +12,9 @@ import { API_ENDPOINTS } from '../../../constants/endpoints';
 import type { APIResponse } from '../../../types/common.types';
 import toast from 'react-hot-toast';
 import { getApiErrorMessage } from '../../../utils/error';
+import DataTable from '../../../components/common/DataTable/DataTable';
+import { subscriptionColumns } from '../columns/subscription.columns';
+import { useSubscriptions } from '../hooks/useSubscriptions';
 
 /** Stands in for a field the profile endpoint did not fill. */
 const EMPTY_VALUE = '—';
@@ -39,6 +42,7 @@ export const ProfileSettingsPage = () => {
     },
     onError: (err) => toast.error(getApiErrorMessage(err)),
   });
+  const { data } = useSubscriptions();
 
   /** Drops the token and returns the user to the login screen. */
   const handleLogout = () => {
@@ -78,7 +82,16 @@ export const ProfileSettingsPage = () => {
           disabled
         />
       </Stack>
-
+      <div className='py-12'>
+        <Button
+          color='red'
+          variant='light'
+          onClick={handleLogout}
+          loading={isPending}
+        >
+          Log out
+        </Button>
+      </div>
       <Divider my='lg' />
       {/* <AdminGuard navigate={false}> */}
       <>
@@ -92,15 +105,8 @@ export const ProfileSettingsPage = () => {
 
         <Divider my='lg' />
       </>
+      <DataTable columns={subscriptionColumns} row={data?.data.data || []} />
       {/* </AdminGuard */}
-      <Button
-        color='red'
-        variant='light'
-        onClick={handleLogout}
-        loading={isPending}
-      >
-        Log out
-      </Button>
     </section>
   );
 };

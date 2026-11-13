@@ -39,5 +39,9 @@ export const API_ENDPOINTS = {
   PlatformAdmin: {
     usage: '/platform-admin/usage',
     overview: '/platform-admin/overview',
+    getFeatures: () => '/platform-admin/features',
+    tenantDetail: (id: string) => `/platform-admin/tenants/${id}/detail`,
+    tenantFeatures: (id: string) => `/platform-admin/tenants/${id}/features`,
   },
+  subscriptions: '/subscription',
 } as const;

@@ -1,0 +1,6 @@
+.loading_container {
+  height: stretch;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

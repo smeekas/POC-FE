@@ -1,6 +1,6 @@
 import { Box, Divider, Flex, Text } from '@mantine/core';
 import type { ReactNode } from 'react';
-import { NavLink } from 'react-router';
+import { NavLink, useLocation } from 'react-router';
 
 import styles from './Sidebar.module.css';
 
@@ -10,6 +10,7 @@ export type SidebarNavItem = {
   icon?: ReactNode;
   /** Highlights only on an exact path match, for a row that is the root of a section. */
   end?: boolean;
+  path_string?: (url: string) => boolean;
 };
 
 export type SidebarProps = {
@@ -31,6 +32,7 @@ export type SidebarProps = {
  * what lets one sidebar serve a tenant workspace and a platform admin console.
  */
 export const Sidebar = ({ items, navLabel, header, footer }: SidebarProps) => {
+  const { pathname } = useLocation();
   return (
     <Flex
       component='aside'
@@ -51,21 +53,28 @@ export const Sidebar = ({ items, navLabel, header, footer }: SidebarProps) => {
           </Box>
         )}
 
-        {items.map((item) => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            end={item.end}
-            className={({ isActive }) =>
-              [styles.navLink, isActive ? styles.navLinkActive : '']
-                .filter(Boolean)
-                .join(' ')
-            }
-          >
-            {item.icon}
-            {item.label}
-          </NavLink>
-        ))}
+        {items.map((item) => {
+          return (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              end={item.end}
+              className={({ isActive }) =>
+                [
+                  styles.navLink,
+                  isActive || item.path_string?.(pathname)
+                    ? styles.navLinkActive
+                    : '',
+                ]
+                  .filter(Boolean)
+                  .join(' ')
+              }
+            >
+              {item.icon}
+              {item.label}
+            </NavLink>
+          );
+        })}
       </Flex>
 
       {/* `mt='auto'` is what pins the footer to the bottom of a tall sidebar, so the

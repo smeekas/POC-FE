@@ -1,3 +1,6 @@
+.table{
+  background-color: white;
+}
 /* Mantine sizes the type, but its rows still sit tight for a list this scannable, so
    the cells get their own vertical rhythm on top of the `verticalSpacing` prop. */
 .table th,
@@ -5,6 +8,16 @@
   padding-top: var(--mantine-spacing-xs);
   padding-bottom: var(--mantine-spacing-xs);
   vertical-align: middle;
+}
+
+/* A header names the column, it does not compete with the rows it labels: a step down in
+   weight and colour is enough to read as a label while the data stays the darkest thing
+   on the row. */
+.header {
+  color: var(--mantine-color-gray-6);
+  font-size: var(--mantine-font-size-xs);
+  font-weight: 500;
+  letter-spacing: 0.04em;
 }
 
 /* The whole header cell is the hit area, so the button fills it rather than sitting

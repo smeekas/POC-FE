@@ -21,6 +21,8 @@ import Gateway from '../global/Gateway';
 import UpgradePage from '../modules/onboarding/pages/UpgradePage';
 import PlatformAdminGuard from '../guards/PlatformAdminGuard';
 import TenantUserGuard from '../guards/TenantUserGuard';
+import PlatformAdminFeatureFlagPage from '../modules/platformAdmin/pages/PlatformAdminFeatureFlagPage';
+import TenantDetailPage from '../modules/platformAdmin/pages/TenantDetailPage';
 
 /**
  * The application route tree.
@@ -95,8 +97,20 @@ export const appRouteTree: AppRouteNode[] = [
             element: PlatformAdminDashboardPage,
           },
           {
+            path: 'tenants',
+            element: PlatformAdminDashboardPage,
+          },
+          {
+            path: 'tenants/:id',
+            element: TenantDetailPage,
+          },
+          {
             path: 'settings',
             element: PlatformAdminSettingsPage,
+          },
+          {
+            path: 'features',
+            element: PlatformAdminFeatureFlagPage,
           },
         ],
       },

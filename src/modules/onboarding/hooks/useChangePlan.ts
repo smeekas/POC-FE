@@ -24,9 +24,12 @@ export const useChangePlan = () => {
     onSuccess: async (response) => {
       if (response.status === 201) {
         toast.success(`Plan changed to ${response.data.data?.name}`);
-        await queryClient.invalidateQueries({
-          queryKey: [QueryKey.PROFILE_CONTEXT],
-        });
+        await Promise.all([
+          queryClient.invalidateQueries({
+            queryKey: [QueryKey.PROFILE_CONTEXT],
+          }),
+          queryClient.invalidateQueries({ queryKey: [QueryKey.subscription] }),
+        ]);
       } else {
         toast.error(getApiErrorMessage(response.data));
       }

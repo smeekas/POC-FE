@@ -20,8 +20,15 @@ import styles from './PlatformAdminLayout.module.css';
 const PLATFORM_NAME = 'Platform';
 
 const NAV_ITEMS = [
-  { to: ROUTE_PATHS.PLATFORM_ADMIN_DASHBOARD, label: 'Dashboard' },
+  {
+    to: ROUTE_PATHS.PLATFORM_ADMIN_DASHBOARD,
+    label: 'Dashboard',
+    path_string(url: string) {
+      return url.startsWith('/platform-admin/tenants/');
+    },
+  },
   { to: ROUTE_PATHS.PLATFORM_ADMIN_SETTINGS, label: 'Settings' },
+  { to: ROUTE_PATHS.PLATFORM_ADMIN_FEATURES, label: 'Feature flags' },
 ];
 
 /**
@@ -80,7 +87,7 @@ export const PlatformAdminLayout = () => {
         }
       />
 
-      <Box component='main' p='xl'>
+      <Box component='main' p='xl' className={styles.main}>
         <Outlet />
       </Box>
     </div>

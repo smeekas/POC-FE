@@ -1,0 +1,61 @@
+/* `main` insets every admin page by `xl`, but the white band and the grey panel have to
+   paint to the column's edges. The page cancels that padding and each section re-applies
+   the inset to its own content, so only the backgrounds run full width. */
+.container {
+  display: flex;
+  flex-direction: column;
+  /* Basis `auto` and no shrink: fills the column when the page is short, and grows past
+     it -- letting `main` scroll -- when a panel's content is taller. */
+  flex: 1 0 auto;
+  margin: calc(var(--mantine-spacing-xl) * -1);
+}
+
+.band {
+  padding: var(--mantine-spacing-xl) var(--mantine-spacing-xl) 0;
+  background-color: var(--mantine-color-body);
+}
+
+.crumbs {
+  margin-bottom: var(--mantine-spacing-lg);
+}
+
+.tenantInfo {
+  display: flex;
+  gap: var(--mantine-spacing-md);
+  margin-bottom: var(--mantine-spacing-lg);
+}
+
+/* Left at the default `stretch`, this column is as tall as the avatar beside it, which is
+   the height `space-between` then splits: name against the avatar's top edge, plan
+   against its bottom. Centring the row instead would shrink the column to its content and
+   leave nothing to distribute. */
+.tenantName {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* The badge is a chip, so it sizes to its label instead of stretching to the column. */
+  align-items: flex-start;
+  min-width: 0;
+}
+
+/* Mantine keeps the Tabs root at `display: block` for horizontal orientation, and its own
+   class wins on source order (`styles.css` is imported after the app in `main.tsx`), so
+   nothing here tries to flex it. Instead the root takes the leftover height and carries
+   the grey itself -- `flex` is a property Mantine never sets here, so it applies cleanly.
+   The white strip then sits on the list, and the panel stays transparent, which is what
+   lets the grey reach the bottom whatever the content height. */
+.tabs {
+  flex-grow: 1;
+  background-color: var(--mantine-color-gray-1);
+  position: relative;
+}
+
+/* Only the tabs are inset; the strip's bottom border still spans the full width. */
+.tabList {
+  padding-inline: var(--mantine-spacing-xl);
+  background-color: var(--mantine-color-body);
+}
+
+.pane {
+  padding: var(--mantine-spacing-xl);
+}
