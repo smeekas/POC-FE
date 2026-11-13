@@ -17,4 +17,9 @@ export enum QueryKey {
   TenantUsage = 'tenantUsage',
   TenantOverview = 'tenantOverview',
   Member_list = 'member_list',
+  subscription = 'subscriptions',
+  Features = 'features',
+  TenantDetail = 'tenantDetail',
+  TenantFeatures = 'tenantFeatures',
+
 }

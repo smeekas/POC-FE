@@ -88,7 +88,7 @@ export const AppLayout = () => {
         }
       />
 
-      <Box component='main' p='xl'>
+      <Box component='main' p='xl' className={styles.main}>
         <Outlet />
       </Box>
     </div>

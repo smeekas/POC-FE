@@ -12,6 +12,7 @@ export type UsageItem = {
   planStatus: TenantUsageEnum;
   users: number;
   updated_at: string;
+  id: string;
 };
 
 export type TenantUsageResponse = APIResponse<UsageItem[]>;

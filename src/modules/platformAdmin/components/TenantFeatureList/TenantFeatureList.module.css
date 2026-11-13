@@ -1,0 +1,13 @@
+.panel {
+  position: absolute;
+  bottom: 0;
+  padding: 8px;
+  background-color: white;
+  width: 100%;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* left: 0;
+  right: 0; */
+}

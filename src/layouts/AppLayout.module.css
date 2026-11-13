@@ -8,8 +8,21 @@
 }
 
 @media (min-width: $mantine-breakpoint-sm) {
+  /* The shell takes the viewport and never grows past it, which is what keeps the
+     sidebar column still while the page moves. `minmax(0, 1fr)` on the row is the
+     counterpart of the column: without it a tall page stretches the row instead of
+     scrolling inside it. Below `sm` the sidebar is a bar across the top, so the page
+     keeps its ordinary scroll there. */
   .shell {
     grid-template-columns: 16rem minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .main {
+    min-height: 0;
+    overflow-y: auto;
   }
 }
 

@@ -1,6 +1,8 @@
+import { useNavigate } from 'react-router';
 import DataTable from '../../../components/common/DataTable/DataTable';
 import { getUsageColumns } from '../columns/usage.columns';
 import { useGetUsage } from '../hooks/useGetUsage';
+import { ROUTE_PATHS } from '../../../constants/routePaths';
 
 /**
  * Every tenant and what it is consuming.
@@ -11,11 +13,14 @@ import { useGetUsage } from '../hooks/useGetUsage';
 export const TenantUsageTable = () => {
   const { data, isLoading, isRefetching } = useGetUsage();
   const usage = data?.data?.data || [];
-
+  const navigate = useNavigate();
   return (
     <DataTable
       loading={isLoading || isRefetching}
       columns={getUsageColumns()}
+      onRowClick={(row) =>
+        navigate(ROUTE_PATHS.PLATFORM_ADMIN_TENANT_DETAIL(row.id))
+      }
       row={usage}
     />
   );
